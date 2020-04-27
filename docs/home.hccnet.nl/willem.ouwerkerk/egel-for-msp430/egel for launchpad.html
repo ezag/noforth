@@ -1,0 +1,3169 @@
+<!DOCTYPE html><html>
+
+<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/egel for launchpad.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 27 Apr 2020 22:06:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=iso-8859-1" /><!-- /Added by HTTrack -->
+<head>
+  <link rel="SHORTCUT ICON" href="favicon.ico">
+  <title>Egel (Hedgehog) for launchpad</title>
+  <meta name="keywords" content="MSP430,MSP430G2553,Forth,noForth,MSP430 Forth example code,MSP430 projects,Robotics,I2C,SPI,PWM">
+  <meta name="description" content="Making the hard to understand MSP430 documentation more easy with sofware examples written in noForth">
+  <meta name="author" content="Willem Ouwerkerk">
+<style>
+body { background-color:#9ee; font-family: "optima", "Lucida Grande",  sans-serif;
+    font-size:100%; }
+section, nav { padding:0.5em 1.5em 1em 1.5em; width:32em;
+    background-color:#fff; color:#000;
+    margin-left:auto; margin-right:auto;
+    margin-top:2em; margin-bottom:0.5em;
+    border-left:0px solid #9cc; border-top:0px solid #9cc;
+    border-right:3px solid #9cc; border-bottom:3px solid #9cc; }
+h1 { font-weight:100; margin:0;
+    color:#099; font-size:400%;
+    text-align:center;  }
+h2 { font-weight:100; clear:left;
+    color:#900; font-size:170%;
+    text-align:center; }
+h3 { font-weight:100; color:#066; font-size:140%; text-align:center; }
+h5 { text-align:center; }
+.mid { text-align:center; }
+.rechts { text-align:right; }
+aside { padding:0.5em; margin:0 0.5em 0.5em 0;
+    background-color:#099; color:#fff;
+    float:left; white-space:pre;
+    line-height:140%; }
+img { float:left; padding: 0 1em 0.5em 0;
+    margin:0 0.5em 0.5em 0; height:7.7em; }
+.v1 {height:3.0em; }
+.v2 {height:4.2em; }
+.v3 {height:5.6em; }
+.v4 {height:7.0em; }
+.v5 {height:8.4em; }
+.v6 {height:9.8em; }
+.v7 {height:11.2em; }
+.v8 {height:12.6em; }
+.v9 {height:14.0em; }
+.v10 {height:15.4em; }
+.v11 {height:16.8em; }
+.v12 {height:18.2em; }
+.v13 {height:19.6em; }
+
+.mid img, .rechts img { float:none; }
+.logo { height:4em; margin:0; padding:0; }
+.egeltje {height:1.5em; margin:0; padding:0; }
+p { clear:left;}
+.groot {font-size:150%; }
+a { text-decoration:none; padding:0 0.5em;
+    border-radius:10px;
+    margin:0 0.5em 0.5em 0; white-space: nowrap; }
+h1 a,h2 a,h5 a { padding:0; margin:0; border:0; }
+nav {background-color:#eee; width:26em; }
+
+section nav a { color:#c00; background-color:#fff;
+    line-height:150%; font-size:120%;}
+section p a { background-color:#9ee; color:#933; }
+section aside a { color:#fff; background-color:#0bb;
+    margin:0 0 0.5em 0; }
+section a { color:#c00; padding:0 0.2em; margin:0;  background-color:#fff; }
+a:hover { color:#066; background-color:#ff0; }
+.nofloat { clear:left; }
+pre,code { font-size:90%; font-family: hack,
+    "Andale Mono","Lucida Console", Monaco, monospace;
+    padding:0; margin:0; margin-bottom:0.5em; }
+code { white-space: nowrap; }
+i { background-color:#eee; }
+td { padding-right:0.5em; vertical-align:top; }
+.lijst {padding-left:4em; width:26em; }
+hr { border-left:0; border-top:0; border-right:0; margin: 0.2em; }
+.nb { background-color:#F90; color:#000; padding:0.5em; width:60%; }
+.nbb { background-color:#ddd; color:#000; padding:0.5em; width:90%; }
+ul {margin:0; padding-left:1em;}
+.history { font-size:67%; color:#066; }
+.box { bxorder: 1 solid #0cc; padding:1em; margin:0em 1.5em; }
+</style>
+</head>
+
+<body>
+<section><div class="mid">
+
+<h5 class="mid">
+<a href="../../anij/nof/noforth.html" target="_blank">
+<img class="logo" src="http://home.hccnet.nl/anij/noforth.jpg" alt="noforth logo"></a>
+</h5>
+<a id="toptop"></a>
+<h1>Egel project</h1>
+<h2>for
+<br>MSP430G2553
+<br>on Launchpad or <a href="https://www.tindie.com/products/Willem_O/egel-kit-board-set-for-msp430g2553/?pt=full_prod_search" target="_blank">Egel Kit</a>
+</h2>
+<img class="v3" src="egeltje1.jpg" alt="egel"><br>Willem Ouwerkerk with help from Albert Nijhof
+<br> juli 2016 (Last update 12 december 2018:
+<br>Chapters 14, 15, 25, 27, 44, 52, 54 & 102)
+</div>
+
+<nav>
+<a href="general%20introduction.html">General introduction</a>
+<br><a href="introduction%20for%20non-forthers.html">Introduction for non-forthers</a>
+<br><a href="#top">Egel project table of content</a>
+
+</nav>
+
+<br>The 'Egel project' consists of about 50 elementary examples
+of hardware control with the MSP430 in the language forth.
+In each example you find a file with forth source code, documentation
+and links to more information on the internet.
+
+<br><br>
+<div class="mid"><img class="v7" src="egel-kit-parts-for-experiments.jpg" alt="photo"></div>
+
+<b>It is our aim to lower the hurdles that beginners with the
+MSP430 MPU find on their way to hardware programming using noForth software.
+With the many examples in the Egel project we hope to make
+it easier to understand the Texas Instruments documentation.
+</b>
+<br>
+<br>
+We recommend to <b>read the chapters 1, 2 and 3 </b>before you choose the chapters that have your special interest!
+<br>
+
+<div class="box"><div class="history">
+<b>History</b>
+<br>The original
+<a href="http://www.forth.hcc.nl/w/uploads/Downloads/egel3.03.pdf" target="_blank">
+Egel werkboek</a>
+was written in 1997 for the  AT89C2051 microcontrollers
+by a group of Dutch Forth-gg members.
+It was initially named 'Postzegelboek' (dutch) but that was considered
+to be too long, so it was shortened to 'Egelboek'.
+</div>
+<table class="history">
+<tr><td>postzegel </td><td>'poss say ghull'  </td><td>= stamp</td></tr>
+<tr><td>egel      </td><td>'ay ghull'        </td><td>= hedgehog</td></tr>
+<tr><td>boek      </td><td>'book'            </td><td>= book</td></tr>
+</table>
+</div>
+
+<!--
+
+<nav>
+<a href="general introduction.html">General introduction</a>
+<br><a href="introduction for non-forthers.html">Introduction for non-forthers</a>
+</nav>
+
+-->
+
+<br><div class="mid"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+
+</section>
+
+
+
+                        <!--   c o n t e n t  -->
+<section>
+<a id="top"></a>
+<p><a href="#toptop">&#x21E7;</a></p>
+<h3>Egel project table of content</h3><nav>
+    <a href="#e00x">1-9 Simple I/O examples</a>
+<br><a href="#e01x">10-19 More advanced I/O examples</a>
+<br><a href="#e02x">20-29 Use of (timer)interrupts</a>
+<br><a href="#e03x">30-39 I2C using USCI or bitbang interface</a>
+<br><a href="#e04x">40-49 SPI using USCI or bitbang interface</a>
+<br><a href="#e05x">50-59 Use of Low Power Modes</a>
+<br><a href="#e06x">60-69 Advanced interfacing</a>
+<!--  <br><a href="#e07x">70-79 MSP430G2xxxx specific</a>  -->
+<br><a href="#e08x">80-89 MSP430FR5xxx specific</a>
+<br><a href="#e09x">90-99 MSP430F14xx specific</a>
+<br><a href="#e10x">100-109 Simple applications</a>
+<br><a href="#e11x">110-119 More complex applications</a>
+</nav>
+<div class="mid"><img class="egeltje" src="egeltje-2.jpg" alt="egel"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+</section>
+
+
+                        <!--   Main menu -->
+<section>
+<a id="e00x"></a>
+<p class="groot"><a href="#top">&#x21E7;</a></p>
+<h3>1-9 Simple I/O examples</h3>
+
+<nav><a href="#e000">0 Starting with noForth</a>
+<br><a href="#e001">1 Basic port output</a>
+<br><a href="#e002">2 Basic port input and output</a>
+<br><a href="#e003">3 Onboard ADC</a>
+<br><a href="#e004">4 RS232 using a Bluetooth module</a>
+<br><a href="#e005">5 Relay control</a>
+<br><a href="#e006">6 Unipolar stepper motor</a>
+<br><a href="#e007">7 Bipolar stepper motor</a>
+<br><a href="#e008">8 Ultrasonic distance measure with HC-SR04</a>
+<br><a href="#e009">9 PWM using compare unit</a>
+</nav>
+<div class="mid"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+</section>
+
+<!--   0 -->
+<section>
+<h2><a id="e000"></a>0
+<br>Starting with noForth</h2>
+<h5>Control of on-board LEDs</h5>
+<aside class="m5">Materials:
+Just the Egel-kit or LaunchPad
+<hr><hr>
+<a href="e00%20-%20noForth%20startup.f" target="_blank">e00 noForth program</a>
+</aside>
+<img class="v5" src="Egel%20kit%20V2a%20sm.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<br>If you have not used noForth on a MSP430 board before, this chapter is for you. 
+It explains from scratch how to get a running noForth program.
+
+<br><br>
+<b>Where to find more information:</b><br>
+The following documents give a good overview of noForth and the MSP430 processor:
+<br><br>
+<ul><li><a href="general%20introduction.html">General introduction</a>
+</li><li><a href="introduction%20for%20non-forthers.html">Introduction for non-Forthers </a>
+</li><li><a href="../../anij/nof/ram%26rom.pdf">Readme-1</a>  (ram&rom.pdf)
+</li><li><a href="../../anij/nof/freeze%26forget.pdf">Readme-2</a>  (freeze&forget.pdf)
+</li></ul>
+<br>
+<img src="Egel-kit%20led%20schematics.jpg" alt="scheme">
+<img src="Egel-kit%20leds.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<br>
+<img class="v8" src="Egel-kit%20leds%20active.jpg" alt="photo">
+<br>All downloads and other instructions can be found on the noForth homepage. 
+<br><br><b>First - set up of software and hardware:</b>
+<br><br>What you need is:
+<br><br><br>
+<ul><li><a href="https://www.tindie.com/stores/Willem_O/">Egel-kit</a> or 
+<a href="https://www.ti.com/tool/MSP-EXP430G2ET">TI LaunchPad</a> with MSP430G2553.
+</li><li>noForth as hex-file, contained in the zipfile <a href="../../anij/nof/ihxx/noforths%202553.zip">‘noforths 2553.zip’</a>.<br>
+</li><li>The TI program <a href="http://www.ti.com/tool/download/UNIFLASH">‘Uniflash’</a> to burn noForth on the Egel-kit or LaunchPad.
+</li><li>Communication-program on your computer (Windows, Linux or OSX see the homepage).
+</li><li>Text-editor like Crimson or Notepad++
+</li><li>USB-serial cable to connect the board to your computer.
+</li></ul>
+
+<br>Using the noForth homepage as guide, load noForth on the Egel-kit or LaunchPad.
+
+<br><br>Install the communication-program.
+<br><br>Connect the LaunchPad to the PC with the USB-serial cable. 
+
+<br>
+<br>
+<b>Then - start the LaunchPad and Terminal:</b>
+<br><br>
+Switch on the LaunchPad and start the communication program. In that program, select the port to which the 
+Egel-kit or LaunchPad is connected, and start a connection.
+
+<br><br>NoForth returns ‘ok’ on each ‘enter’ if it is running. If not, check that you have done all the steps. If at first you don’t succeed... 
+
+<br><br>
+<b>Then – load the ‘noforth tools.f’:</b><br>
+<br><img src="Terminal%20window%20green.jpg" alt="photo">
+Once noForth is running, load the noForth tools to get additional functionality like: <code>.S SEE
+</code> and <code>WORDS</code>. Download the file ‘noforth tools.f’ on your PC. Then upload the file to the Egel-kit or Launchpad using your communication program. 
+With some programs it is possible to copy/paste the source code into the window of the communication-program. 
+
+<br>
+Once the noForth tools are loaded, typing '<code>WORDS</code>' will show an overview of the dictionary. Well done! noForth and the tools are running, and you have loaded your first noForth-program..
+
+<br><br>
+Switching off the Egel-kit/LaunchPad does not delete noForth or the tools. Reloading both is usually only needed if you want a different version of noForth.
+<br><br>
+<b>Then - load the noForth program e00:</b>
+<br>Load the noForth program e00 (see above) on the board and enter ‘<code>FLASH</code>’. 
+
+
+<br><br>
+<b>Then - try to understand the source-code:</b>
+<br>If you look at the source-code you will see explanatory comments. 
+Studying and experimenting with the source code is an excellent way of learning to program in noForth! 
+Feel free to change the source-code and see what happens.
+
+<br><br>
+<b>Finally - Reloading source-code</b>
+<br>It is smart to delete old source-code first before loading a new version, or you could run out of memory.
+There is a handy tool in noForth for this, a shield. When called, all words defined after it are deleted. The
+noForth-tools you loaded earlier are terminated by the shield '<code>TOOLS\</code>'. Type this to delete the old source-code.
+Then load the new source-code and see what effect your changes have.
+For more information on shields, see the 'noForth documentation'.
+
+<br><br><br>
+The forth command:
+<pre>
+FLASH ( -- )  \ starts the simple flasher<pre>
+
+<p><a href="#e00x">&#x21E7;</a></p></section>
+
+<!--   1 -->
+<section>
+<h2><a id="e001"></a>1
+<br>Basic port output</h2>
+<h5>Byte wide output to I/O-port 2 wired with 6 to 8 3mm leds</h5>
+<aside>Materials:
+Some wires,
+8 leds or <a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">a ledboard</a>,
+100 Ohm resistor.
+<hr><a href="e01%20-%20basic%20port%20output%20to%20leds.f"
+target="_blank">e01 noForth program</a>
+</aside>
+<img class="v5" src="p01%20p02%20-%20basic%20port%20output.jpg" alt="photo">
+The eight leds or a ledboard are placed on the breadboard with anode connected
+to P2.0, .. P2.7 (See the port doc. in <a href="slau144j.pdf" target="_blank">SLAU144J.PDF</a>page 328 and beyond.
+P2SEL info on page 50 and beyond of<a href="slas735j.pdf" target="_blank">SLAS735J.PDF</a>)
+<div class="nofloat"></div>
+
+<br><img src="s01%20-%20basic%20port%20output%20to%20leds.jpg" alt="scheme">
+All the <a href="https://en.wikipedia.org/wiki/Light-emitting_diode">cathodes of the leds</a> must be connected together on the
+<a href="https://learn.sparkfun.com/tutorials/how-to-use-a-breadboard">breadboard</a>,
+and wired to ground using a 100 Ohm resistor.
+<br>
+Because this is the first example, we add some remarks.
+Once you have setup the hardware, you can paste the example
+in your terminal program.
+<br><br>
+The example sources have a rather technical comment.
+This is done in order to give you the background for making
+changes of your own if you use the hardware differently.
+<br><br>
+You may type the Forth commands shown below and see what happens.
+They terminate if you press any key. Study the source code, if
+you want to know how it is done!
+<div class="nofloat"></div>
+
+<br>Forth commands:
+<pre>
+COUNTER ( -- )  Binary counter on P2
+RUNNER ( -- )   Running light on P2</pre>
+* <i>Open images in a new window for a better resolution.</i>
+<p><a href="#e00x">&#x21E7;</a></p>
+</section>
+
+
+<!--   2 -->
+<section>
+<h2><a id="e002"></a>2
+<br> Basic port input and output</h2>
+<h5>Byte output to I/O port wired with 6 to 8 leds and bit input using a switch</h5>
+<aside class="m5">Materials:
+8 leds or
+   <a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">a ledboard</a>,
+100 Ohm resistor.
+<hr><a href="e02%20-%20basic%20port%20input%20and%20output.f" target="_blank">e02 noForth program</a></aside>
+<img class="v5" src="s02%20-%20basic%20port%20input%20and%20output.jpg" alt="scheme">
+
+<div class="nofloat"></div>
+This chapter is an extension of chapter 1.
+As an addition the S2&#x2011;switch (already on the board) is wired to P1.3 for input.
+<br>
+<br>The forth commands remain the same:
+<pre>
+COUNTER ( -- )  Binary counter on P2
+RUNNER ( -- )   Running light on P2</pre>
+When the S2&#x2011;switch is held down the leds will run at a lower speed in <code>COUNTER</code> and <code>RUNNER</code>.
+<br>
+<br>* <i>Open images in a new window for a better resolution.</i>
+<p><a href="#e00x">&#x21E7;</a></p></section>
+
+
+<!--   3 -->
+<section>
+<h2><a id="e003"></a>3
+<br> Onboard ADC</h2>
+<h5>Analog to digital conversion using the internal AD converter, output to leds</h5>
+<aside class="m5">Materials:
+8 leds or <a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">a ledboard</a>,
+100 Ohm resistor,
+<a href="http://www.aliexpress.com/item/WX14-12-4K7-4-7K-single-turn-potentiometers-without-locking-3W-potentiometer/32477612065.html">4K7 potmeter</a>.
+<hr><a href="e03%20-%20adc%20to%20leds.f" target="_blank"> e03 noForthprogram</a>
+</aside>
+<img class="v5" src="p03%20-%20adc%20to%20leds.jpg" alt="photo">
+This chapter is an extension of chapter 1 and 2.
+This time a potentiometer of 4K7 is added.
+Connect the center wire to P1.7 and the other two wires to VCC and ground.
+<br>More info about the ADC10, in<a href="slau144j.pdf" target="_blank">SLAU144J.PDF</a>on page 534 and beyond.
+<div class="nofloat"></div>
+
+The forth commands:
+<pre>
+SHOW-ADC1 ( -- )  Show ADC result in binary
+SHOW-ADC2 ( -- )  Show ADC result as VU-meter
+SHOW-ADC3 ( -- )  Show ADC result on screen as text</pre>
+<img src="s03%20-%20adc%20to%20leds.jpg" alt="scheme">
+<br>The only way these routines differ are in the way the results are shown.
+
+<div class="nofloat"></div>
+* <i>Open images in a new window for a better resolution.</i>
+<p><a href="#e00x">&#x21E7;</a></p></section>
+
+
+<!--   4 -->
+<section>
+<h2><a id="e004"></a>4
+<br> RS232 using a Bluetooth module</h2>
+<h5>Bluetooth communication, visualized on the leds</h5>
+<aside class="m5">Materials:
+8 leds or <a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">a ledboard</a>,
+100 Ohm resistor,
+<a href="https://nl.aliexpress.com/item/HC-08-Bluetooth-Serial-Port-Module-Bluetooth-4-0-Low-Power-Consumption-Microampere-Level-Current/32656352381.html" target="_blank">HC08 Bluetooth module</a>.
+<hr><a href="e04%20-%20rs232%20thru%20bluetooth.f" target="_blank">e04 noForth program</a>
+</aside>
+<img class="v5" src="p04%20-%20rs232%20using%20bluetooth.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<br>The HC08 Bluetooth module behaves like any standard serial port.
+Only without wires! These modules needs a voltage from 3V to 4V.
+We only use the RS232 (TX/RX TTL levels) interface here.
+<a href="bluetooth40_en.pdf" target="_blank">HC08 datasheet</a>.
+
+<br><br>Connect the HC08 with the Launchpad:
+<ul><li>HC08 power (pin12 and 13) with Launchpad J6 (VCC and GND),
+</li><li>HC06 TX and RX (pin1 and 2) with Launchpad J1 (pin3 and 4).
+</li></ul><br>On the board are 8 leds as in chapter 1.
+<br>
+<br>
+<img src="s04%20-%20rs232%20thru%20bluetooth.jpg" alt="scheme">
+<img src="p04%20-%20rs232%20using%20bluetooth%20module.jpg" alt="photo">
+
+<!--
+<table><tr><td><img src="bluetooth hc06 module.jpg" alt="photo">
+</td><td>Two jumpers at J3 (TX and RX) must be removed.
+</td></tr></table>
+
+
+Type <code>STARTUP</code> or press the reset key and all communication
+will go thru Bluetooth.
+Take care that you couple the HC08 first!
+<br>
+<br>All received characters are shown on the leds.
+<p><a href="#e00x">&#x21E7;</a></p></section>
+-->
+
+<div class="nofloat"></div>
+<br>
+<img class="v8" src="bluetooth%20hc06%20module.jpg" alt="photo">
+<br>Two jumpers at J3 (TX and RX) must be removed.
+<br>
+<br>Type <code>STARTUP</code> or press the reset key and all communication
+will go thru Bluetooth.
+Take care that you <a href="http://embeddedprogrammer.blogspot.nl/2012/07/windows-communicating-with-hc-06.html" target="_blank">pair the HC06</a> first! The most used key is: 1234
+<br>
+<br>All received characters are shown on the leds.
+<p><a href="#e00x">&#x21E7;</a></p></section>
+
+
+<!--   5 -->
+<section>
+<h2><a id="e005"></a>5
+<br> Relay control</h2>
+<h5>Relay control, with or without a delay</h5>
+<aside class="m7" >Materials:
+22 Ohm and 1K resistor,
+<a href="https://www.reichelt.de/schalt-diode-100-v-150-ma-do-35-1n-4148-p1730.html" target="_blank">1N4148</a> diode
+<a href="http://www.reichelt.de/BC-Transistoren/BC-549C/3/index.html" target="_blank">BC549C</a> or
+<a href="http://nl.farnell.com/webapp/wcs/stores/servlet/Search?catalogId=15001&amp;langId=31&amp;storeId=10168&amp;categoryId=700000043507&amp;sort=P_PRICE&amp;eq=N%3D221085%2B502%2B110126886%2B110137509%2B110158844%2B110158845%2B110169484%2B110169490%2B110169536%2B113162579%2B2021%26amp%3BNs%3DP_PRICE_FARNELL_NL%257c0%26amp%3BNtk%3Ddesc_pn%26amp%3BNtt%3Dn%2Bchannel%2Bmosfet%26amp%3BNtx%3Drel%2Bgensearch_store_specific%252cstatic%2528P_STORE_MARKETING_RANK_FARNELL_NL%252cascending%2529%2Bmode%2Bmatchpartialmax%26amp%3BNty%3D1%26amp%3BNtpc%3D1%26amp%3BNtpr%3D1%26amp%3BD%3Dn%2Bchannel%2Bmosfet*%26amp%3BDn%3D2021%2B2021%2B2021%2B2021%2B2021%2B2021%2B2021%26amp%3BDx%3Dmode%2Bmatchall&amp;st=n%20channel%20mosfet&amp;pageSize=25&amp;showResults=true&amp;aa=true&amp;sf=502&amp;pf=110126886,110158844,110158845,110169484,110169490,110169536,113162579&amp;vw=" target="_blank">N channel Mosfet</a>,
+<a href="https://www.reichelt.de/led-smd-3528-plcc-2-white-120-evl-67-21s-kk2c-p231785.html?GROUPID=3036&amp;trstct=pol_7&amp;" target="_blank">High power led.</a>
+<hr><a href="e05%20-%20relay%20control.f" target="_blank">e05 noForth program</a>
+</aside>
+Place a 5-Volt relay on the shield, as shown in the schematic and photo.
+A relay may be used as an on/off switch for high currents and/or high voltages.
+This example emulates the delay used for elevator doors.
+
+<br>Note that the driving transistor and the voltage powering the relay
+may need adaptation. The Egel kit already contains a mosfet, to drive
+the relay. Just connect the relay to the PWR-output!
+
+<div class="nofloat"></div>
+<img src="p05%20-%20relay%20control.jpg" alt="photo">
+<br>Bit input comes from P1.3 (S2).
+<br>Bit output goes to P2.4.
+<br>
+<br>Forth command: <code>&nbsp;RELAY-CONTROL ( -- )</code>
+<br>By default an off delay is performed here.
+
+<div class="nofloat"></div>
+<img src="s05%20-%20relay%20control.jpg" alt="scheme">
+<br>Try an other kind of delay, by changing the lines in the word <code>RELAY-CONTROL</code>
+with the backslashes. But select only one option at a time!
+<p><a href="#e00x">&#x21E7;</a></p></section>
+
+
+<!--  6 -->
+<section>
+<h2><a id="e006"></a>6
+<br>Unipolar stepper motor</h2>
+<h5>Controlling a four phase unipolar stepper motor</h5>
+<aside> Materials:
+<a href="http://www.aliexpress.com/item/Free-shippingraspberry-pi-kits-1LOT-5V-4-phase-Stepper-Motor-Driver-Board-ULN2003-for-Arduino-2/1743676737.html" target="_blank">Stepper module & motor</a>,
+<a href="https://www.aliexpress.com/item/Free-shipping-1lot-200pcs-10cm-2-54mm-1pin-1p-1p-male-to-male-jumper-wire-Dupont/32259585350.html" target="_blank">Some wires</a>.
+<hr><a href="e06%20-%20unipolar%20stepper%20motor.f" target="_blank">e06 noForth program</a>
+</aside>
+<img class="v4" src="p06%20-%20unipolar%20stepper%20motor.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<img class="v6" src="s06%20-%20unipolar%20stepper%20motor.jpg" alt="scheme">
+Editing the word <code>ONE-STEP</code> you may select; single phase,
+two phase and half step driven stepper control.
+<br><br>
+
+The used module has a <a href="https://en.wikipedia.org/wiki/ULN2003A" target="_blank">ULN2003</a> driver on it.
+It needs only 5 wires to control the motor.
+<br><br><br>
+<br>Launchpad - driver connections:
+<ul><li>P2.0 .. P2.3 (output) with IN1 .. IN4
+</li><li>+5 Volt and Gnd
+</li></ul>
+<br>
+<div class="nofloat"></div>
+Forth command: <code>&nbsp;STEPPER ( -- )</code>
+<br>The default method is a one-phase stepper,
+change the word <code>ONE-STEP</code> to use other methods. But only one at a time!
+<br><br>Change direction with S2&#x2011;switch.
+<br>
+<br><a href="https://en.wikipedia.org/wiki/Stepper_motor" target="_blank">About stepper motors</a>
+<p><a href="#e00x">&#x21E7;</a></p></section>
+
+
+<!--  7 -->
+<section>
+<h2><a id="e007"></a>7
+<br>Bipolar stepper motor</h2>
+<h5>Controlling a two phase bipolar stepper motor</h5>
+<aside class="m5">Materials:
+<a href="http://www.aliexpress.com/item/Free-Shipping-New-N-L9110S-module-Dual-DC-motor-Driver-Controller-Board-H-bridge-Stepper-for/32379934884.html" target="_blank">L9110 bridge driver module</a>,
+<a href="https://www.aliexpress.com/item/Free-shipping-1lot-200pcs-10cm-2-54mm-1pin-1p-1p-male-to-male-jumper-wire-Dupont/32259585350.html" target="_blank">Some wires</a>,
+<a href="https://www.aliexpress.com/item/NEW-3V-DC-4-wire-2-phase-DC-Micro-stepper-motor-step-angle-18-Degree-with/32674067716.html" target="_blank">5 Volt bipolar stepper motor</a>.
+<hr><a href="e07%20-%20bipolar%20stepper%20motor.f" target="_blank">e07 noForth program</a>
+</aside>
+<img class="v5" src="p07%20-%20bipolar%20stepper%20motor.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<img class="v6" src="s07%20-%20bipolar%20stepper%20motor.jpg" alt="scheme">
+Editing the progam you may select; single phase,
+two phase and half step driven stepper control.
+<br><br>
+The used module has two <a href="https://nvhs.files.wordpress.com/2013/02/datasheet-l9110.pdf" target="_blank">L9110S</a> drivers on it.
+It needs only <a href="http://www.electrodragon.com/w/L9110_Stepper_Motor_Driver_Controller_Board_for_Arduino" target="_blank">4 wires</a> to control the motor.
+<br><br><br>
+<br>Launchpad - driver connections:
+<ul><li>P2.0 .. P2.3 (output) with IN1 .. IN4
+</li><li>+5 Volt and Gnd
+</li></ul><div class="nofloat"></div>
+<br>
+Forth command: <code>&nbsp;STEPPER ( -- )</code>
+<br>The default method is a one-phase stepper,
+change the word <code>ONE-STEP</code> to use other methods. But only one at a time!
+<br><br>Change direction with S2&#x2011;switch.
+<br>
+<br><a href="https://en.wikipedia.org/wiki/Stepper_motor" target="_blank">About stepper motors</a>
+<p><a href="#e00x">&#x21E7;</a></p></section>
+
+
+<!--  8 -->
+<section>
+<h2><a id="e008"></a>8
+<br>Ultrasonic distance measurement</h2>
+<h5>Controlling a HC-SR04 ranging sensor</h5>
+<aside class="m5">Materials:
+8 leds or <a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">Led module</a>,
+<a href="https://nl.aliexpress.com/item/HC-SR04P-HC-SR04-Ultrasonic-Ranging-Module-Ranging-Sensor-Module-3-5-5V-Wide-Voltage-Performance/32666978730.html" target="_blank">HC-SR04</a>,
+<a href="https://www.aliexpress.com/item/Free-shipping-1lot-200pcs-10cm-2-54mm-1pin-1p-1p-male-to-male-jumper-wire-Dupont/32259585350.html" target="_blank">some wires</a>,
+<hr><a href="e08%20-%20ultrasonic%20distance%20measurement.f" target="_blank">e08 noForth program</a>
+</aside>
+<img class="v5" src="p08%20-%20ultrasonic%20distance%20measurement.jpg" alt="photo">
+<div class="nofloat"></div>
+
+<br><img src="s08%20-%20ultrasonic%20distance%20measurement.jpg" alt="scheme">
+Connect the <a href="https://docs.google.com/document/d/1Y-yZnNhMYy7rwhAgyL_pfa39RsB-x2qR4vP8saG73rE/edit?pref=2&amp;pli=1" target="_blank">SR04 sensor</a> with the MSP430 and place the led-board on the shield.
+<br>P1.3 is the input bit, the pulselength gives the distance in microseconds.
+<br>P1.4 is the output bit, a positive pulse starts a new measurement.
+
+<div class="nofloat"></div>
+<br>This example is software timed, so the result is very much dependent of
+<br>1) The clock frequency
+<br>2) Active interrupts
+<br>3) The Forth implementation
+<br>
+<br>Forth command:
+<pre>
+MEASURE - Show distance in steps of 2cm binary on leds
+</pre>
+<br>The usable range of some cheap Chinese HC-SR04 is only 2cm to 220cm.
+<br>
+<br><div class="mid"><img class="v7" src="working%20of%20hc-sr04%20ultrasonic%20sensor.jpg" alt="signals">
+</div>
+<a href="http://howtomechatronics.com/tutorials/arduino/ultrasonic-sensor-hc-sr04/" target="_blank">
+About ultrasonic sensors</a>.
+
+<p><a href="#e00x">&#x21E7;</a></p></section>
+
+
+<!--   9 -->
+<section>
+<h2><a id="e009"></a>9
+<br> PWM using compare unit</h2>
+<h5>Pulsewidth modulation</h5>
+<aside class="m6">Materials:
+2x 100 Ohm resistor,
+<a href="http://nl.farnell.com/webapp/wcs/stores/servlet/Search?catalogId=15001&amp;langId=31&amp;storeId=10168&amp;categoryId=700000043507&amp;sort=P_PRICE&amp;eq=N%3D221085%2B502%2B110126886%2B110137509%2B110158844%2B110158845%2B110169484%2B110169490%2B110169536%2B113162579%2B2021%26amp%3BNs%3DP_PRICE_FARNELL_NL%257c0%26amp%3BNtk%3Ddesc_pn%26amp%3BNtt%3Dn%2Bchannel%2Bmosfet%26amp%3BNtx%3Drel%2Bgensearch_store_specific%252cstatic%2528P_STORE_MARKETING_RANK_FARNELL_NL%252cascending%2529%2Bmode%2Bmatchpartialmax%26amp%3BNty%3D1%26amp%3BNtpc%3D1%26amp%3BNtpr%3D1%26amp%3BD%3Dn%2Bchannel%2Bmosfet*%26amp%3BDn%3D2021%2B2021%2B2021%2B2021%2B2021%2B2021%2B2021%26amp%3BDx%3Dmode%2Bmatchall&amp;st=n%20channel%20mosfet&amp;pageSize=25&amp;showResults=true&amp;aa=true&amp;sf=502&amp;pf=110126886,110158844,110158845,110169484,110169490,110169536,113162579&amp;vw=" target="_blank">N channel mosfet</a>,
+<a href="https://www.reichelt.de/SMD-LEDs-PLCC/EVL-67-21S-KK2C/3/index.html?ACTION=3&amp;LA=2&amp;ARTICLE=231785&amp;GROUPID=3036&amp;artnr=EVL+67-21S%2FKK2C&amp;trstct=pol_7" target="_blank">Powerled</a>,
+2x Switch.
+<hr><a href="e09%20-%20pwm%20using%20compare%20unit.f" target="_blank">e09 noForth program</a>
+</aside>
+Connect two switches, a transistor and a power led using the schematic and photo.
+<br>
+<br>Timer TA1 is used as a pulsewidth modulator with the output on P2.4.
+<br>
+<br>The PWM freqency is about 4KHz, the resolution is 1000 steps.
+<div class="nofloat"></div>
+
+<br>Forth commands:
+<pre>
+CYCLUS ( -- )       Cycle once thru PWM range
+POWERCONTROL ( -- ) Set PWM value using two switches</pre>
+<br><img class="v6" src="p09%20-%20pwm%20using%20compare%20unit.jpg" alt="photo">
+The two switches control the duty cycle.
+This becomes visible as the varying brightness of a medium power led.
+<br><br>
+The 'up' key is connected to P1.4,
+<br>the 'down' key is connected to P1.5.
+<div class="nofloat"></div>
+<img class="v5" src="s09%20-%20pwm%20using%20compare%20unit.jpg" alt="scheme">
+This is a simple program, because we use the internal MSP430 hardware.
+<!-- The use of the internal MSP430 hardware makes this easy. -->
+A full software solution would use all available CPU time.
+<br><br>
+<a href="http://afrotechmods.com/tutorials/2011/11/28/pulse-width-modulation-pwm-tutorial/" target="_blank">A Video on PWM</a>
+<div class="nofloat"></div>
+
+<p><a href="#e00x">&#x21E7;</a></p></section>
+
+
+
+                        <!--   10... -->
+<section>
+<a id="e01x"></a>
+<p class="groot"><a href="#top">&#x21E7;</a></p>
+<h3>10-19 More advanced I/O examples</h3>
+<nav><br><a href="#e010">10 RC-5 coder/transmitter</a>
+<br><a href="#e011">11 Seven segment display's thru CD4094</a>
+<br><a href="#e012">12 Controlling a character LCD</a>
+<br><a href="#e013">13 Hi-res US-distance measure
+<!-- using timer-A0 --></a>
+<br><a href="#e014">14 Generating dual frequencies</a>
+<br><a href="#e015">15 MSP430 clocks</a>
+<br><a href="#e016">16 Software UART</a>
+<br><a href="#e017">17 US-100 distance sensor</a>
+<br><a href="#e018">18 Simple robotic sensor unit</a>
+</nav>
+<div class="rechts"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+</section>
+
+
+<!-- 10 -->
+<section>
+<h2><a id="e010"></a>10
+<br> RC-5 coder/transmitter </h2>
+<h5>RC-5-bitpatterns generated by software</h5>
+<aside>Materials:
+1x 100 Ohm resistor,
+1x <a href="http://www.reichelt.de/Fotodioden-etc-/SFH-4546/3/index.html?&amp;ACTION=3&amp;LA=2&amp;ARTICLE=146652&amp;GROUPID=3045&amp;artnr=SFH+4546" target="_blank">Infrared led.</a>
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e10%20-%20rc5%20coder.f" target="_blank">e10 noForth program</a>
+</aside>
+<img class="v4" src="s10%20-%20rc5%20coder%20horiz.jpg" alt="scheme">
+
+<div class="nofloat"></div>
+
+<table><tr><td>
+<img src="p10%20-%20rc5%20coder%20transmitter.jpg" alt="photo">
+</td><td><div class="nb">Load the assembler before the e10&nbsp;noForth programs,
+the software RS232 routines are in assembler code.</div>
+</td></tr></table>
+
+For the Egel Kit: just connect an IR-led to the LED connector and ready.
+Using the launchpad you have to add the resistor too both mounted on the shield.
+<br>
+<br>Timer A1 generates 36KHz pulses 25% PWM at P2.1.
+<br>The S2&#x2011;switch activates the transmitter.
+<div class="nofloat"></div>
+
+<br>More info about timer-A1, in<a href="slau144j.pdf" target="_blank">SLAU144J.PDF</a>on page 356 and beyond.
+Configuration of the I/O-pins from page 50 and beyond of<a href="slas735j.pdf" target="_blank">SLAS735J.PDF</a>
+
+<br><br>Forth command: <pre>
+RC-TRANSMITTER ( -- ) Send the RC5 on/off command
+</pre>
+
+<br>This program will startup after every reset.
+If you do not want this program to start, press reset while S2 is held down.
+<br>
+<br><a href="https://en.wikipedia.org/wiki/RC-5" target="_blank">About the RC-5 protocol</a>
+<p><a href="#e01x">&#x21E7;</a></p></section>
+
+
+<!--   11 -->
+<section>
+<h2><a id="e011"></a>11
+<br> Seven segment driver with CD4094 </h2>
+<h5>Serial to parallel using a shiftregister</h5>
+
+<aside class="m5">Materials:
+8x 470 Ohm resistor,
+1x <a href="http://www.reichelt.de/Siebensegment-Anzeigen/SC-56-11-GE/3/index.html?&amp;ACTION=3&amp;LA=2&amp;ARTICLE=54122&amp;GROUPID=3002&amp;artnr=SC+56-11+GE" target="_blank">7 segment display,</a>
+1x <a href="http://www.reichelt.de/74HC-4094/3/index.html?&amp;ACTION=3&amp;LA=446&amp;ARTICLE=3239&amp;artnr=74HC+4094&amp;SEARCH=74hc4094" target="_blank">74HC4094</a> or <a href="http://www.reichelt.de/74HC-595/3/index.html?&amp;ACTION=3&amp;LA=446&amp;ARTICLE=3269&amp;artnr=74HC+595&amp;SEARCH=74HC595" target="_blank">74HC595.</a>
+<hr><a href="e11a%20-%20seven%20segment%20driver%20ca%20using%20a%20shiftregister.f" target="_blank">e11a ca noForth program</a>
+<a href="e11b%20-%20seven%20segment%20driver%20cc%20using%20a%20shiftregister.f" target="_blank">e11b cc noForth program</a>
+</aside>
+<img class="v6" src="p11b%20-%20seven-segment.jpg" alt="photo">
+<div class="nofloat"></div>
+
+<img class="v4" src="s11a%20-%2074hc4094%207-segment%20driver.jpg" alt="scheme">
+<ul><li>Connect a 74HC4094 to VCC and ground
+</li><li>Strobe 74HC4094 pin-1 to P2.0
+</li><li>Data 74HC4094 pin-2 to P2.1
+</li><li>Clock 74HC4094 pin-3 to P2.2 (N.B.)
+</li><li>Pin 15 to VCC too.
+</li></ul>
+<div class="nofloat"></div>
+
+The eight output pins (4 to 11) of the <a href="http://cdn-reichelt.de/documents/datenblatt/A240/74HC4094%23STM.pdf" target="_blank">74HC4094</a>
+must be connected to a 7-segment display. See schematic.
+<div class="nofloat"></div>
+
+<br>
+<img class="v5" src="s11b%20-%2074hc595%207-segment%20driver.jpg" alt="scheme">
+<br>
+<ul><li>Connect a 74HC595 to VCC and ground
+</li><li>Strobe 74HC595 pin-12 to P2.0
+</li><li>Data 74HC595 pin-14 to P2.1
+</li><li>Clock 74HC595 pin-11 to P2.2 (N.B.)
+</li><li>Pin 13 to ground & pin 10 to VCC too.
+</li></ul>
+<div class="nofloat"></div>
+
+The eight output pins (15 and then 1 to 7) of the <a href="http://www.reichelt.de/index.html?ACTION=7&amp;LA=3&amp;OPEN=0&amp;INDEX=0&amp;FILENAME=A240%252F74HC595%2523STM.pdf" target="_blank">74HC595</a>
+must be connected to a 7-segment display. See also schematic.
+
+<br>
+<br>For more digits several 74HC4094s or 74HC595s may be connected to each other,
+strobe and clock in parallel. See it's schematics also.
+
+<br><br>
+You may also use common anode displays. The software e11a is for common anode displays.
+Software e11b is for the shown common cathode displays. For common anode displays
+the ground connections (see schematics) on the displays must be connected to VCC.
+<div class="nofloat"></div>
+
+    <br><div class="mid">
+    <video id="counter on 7 segment" src="seven%20segment%20decimal%20counter.mp4" controls></video>
+    </div>
+
+<br>Forth commands:<pre>
+CHARACTERS ( -- ) Show all implemented characters
+COUNTER ( -- )    Show a decimal counter
+DICE ( -- )       Simulate a tumbling dice
+</pre>
+<br><a href="https://www.aliexpress.com/item/4PCS-Anode-1Bit-Digital-Tube-7-segment-1-2-inch-Red-LED-Display/32713215239.html" target="_blank">
+A 3 cm. high common anode 7-segment module</a>
+<br><a href="https://en.wikipedia.org/wiki/Seven-segment_display"target="_blank">Background on seven segment displays</a>
+<p><a href="#e01x">&#x21E7;</a></p></section>
+
+
+<!--   12 -->
+<section>
+<h2><a id="e012"></a>12
+<br>Controlling a character lcd</h2>
+<h5>With a 4-bit parallel interface & contrast using PWM</h5>
+<aside class="m7" >Materials:
+2x <a href="http://www.reichelt.de/BAT-48/3/index.html?ACTION=3&amp;LA=446&amp;ARTICLE=4855&amp;artnr=BAT+48&amp;SEARCH=bat48" target="_blank">bat48</a>,
+1x 100nF,
+1x 220nF,
+some wires,
+1x <a href="http://www.reichelt.de/Bauelemente/LCD-MO82-DIP/3/index.html?&amp;ACTION=3&amp;LA=2&amp;ARTICLE=44908&amp;GROUPID=3009&amp;artnr=LCD+MO82+DIP" target="_blank">DIP LCD module</a>.
+<hr><a href="e12%20-%20character%20lcd%20with%204-bit%20interface.f" target="_blank">e12 noForth program</a>
+</aside>
+<img class="v7" src="p12%20-%20character%20lcd%20with%204-bit%20interface.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<img src="s12%20-%20character%20lcd%20with%204-bit%20interface.jpg" alt="scheme">
+Connect 3 Volt version of an 1602 LCD display with P2.0 .. P2.5.
+<br>P1.6 is the contrast control output for the LCD.
+<br>Timer-A1 is used for contrast control of the LCD, see schematic.
+<br><br><br>
+When the text can not be read, just play with the contrast by changing
+the value using <code>>CONTRAST ( +n -- )</code> the value may be from 0 to 16.
+
+<div class="nofloat"></div><br>
+Forth commands:
+<pre>
+>CONTRAST ( +n -- ) Set contrast to +n
+DEMO1 ( -- )        Show text message 1
+DEMO2 ( -- )        Show text message 2</pre>
+<p><a href="#e01x">&#x21E7;</a></p></section>
+
+
+<!-- 13 -->
+<section>
+<h2><a id="e013"></a>13
+<br>Hi-resolution US distance measurement</h2>
+<h5>Using timer-A0 for increased accuracy, with timeout!</h5>
+
+<aside class="m5">Materials:
+8 leds or <a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">Led module</a>,
+<a href="https://nl.aliexpress.com/item/HC-SR04P-HC-SR04-Ultrasonic-Ranging-Module-Ranging-Sensor-Module-3-5-5V-Wide-Voltage-Performance/32666978730.html" target="_blank">HC-SR04</a>,
+<a href="https://www.aliexpress.com/item/Free-shipping-1lot-200pcs-10cm-2-54mm-1pin-1p-1p-male-to-male-jumper-wire-Dupont/32259585350.html" target="_blank">some wires</a>.
+<hr><a href="e13%20-%20hi-res%20us%20distance%20with%20hc-sr04%20%20(timer).f" target="_blank">e13 noForth program</a>
+</aside>
+<img class="v5" src="p08%20-%20ultrasonic%20distance%20measurement.jpg" alt="photo">
+<div class="nofloat"></div>
+<br>
+<img class="v5" src="s08%20-%20ultrasonic%20distance%20measurement.jpg" alt="scheme">
+Connect the SR04 sensor or similar, with four wires to the MSP430, place a ledboard using the schematics.
+In this example we use timer&#x2011;A0 with a microsecond resolution.
+<br>When timer&#x2011;A0 is allready in use, just change the register addresses
+to those of a similar timer that is free.
+<div class="nofloat"></div>
+
+<br>
+Note that, activated interrupts will not influence the result.
+This variant will never hang, it times out after about 65 milliseconds.
+<br><br>
+
+<img src="p13%20-%20three%20different%20us-sensors.jpg" alt="photo">
+The usable range of some cheap Chinese HC-SR04 modules is 2cm to 220cm.
+Other variants may have a different range.
+<br>The word <code>DISTANCE</code> starts the US-sensor, and gives a
+distance back. This result is the distance to the  nearest object in centimeter!
+<br><br>
+When the word <code>&gt;MM</code> is used in <code>DISTANCE</code> instead of <code>&gt;CM</code>
+ the resulting distance is converted to millimeters.
+
+<br><br>The photo shows three other US-sensors, all three are pincompatible
+replacements for the HC-SR04. The US-015 is more stable and has more accurate readings.
+The RCW-0001 is much smaller and works from 3 Volt.
+<br><br>The US-100 works from 2.4 Volt, but also has a separate serial mode that has an
+increased resolution. It is very stable due to the built-in temperature compensation.
+The distance is given in millimeters, see chapter E17 for example code!
+
+
+<br><br>Forth commands:
+<pre>
+US-ON ( -- )       Activate ultrasonic hardware
+DISTANCE ( -- cm ) Show object distance in centimeter
+MEASURE ( -- )     Show object distance on leds</pre>
+<p><a href="#e01x">&#x21E7;</a></p></section>
+
+
+
+<!-- 14 -->
+<section>
+<h2><a id="e014"></a>14
+<br> Generating dual frequencies with timers (only)</h2>
+<h5>Frequency output using timer-A0 & timer-A1</h5>
+<aside class="m3">Materials:
+2x <a href="http://www.reichelt.de/Miniaturlautsprecher/VIS-K64WP-50/3/index.html?&amp;ACTION=3&amp;LA=2&amp;ARTICLE=66805&amp;GROUPID=6559&amp;artnr=VIS+K64WP-50" target="_blank">50 Ohm speaker</a>.
+<hr><a href="e14a%20-%20multitone.f" target="_blank">e14a noForth program</a>
+<hr><a href="e14b%20-%20dtmf.f" target="_blank">e14b noForth program</a>
+</aside>
+<img class="v4" src="s14%20-%20multitone.jpg" alt="scheme">
+
+<div class="nofloat"></div>
+The outputs are P1.6 and P2.1.
+<img src="p14%20-%20multitone.jpg" alt="photo">
+Port-1.6 must be wired to a 32 to 50 Ohm speaker,
+    the other connection of the speaker to ground, P2.1 ditto.
+<br><br>
+Program 14a plays simple music scores, program 14b generates DTMF tones!
+
+<br>
+<br><audio controls><source src="hunting2.mp3" type="audio/mpeg">
+  You have no support for audio!
+</audio> <br>&nbsp; Play the hunting horn
+<br><div class="nofloat"></div>
+<br>The frequency range of both outputs is 61 Hz to 39000 Hz.
+
+<br>
+<br>
+<img class="v3" src="t14b%20-%20dtmf.gif" alt="signals">
+<audio controls>
+  <source src="dtmf%20-%20forthgg2.mp3" type="audio/mpeg">
+  You have no support for audio!
+</audio> <br>&nbsp; Call the Forth users group
+
+<div class="nofloat"></div>
+<br>
+The forth commands for e14a:<pre>
+HONK    ( -- )  Sound a heavy horn
+HUNTING ( -- )  Play the hunting horn
+BJ      ( -- )  Play Brother John
+</pre>
+And for e14b:<pre>
+>DTMF ( addr u -- ) Convert string to DTMF tones
+WILLEMO ( -- )      Call the author
+FORTHGG ( -- )      Call Forth-gg chairman</pre>
+
+<div class="nofloat"></div>
+<br>
+<p><a href="#e01x">&#x21E7;</a></p></section>
+
+
+<!--   15 -->
+<section>
+<h2><a id="e015"></a>15
+<br>MSP430 clocks</h2>
+<h5>How to activate the different clocks on the MSP430</h5>
+<aside class="m6">Materials:
+<a href="https://www.tindie.com/products/Willem_O/egel-kit-board-set-for-msp430g2553/?pt=full_prod_search" target="_blank">Egel Kit</a> or <a href="http://nl.farnell.com/texas-instruments/msp-exp430g2/g2xx-launchpad-dev-kit/dp/1853793?selectedCategoryId=&amp;exaMfpn=true&amp;categoryId=&amp;searchRef=SearchLookAhead&amp;searchView=table&amp;iscrfnonsku=false" target="_blank">Launchpad</a>,
+Some wires and a large elco,
+<a href="http://www.reichelt.de/Digital-Multimeters/PEAKTECH-1035/3/index.html?ACTION=3&amp;LA=2&amp;ARTICLE=75319&amp;GROUPID=4058&amp;artnr=PEAKTECH+1035" target="_blank">Multimeter</a>.
+<hr><a href="e15a%20-%20msp430%20clocks.f" target="_blank">e15a noForth program</a>
+<a href="e15b%20-%20msp430%20clocks.f" target="_blank">e15b noForth program</a>
+<a href="12khz%20vlo%20at%20p1%20bit-0.f" target="_blank">VLO noForth program</a>
+<a href="32khz%20at%20p1%20bit-0.f" target="_blank">32kHz noForth program</a>
+</aside>
+
+Connect an ampere-meter to check the current used at different frequencies.
+Program e15a uses 9600 baud, and works fine on all versions of noForth for MSP430G2553 Launchpad.
+<br><br>
+Program e15b does the same, but uses 38400 baud, and works on the Egel Kit only.
+Because the oscillator frequency is to low, there is no baudrate of 38K4 possible
+on 32kHz and using the VLO.
+<br><br>
+The VLO and 32kHz noForth activates the Very Low Frequency or 32kHz oscillator
+and outputs the selected clock on P1.0. You may check with a scope or logic analyser if they are working.
+Information about the built-in capacitators for the 32kHz oscillator, see SLAU144J.PDF page 274 and beyond.
+
+<br><br>
+
+<div class="nofloat"></div>
+<img class="v4" src="p15a%20-%2032khz%20active.jpg" alt="photo">
+The data for the DCO starts at address 10F6
+in the info-flash segment A at 10C0.
+The flash clock must be in the range from from 257KHz to 476KHz!
+Note that the flash clock will not function with a 32kHz crystal.
+The default selected baudrate here is always 9600 baud.
+
+<div class="nofloat"></div>
+<img class="v4" src="p15b%20-%201mhz%20active.jpg" alt="photo">
+With the 12kHz VLOCLK mode no baudrate is possible,
+this is because the VLO frequency is to low and not accurate enough!
+
+<div class="nofloat"></div>
+<table><tr><td><img class="v4" src="p15c%20-%2016mhz%20active.jpg" alt="photo">
+</td><td>
+The Forth commands:
+<pre>
+12KHZ ( -- ) Activate VLO oscillator
+32KHZ ( -- ) Activate 32kHz oscillator
+1MHZ ( -- )  Activate DCO on 1 MHz
+8MHZ ( -- )  DCO on 8MHz
+16MHZ ( -- ) DCO on 16MHz
+FLASH ( ccc -- ) Run flasher on freq. 'ccc'
+</pre></td></tr></table>
+<br>Use the word <code>FLASH</code> as follows: <code>FLASH 32KHZ</code> or one of the other frequencies.
+It shows that the timing of the MSP430 keeps working correct, not dependig on the used system clock.
+It does this by flashing both leds every 6 seconds.
+<br>
+After the program is finished, the default MPU frequency is restored.
+<p><a href="#e01x">&#x21E7;</a></p></section>
+
+
+<!-- 16 -->
+<section>
+<h2><a id="e016"></a>16
+<br>Half, 3/4 & full duplex software UART</h2>
+<h5>Bit input on P2.1 bit output to P2.0</h5>
+<aside class="m5">Materials:
+Egel kit or Launchpad,
+<a href="http://www.aliexpress.com/item/Free-Ship-10pcs-lot-PL2303-TA-USB-TTL-RS232-Convert-Serial-Cable-PL2303TA-Compatible-Win-XP/2005719996.html" target="_blank">USB serial cable </a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e16a%20-%20rs232s9600.f" target="_blank">e16a Half duplex UART</a>
+<a href="e16b%20-%20rs232s9600.f" target="_blank">e16b 3/4 duplex UART</a>
+<a href="e16c%20-%20rs232s9600.f" target="_blank">e16c Full duplex UART</a>
+</aside>
+
+<img class="v6" src="p16a%20-%209600b%20half%20duplex%20software%20rs232.jpg" alt="photo">
+<div class="nofloat"></div>
+
+<table><tr><td>
+<img class="v4" src="s16%20-%209600b%20half%20duplex%20software%20rs232.jpg" alt="scheme">
+
+</td><td><div class="nb">Load the assembler before the e16&nbsp;noForth programs,
+the software RS232 routines are in assembler code.</div>
+</td></tr></table>
+<div class="nofloat"></div>
+
+<br>
+<img class="v13" src="p16b%20-%209600b%20half%20duplex%20software%20rs232.jpg" alt="photo">
+First make a second RS232 connection. Connection RX to P2.0 (logic level)
+and TX to P2.1 do not forget to connect ground. Then open a second terminal
+window for the new connected port. Press reset button, the output should now
+appear in the newly opened terminal window.
+<br>To go back to the old configuration hold S2 and then press reset.
+The newly added <code>RS-ON</code> routine is skipped and your back in the original configuration.
+
+<br><br><br><br>
+The first variant (e16a) is half duplex and uses bitbanging only.
+The second variant (e16b) reads incoming characters using a timer interrupt.
+This gives you about 3/4 duplex, that is receiving works fabulous.
+The sending of characters is occasionally spoiled by the reception interrupt.
+The third and last variant (e16c) uses a transmit interrupt too.
+This gives you full duplex, but uses all the timers
+on board of the MSP430G2553.
+
+<br><br>
+<img class="v2" src="t16%20-%209600b%20half%20duplex%20software%20rs232.jpg" alt="signals">
+<div class="nofloat"></div>
+
+Test commands in the old RS232 configuration (before giving reset):
+<br>
+<br>Type: <code>RS-ON </code> To initialise software RS232.
+<br>Type: <code>CH # RS-EMIT MANY </code> To test new RS232 output.
+<br>Type: <code>COLD </code> When it these routines work.
+<br>Check the results on your screen in the terminal windows.
+<p><a href="#e01x">&#x21E7;</a></p></section>
+
+
+<!-- 17 -->
+<section>
+<h2><a id="e017"></a>17
+<br>US-100 ultrasonic distance sensor</h2>
+<h5>Using timer-A0 for software RS232, with timeout!</h5>
+
+<aside class="m5">Materials:
+<a href="https://www.aliexpress.com/item/1-pc-US-100-Ultrasonic-Sensor-Module-With-Temperature-Compensation-Range-Distance-450cm-For-Arduino/1670433457.html" target="_blank">US-100 sensor</a>,
+<a href="https://www.aliexpress.com/item/Free-shipping-1lot-200pcs-10cm-2-54mm-1pin-1p-1p-male-to-male-jumper-wire-Dupont/32259585350.html" target="_blank">some wires</a>.
+<hr><a href="e17%20-%20us-100%20distance%20sensor.f" target="_blank">e17 noForth program</a>
+</aside>
+<img class="v5" src="p17a%20-%20us100%20sensor.jpg" alt="photo">
+<div class="nofloat"></div>
+<br>
+<img class="v5" src="s17%20-%20us-100%20sensor%20schematic%20grey.jpg" alt="scheme">
+Connect the US-100 sensor with four wires to the MSP430.
+In this example we use timer&#x2011;A0 for RS232 reception.
+<br><br><br><br>When timer&#x2011;A0 is allready in use, just change the register addresses
+to those of a similar timer that is free.
+<div class="nofloat"></div>
+
+<br>
+<img src="p17b%20-%20us-100%20distance%20readout.jpg" alt="photo">
+The distance measured by US-100 modules is very stable. The result is given in mm. The
+range of the sensor is about 30mm to 4000mm.
+
+<br>The word <code>DISTANCE</code> starts the US-sensor, and gives a
+distance to the nearest object in millimeter back.
+<div class="nofloat"></div>
+
+<br>
+The US-100 works from 2.4 Volt to 5 Volt, the used serial mode that has an
+increased resolution. It is also very stable due to the built-in temperature compensation.
+The distance is given in millimeters.
+
+<br><br>
+<img class="v3" src="t17%20-us-100%20distance%20command.jpg" alt="tracer">
+<div class="nofloat"></div>
+
+<br>Forth commands:
+<pre>
+RS-ON ( -- )       Activate sofware serial interface
+DISTANCE ( -- mm ) Show object distance in centimeter
+MEASURE ( -- )     Show object distance on screen</pre>
+<p><a href="#e01x">&#x21E7;</a></p></section>
+
+
+<!-- 18 -->
+<section>
+<h2><a id="e018"></a>18
+<br>Simple robotic sensor unit</h2>
+<h5>Reading touch sensor and a PIR motion detector</h5>
+<aside class="m5">Materials:
+ robot sensor board,
+<a href="https://www.aliexpress.com/item/New-Arrival-Mini-IR-Pyroelectric-Infrared-PIR-Motion-Human-Sensor-Automatic-Detector-Module-high-reliability-12mm/32749804501.html" target="_blank">SB312A PIR sensor</a>,
+<a href="https://nl.aliexpress.com/item/50PCS-SI2302DS-SOT-23-SI2302-N-channel-enhancement-mode-field-effect-transistor/32629702675.html" target="_blank">N-channel mosfet</a>,
+<a href="https://www.reichelt.nl/Schraubklemmen/LSK-410/3/index.html?ACTION=3&amp;LA=446&amp;ARTICLE=159570&amp;GROUPID=7546&amp;artnr=LSK+410&amp;SEARCH=Schraubklemme" target="_blank">Screw clamp</a>.
+
+<hr><a href="e18%20-%20robot%20sensor%20module.f" target="_blank">e18 noForth program</a>
+</aside>
+
+<img class="v8" src="p18a%20-%20prototype%20of%20simple%20robotic%20sensor%20unit.jpg">
+<img class="v9" src="s18a%20-%20robotic%20sensor%20schematic.jpg">
+<div class="nofloat"></div>
+
+<table><tr><td><img class="v6" src="p18b%20-%20robotic%20sensor%20unit.jpg">
+
+</td><td><div class="nb"><br>Print layout for the simple robotic sensor unit, on it two feelers a PIR sensor and two leds.
+<br><br></div>
+</td></tr></table>
+<div class="nofloat"></div>
+
+<img class="v6" src="s18b%20-%20sb312a%20schematic.jpg">
+The internal schematic of the <a href="sb312a.pdf" target="_blank">SB312A</a> smart PIR sensor unit. Note that the sensor
+has it's own 3 Volt voltage stabiliser. The output already has a 10&nbsp;kOhm resistor.
+
+<br>
+<div class="nofloat"></div>
+
+<br>Forth commands:<pre>
+MOTION?      ( -- fl )  True when PIR sensor active
+TOUCH-LEFT?  ( -- fl )  True when left feeler bend
+TOUCH-RIGHT? ( -- fl )  True when right feeler bend
+?LED         ( fl -- )  Leds on when fl is true
+SENSORS      ( -- )     Test the sensor module
+</pre>
+<div class="nofloat"></div>
+
+<p><a href="#e01x">&#x21E7</a></p></section>
+
+
+
+
+
+
+                        <!--   20... -->
+<section>
+<a id="e02x"></a>
+<p class="groot"><a href="#top">&#x21E7;</a></p>
+<h3>20-29 Use of (timer)interrupts</h3>
+<nav><br><a href="#e020">20 Timer A0 compare mode</a>
+<br><a href="#e021">21 Model servo controller</a>
+<br><a href="#e022">22 Low frequency PWM using a timer interrupt</a>
+<br><a href="#e023">23 Hardware interrupt</a>
+<br><a href="#e024">24 Watchdog timer as watchdog</a>
+<br><a href="#e025">25 Watchdog timer as interval timer</a>
+<br><a href="#e026">26 RC-5 decoder</a>
+<br><a href="#e027">27 Period time measurement</a></nav>
+<div class="mid"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+</section>
+
+
+<!--   20 -->
+<section>
+<h2><a id="e020"></a>20
+<br> Timer A0 compare mode </h2>
+<h5>Flashing LEDS with a timer compare interrupt</h5>
+<aside class="m3">Materials:
+Just the kit.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e20%20-%20ta0%20compare-mode.f" target="_blank">e20 noForth program</a>
+</aside>
+<img class="v3" src="egel%20kit.jpg" alt="photo">
+Using timer A0  in compare mode to generate timer interrupts.
+SMCLK (high frequency) or ACLK (low frequency) are used to drive the timer.
+<div class="nofloat"></div>
+
+<table><tr><td>
+<div class="nb">Load the assembler before the e10&nbsp;noForth programs,
+the software RS232 routines are in assembler code.</div>
+</td><td>
+</td></tr></table>
+
+<br>Look back to chapter 15 for more info about MSP430 clocks.
+<br>
+Compare mode 2 is used here, so we count up to FFFF.
+<div class="nofloat"></div>
+
+<br>Change the flash frequency of the leds by changing<code> PERIOD</code>.
+<br>Example:<code> 5 TO PERIOD</code>
+<br>Higher means slower.
+The default content of <code>PERIOD</code> is 1.
+<br>
+<br>The forth commands:
+<pre>
+SMCLK-ON ( -- ) Activate timer-A0 with SMCLK
+ACLK-ON ( -- )  Activate timer-A0 with ACLK
+TIMER-OFF ( -- )Deactivate timer-A0</pre>
+<p><a href="#e02x">&#x21E7;</a></p></section>
+
+
+<!--   21 -->
+<section>
+<h2><a id="e021"></a>21
+<br>RC servo controller</h2>
+ <h5>Bit output, using timer-A0 to control the pulsewidth of 2 model servos</h5>
+<aside class="m3">Materials:
+2x <a href="https://nl.aliexpress.com/item/38g-S3003-Standard-Servo-For-RC-Futaba-HPI-Tamiya-Kyosho-Duratrax-GS-racing-Car-truch-Free/32355462026.html" target="_blank">small or standard size model servos</a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e21%20-%20model%20servo%20control.f" target="_blank">e21 noForth program</a>
+</aside>
+<img class="v3" src="p21%20-%20model%20servo%20control.jpg" alt="photo">
+
+<div class="nofloat"></div>
+
+<table><tr><td>
+<img src="s21%20-%20model%20servo%20control.jpg" alt="scheme">
+</td><td>
+<div class="nb">Load the assembler before the e21&nbsp;noForth programs,
+the software RS232 routines are in assembler code.</div>
+</td></tr></table>
+
+<br>Connect P1.4 and P1.5 to the signal line of each servo,
+    see the schematics and photo. An example of the use of (timer)interrupts.
+
+<br><br>
+The word <code>MOVE-SERVOS</code> changes the position of each servo endless.
+A servo may be changed by hand using the word <code>SERVO ( pos srv -- )</code>
+<div class="nofloat"></div>
+<div class="mid"><img src="servo%20pulses2.jpg" alt="signals"></div>
+The forth commands:
+<pre>
+SERVO-ON ( -- )  Activate servo interrupt
+SERVO-OFF ( -- ) Deactivate servo interrupt
+SERVO ( position servo -- ) Set 'servo' to 'position'
+MOVE-SERVOS ( -- ) Move both servos endlessly</pre>
+<a href="https://en.wikipedia.org/wiki/Servo_control" target="-blank">
+About RC servos</a>
+<p><a href="#e02x">&#x21E7;</a></p></section>
+
+
+<!-- 22 -->
+<section>
+<h2><a id="e022"></a>22
+<br>Low frequency PWM using timer interrupt</h2>
+<h5> Software PWM (on timer-A0) with three outputs</h5>
+<table><tr><td>
+<aside class="m5">Materials:
+2x 100 Ohm resistor,
+<a href="http://cdn-reichelt.de/documents/datenblatt/A100/BS170_ON.pdf" target="_blank">BS170</a> or
+<a href="http://www.farnell.com/datasheets/1674797.pdf" target="_blank">BUK954</a>,
+<a href="https://www.reichelt.de/SMD-LEDs-PLCC/EVL-67-21S-KK2C/3/index.html?ACTION=3&amp;LA=2&amp;ARTICLE=231785&amp;GROUPID=3036&amp;artnr=EVL+67-21S%2FKK2C&amp;trstct=pol_7" target="_blank">Powerled</a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e22%20-%20low%20freq%20pwm%20using%20timer%20int.f" target="_blank">e22 noForth program</a>
+</aside>
+<img class="v7" src="s22%20-%20low%20frequency%20pwm%20using%20timer%20int.jpg" alt="scheme">
+</td><td>
+<img class="v5" src="p22%20-%20low%20frequency%20pwm%20using%20timer%20int.jpg" alt="photo">
+
+<div class="nofloat"></div>
+
+<div class="nb">Load the assembler before the e22&nbsp;noForth&nbsp;program.</div>
+<br>
+Connect a motor, lamp or power led to P2.4 using a mosfet, see schematics.
+We have three outputs on P2.2, P2.3 and P2.4, in steps from 0 to 100.
+The frequency is 300 Hz, so there is a 3,3msec. update rate.
+
+The example  program changes all 3 outputs differently every 64 milliseconds.
+</td></tr></table>
+
+<div class="nofloat"></div>
+<br>Due to the software structure, the PWM interrupt leaves small glitches
+when power is zero. Here is a small challenge left for the programmer.
+<br>
+<br><img class="v3" src="t22i%20-%20low%20freq%20pwm%20using%20timer%20int.jpg" alt="signals">
+
+<div class="nofloat"></div>
+Forth command: <pre>
+SHOW-PWM ( -- ) Change all three PWM outputs endlessly
+</pre>
+
+<br><a href="https://en.wikipedia.org/wiki/Pulse-width_modulation" target="-blank">
+About PWM</a>
+<p><a href="#e02x">&#x21E7;</a></p></section>
+
+
+<!-- 23 -->
+<section>
+<h2><a id="e023"></a>23
+<br> Hardware interrupt</h2>
+<h5>Hardware interrupt with bit input and output on P1 and P2</h5>
+<aside class="m5">Materials:
+100 Ohm,
+<a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">Led board</a>,
+Switch.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e23%20-%20hardware%20int.f" target="_blank">e23 noForth program</a>
+</aside>
+<img class="v5" src="s23%20-%20hardware%20interrupt.jpg" alt="scheme">
+
+<div class="nofloat"></div>
+<table><tr><td><img class="v4" src="p23%20-%20hardware%20interrupt.jpg" alt="photo">
+</td><td><div class="nb">Load the assembler before the e23&nbsp;noForth&nbsp;program,
+the interrupt routine is in assembler code.</div>
+</td></tr></table>
+
+<div class="nofloat"></div>
+
+Connect one toggle switch and a ledboard to the MSP430, using the schematics.
+S2 is already on the board. The red led is controlled in a high-level software loop (polling),
+the green led by an hardware interrupt!
+
+<br>
+<br>SW1 triggers a hardware interrupt. S2 uses polling in the word <code>LED</code>.
+There is only simple debouncing in this example, the delay value in the polling
+loop is used for that!
+<br>
+<br>Forth command: <pre>
+LED ( -- )
+</pre>
+One led toggle's with polling, the other one on interrupt.
+<p><a href="#e02x">&#x21E7;</a></p></section>
+
+
+
+<!-- 24 -->
+<section>
+<h2><a id="e024"></a>24
+<br> Watchdog timer</h2>
+<h5>Watchdog initialisation and use</h5>
+<aside class="m3">Materials:
+Just the kit.
+<hr><a href="e24%20-%20watchdog%20timer.f" target="_blank">e24 noForth program</a>
+</aside>
+<img class="v2" src="m24%20-%20watchdog%20timer.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<img class="v10" src="p24%20-%20watchdog%20timer%20an.jpg" alt="photo">
+    The primary function of a watchdog timer, is to perform a controlled
+    system restart after a software problem occurs.
+    <br><br>
+    The activating time of the watchdog may be changed. This may be done
+    with an other clock (ACLK or SMCLK) and/or an other clock divider.
+    <br><br>
+    In this example the clock is set to SMCLK. The lowest two bits of
+    the WDTCL register set the clock divider.
+    The divider is set to 00 = SMCLK/32768. More info on page 346 in SLAU144J.PDF
+    <br><br><br>
+    The value 'u' is a delay value for a simple software loop!
+    When the loop is long enough the watchdog takes control by
+    resetting the MPU!
+
+<div class="nofloat"></div>
+<br>Forth command: <pre>
+    WATCHDOG  ( u -- )</pre> Test watchdog trigger point to 'u' milliseconds. In steps of 160 millisec.
+
+<p><a href="#e02x">&#x21E7;</a></p></section>
+
+
+<!-- 25 -->
+<section>
+<h2><a id="e025"></a>25
+<br> Watchdog as interval timer</h2>
+<h5>Watchdog used as interval timer to implement an accurate MS routine</h5>
+<aside class="m3">Materials:
+Just the kit.
+<hr><a href="e25%20-%20watchdog%20as%20interval%20timer.f" target="_blank">e25 noForth program</a>
+</aside>
+The lowest two bits of the WDTCL register set the clock divider.
+In this example the divider is set to 01 = SMCLK/8192. More info on page 344
+  and beyond in SLAU144J.PDF
+<br><br>
+
+<div class="nofloat"></div>
+<img src="p25%20-%20watchdog%20as%20interval%20timer%20an.jpg" alt="photo">
+
+The watchdog interrupt lowers the value <code>MS)</code> to zero.
+<br>
+<br>Forth command:
+<pre>
+INTERVAL  ( ms -- )</pre> Set red led on when interval starts,
+green led goes on when the interval is finished.
+<p><a href="#e02x">&#x21E7;</a></p></section>
+
+
+<!-- 26 -->
+<section>
+<h2><a id="e026"></a>26
+<br> RC-5 decoder</h2>
+<h5>RC-5 remote control decoder and power control for MSP430 Launchpad</h5>
+<aside class="m7" >Materials:
+2x 100 Ohm resistor,
+<a href="http://nl.farnell.com/webapp/wcs/stores/servlet/Search?catalogId=15001&amp;langId=31&amp;storeId=10168&amp;categoryId=700000043507&amp;sort=P_PRICE&amp;eq=N%3D221085%2B502%2B110126886%2B110137509%2B110158844%2B110158845%2B110169484%2B110169490%2B110169536%2B113162579%2B2021%26amp%3BNs%3DP_PRICE_FARNELL_NL%257c0%26amp%3BNtk%3Ddesc_pn%26amp%3BNtt%3Dn%2Bchannel%2Bmosfet%26amp%3BNtx%3Drel%2Bgensearch_store_specific%252cstatic%2528P_STORE_MARKETING_RANK_FARNELL_NL%252cascending%2529%2Bmode%2Bmatchpartialmax%26amp%3BNty%3D1%26amp%3BNtpc%3D1%26amp%3BNtpr%3D1%26amp%3BD%3Dn%2Bchannel%2Bmosfet*%26amp%3BDn%3D2021%2B2021%2B2021%2B2021%2B2021%2B2021%2B2021%26amp%3BDx%3Dmode%2Bmatchall&amp;st=n%20channel%20mosfet&amp;pageSize=25&amp;showResults=true&amp;aa=true&amp;sf=502&amp;pf=110126886,110158844,110158845,110169484,110169490,110169536,113162579&amp;vw=" target="_blank">N channel Mosfet</a>,
+<a href="https://www.reichelt.de/SMD-LEDs-PLCC/EVL-67-21S-KK2C/3/index.html?ACTION=3&amp;LA=2&amp;ARTICLE=231785&amp;GROUPID=3036&amp;artnr=EVL+67-21S%2FKK2C&amp;trstct=pol_7" target="_blank">Powerled</a>,
+<a href="http://nl.farnell.com/vishay/tsop34536/ir-receiver-small-agc5-36khz/dp/2251343" target="_blank">RC-5 receiver</a>,
+6 leds or <a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">Led module</a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e26%20-%20rc5%20decoder.f" target="_blank">e26 noForth program</a>
+</aside>
+<img src="s26%20-%20rc5%20decoder.jpg" alt="scheme">
+<br>The code is an example of
+<br>two cooperating interrupt routines.
+<div class="nofloat"></div>
+
+
+<img class="v4" src="tsop34536.jpg" alt="connection">
+<div class="nb">Load the assembler before the e26 noForth program.
+</div>
+<div class="nofloat"></div>
+
+<img src="p26a%20-%20rc5%20decoder.jpg" alt="photo">
+When you have an Egel kit, just connect a 36 KHz infrared receiver to the RC5 connector.
+For the Launchpad you have to add some wires, see schematic!
+The IR-receiver must be a 3 Volt version, like <a href="http://www.farnell.com/datasheets/2049969.pdf" target="_blank">TSOP34536</a>.
+<br>As output a power led must be connected to the LED connector
+with a 47 Ohm series resistor.
+It may also be connected to the PWR connector (max. 2 Amp).
+<br>
+<br>For the example <code>RC-TEST</code>, connect 6 leds or a led-module with P2.2 to P2.7.
+<code>RC-TEST</code> shows the received 6-bits key-code on the leds.
+<br>
+<br>Forth commands:
+<pre>
+RC-LAMP  ( -- ) Control output P2.1 using on/off key
+RC-POWER ( -- ) Control output P2.4 using on/off key
+RC-TEST  ( -- ) Display RC-5 commands binary on led array</pre>
+<img class="v3" src="t26i%20-%20rc5%20decoder%20copy.jpg" alt="signals">
+
+<div class="nofloat"></div>
+Above: output from the RC-5 decoder; below: power led.
+<p><a href="#e02x">&#x21E7;</a></p></section>
+
+
+<!-- 27 -->
+<section>
+<h2><a id="e027"></a>27
+<br>Period time measurement</h2>
+<h5>Bit input on P1.3 to sample timer-A0</h5>
+<aside class="m5">Materials:
+Egel kit or Launchpad.
+
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="Patch%202553.f" target="_blank">Change noForth configuration</a>
+<a href="e27a%20-%20period%20time%20measurement.f" target="_blank">e27a noForth program</a>
+<a href="e27b%20-%20frequency%20measurement.f" target="_blank">e27b noForth program</a>
+<a href="e27c%20-%20rpm%20measurement.f" target="_blank">e27c noForth program</a>
+</aside>
+<img class="v7" src="p27a%20-%20period%20time%20measurement.gif" alt="photo">
+
+<div class="nofloat"></div>
+<table><tr><td><img class="v5" src="p27b%20-%20frequency%20measurement.gif" alt="photo">
+</td><td><div class="nb">Load the assembler before the e27&nbsp;noForth programs,
+the interrupt routines are in assembler code.</div>
+</td></tr></table>
+
+<div class="nofloat"></div>
+
+About the three example programs:
+<ul><li> e27a Contains the low level routines and conversion and printing
+    of the period time in seconds.
+</li><li> e27b Conversion to and printing of frequency in Hz.
+</li><li> e27c Does conversion to and printing revolutions in RPM.
+</li></ul>
+
+
+<br>Pressing S2 twice, toggles P1.3 twice, then one measurement is done. When a
+3,3 Volt logical pulse is connected to P1.3, external signals
+may be measured.
+<br>When the signal to measure has a to low or to high voltage,
+suitable conversion must be done.
+Add amplification (when the signal is too small) or an
+attenuator network (when the signal is too large).
+<br><br>
+<img class="v2" src="t27%20-%20period%20time%20measurement.gif" alt="signals">
+<div class="nofloat"></div>
+An other way to test this code is adding a second Egel kit or Launchpad.
+This second kit must be running the software E14. Connect output P1.6
+of the E14 example to input P1.3 of this example.
+<br>
+<br>Type: <code>100HZ TONE0</code> in the E14 example.
+<br>Type: <code>FREQUENCY</code> in the E27B example!
+<br>Check the results on your screen.
+<br>
+<br>Each example has one forth command:
+<pre>PERIOD    ( -- )    \ File e27a, measure period time
+FREQUENCY ( -- )    \ File e27b, measure frequency
+RPM       ( -- )    \ File e27c, measure rotation speed
+</pre>
+<p><a href="#e02x">&#x21E7;</a></p></section>
+
+
+
+                        <!--   30... -->
+<section>
+<a id="e03x"></a>
+<p class="groot"><a href="#top">&#x21E7;</a></p>
+<h3>30-39 I2C using USCI or bitbang interface</h3>
+<nav><br><a href="#e030">30 I2C input and output with PCF8574</a>
+<br><a href="#e031">31 I2C I/O and 24C02 EEPROM</a>
+<br><a href="#e032">32 I2C timer and clock with PCF8583</a>
+<br><a href="#e033">33 I2C ADC and DAC with PCF8591</a>
+<br><a href="#e034">34 I2C DS1307 clock and 24C32 EEPROM</a>
+<br><a href="#e035">35 I2C character LCD using a PCF8574</a>
+<br><a href="#e036">36 I2C ADC module YL-40</a>
+<br><a href="#e037">37 I2C basics at P1</a>
+<br><a href="#e038">38 I2C USCI master and slave implementation</a>
+</nav>
+<div class="mid"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+</section>
+
+
+
+<!--   30 -->
+<section>
+<h2><a id="e030"></a>30
+<br> I2C input & output to PCF8574</h2>
+<h5>I2C input & output to an 8-bit parallel I/O-driver</h5>
+
+<table><tr><td>
+<aside class="m5">Materials:
+I2C-print or other
+<a href="http://www.aliexpress.com/item/PCF8574-IO-Expansion-Board-I2C-Bus-Evaluation-Development-Module-Hot-Sale/32360058823.html" target="_blank">I2C-module with PCF8574</a>.
+<hr><a href="i2c%20bitbang%20basics%20at%20p1.f" target="_blank">I2C-bitbang primitives</a>
+<a href="e30%20-%20i2c%20pcf8574%20input%20and%20output.f" target="_blank">e30 Bitbang noForth program</a>
+<a href="e30u%20-%20usci%20i2c%20pcf8574%20input%20and%20output.f" target="_blank">e30 USCI noForth program</a>
+</aside>
+<div class="nofloat"></div>
+
+<br>
+<img class="v6" src="p30(u)%20-%20i2c%20bitbang%26usci%20input%20and%20output%20to%20pcf8574.jpg" alt="photo">
+</td><td>
+<img class="v6" src="s30%20-%20i2c%20print%20schematics.jpg" alt="scheme">
+<div class="nofloat"></div>
+
+<div class="nb">For the bitbang version it is necessary that the
+I2C-primitives are already loaded.
+<br>Please do not try to understand this file.
+A documented version comes in chapter 37!</div>
+</td></tr></table>
+<div class="nofloat"></div>
+
+The complete I2C-bitbang source code can be found in chapter 37!
+<br>
+All I2C examples, excluding chapter 38 come in a USCI and bitbang implementation!
+A description of USCI as I2C can be found in SLAU144J.PDF from page
+449 to page 473, the register documention starts on page 467.
+<br><br>
+
+<div class="nofloat"></div>
+Connect for example the I2C-print from the Dutch Forth users group, or any other module with a
+<a href="https://www.aurel32.net/elec/pcf8574.pdf" target="_blank">PCF8574</a> and 8 leds.
+Connect the power lines first, then P1.7 to SDA and P1.6 to SCL. <b>Take care, there are two versions of
+the PCF8574, the A-version has a different device address!</b>
+<br>Do not forget to mount the two pullup resistors.
+<br>
+<br>For <code>RUNNER2</code> and <code>SHOW</code>
+we need a second PCF8574 with eight switches connected to it.
+<br>
+<br>
+<img class="v3" src="t30i%20-%20i2c%20read%20and%20write%20with%20pcf8574.jpg" alt="signals">
+<br>The forth commands:
+<pre>
+RUNNER1 ( -- ) Running light with output only
+RUNNER2 ( -- ) Running light with switch input too
+SHOW    ( -- ) Show I2C input on outputs</pre>
+More: <a href="https://en.wikipedia.org/wiki/IÂ²C" target="-blank">Wikipedia on I2C</a>
+ and <a href="https://www.i2c-bus.org/" target="-blank">I2C.org</a>
+<p><a href="#e03x">&#x21E7;</a></p></section>
+
+
+<!--   31 -->
+<section>
+<h2><a id="e031"></a>31
+<br> I2C I/O and 24C02 EEPROM</h2>
+<h5>I2C input & output to an 8-bit parallel I/O-driver and EEPROM</h5>
+
+<table><tr><td>
+<aside class="m6">Materials:
+I2C-print or other
+<a href="http://www.aliexpress.com/item/PCF8574-IO-Expansion-Board-I2C-Bus-Evaluation-Development-Module-Hot-Sale/32360058823.html" target="_blank">I2C-module with PCF8574</a>
+and <a href="https://nl.aliexpress.com/item/New-AT24C256-I2C-interface-EEPROM-Memory-Module/2038561561.html" target="_blank">I2C module with 24C256</a>.
+<hr><a href="i2c%20bitbang%20basics%20at%20p1.f" target="_blank">I2C bitbang primitives</a>
+<a href="e37um%20-%20basics%20for%20usci%20i2c.f" target="_blank">I2C USCI primitives</a>
+<a href="e31%20-%20i2c%20io%20and%20eeprom.f" target="_blank">e31 Bitbang noForth program</a>
+<a href="e31u%20-%20usci%20i2c%20io%20and%20eeprom.f" target="_blank">e31 USCI noForth program</a>
+</aside>
+<img src="s30%20-%20i2c%20print%20schematics.jpg" alt="scheme">
+</td><td>
+<img class="v6" src="p30(u)%20-%20i2c%20bitbang%26usci%20input%20and%20output%20to%20pcf8574.jpg" alt="photo">
+<div class="nofloat"></div>
+<br>
+<div class="nb">For both versions it is necessary that the correct
+I2C-primitives are already loaded.</div>
+</td></tr></table>
+
+
+
+Connect for example  the I2C-print from the Dutch Forth users group,
+or any other module with an <a href="http://www.atmel.com/images/doc0180.pdf" target="_blank">24C02</a> EEPROM, a
+<a href="https://www.aurel32.net/elec/pcf8574.pdf" target="_blank">PCF8574</a> with 8 leds and
+a PCF8574 with 8 switches.
+<br>
+This example first samples the 8574 inputs for 10 seconds.
+These patterns in are stored in EEPROM. Then this pattern is played
+at the other 8574 with 8 leds connected.
+
+<br>Connect VCC, GND, P1.7 to SDA and P1.6 to SCL.
+Do not forget that two pullup resistors have te be mounted.
+<br>
+<br>The forth command:
+<pre>
+EEPROM-DEMO ( -- ) </pre> Sample switches to EEPROM for 10 sec. and display them.
+
+<br>
+<br>More: <a href="https://en.wikipedia.org/wiki/IÂ²C" target="-blank">Wikipedia on I2C</a>
+ and <a href="https://www.i2c-bus.org/" target="-blank">I2C.org</a>
+
+<p><a href="#e03x">&#x21E7;</a></p></section>
+
+
+<!--   32 -->
+<section>
+<h2><a id="e032"></a>32
+<br> I2C timer and clock with PCF8583</h2>
+<h5>I2C output to an 8-bit parallel I/O-driver and a clock chip</h5>
+
+<table><tr><td>
+
+<aside class="m6">Materials:
+I2C-print or other
+<a href="http://www.aliexpress.com/item/PCF8574-IO-Expansion-Board-I2C-Bus-Evaluation-Development-Module-Hot-Sale/32360058823.html" target="_blank">I2C-module with PCF8574</a>
+and <a href="https://nl.aliexpress.com/item/5pcs-lot-PCF8563-PCF8563T-8563-IIC-Real-Time-Clock-RTC-Module-Board/32811983858.html" target="_blank">I2C chip PCF8563</a>.
+<hr><a href="i2c%20bitbang%20basics%20at%20p1.f" target="_blank">I2C-bitbang primitives</a>
+<a href="e37um%20-%20basics%20for%20usci%20i2c.f" target="_blank">I2C USCI primitives</a>
+<a href="e32%20-%20i2c%20timer%20%26%20clock.f" target="_blank">e32 Bitbang noForth program</a>
+<a href="e32u%20-%20usci%20i2c%20timer%20%26%20clock.f" target="_blank">e32 USCI noForth program</a>
+</aside>
+<img class="v5" src="s30%20-%20i2c%20print%20schematics.jpg" alt="scheme">
+</td><td>
+<img class="v6" src="p30(u)%20-%20i2c%20bitbang%26usci%20input%20and%20output%20to%20pcf8574.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<div class="nb">For both versions it is necessary that the correct
+I2C-primitives are already loaded.</div>
+</td></tr></table>
+Connect for example the I2C-print from the Dutch Forth users group
+or any other module with a <a href="https://www.aurel32.net/elec/pcf8574.pdf" target="_blank">PCF8574</a>
+and <a href="https://www.nxp.com/docs/en/data-sheet/PCF8563.pdf" target="_blank">PCF8563</a>.
+<br>Pin P1.7 is SDA and P1.6 is SCL. Two pullup resistors have to be mounted.
+ 0A0 = PCF8563 I2C-bus identification address 0.
+<br>
+<br>The forth commands:
+<pre>
+TIMER ( -- ) Flash leds every 10 seconds
+ALARM ( sec min -- ) Alarm goes off after given time
+CLOCK ( -- ) Show 24-hour clock
+SET-CLOCK ( sec min hr -- ) Set 24-hour clock</pre>
+More: <a href="https://en.wikipedia.org/wiki/IÂ²C" target="-blank">Wikipedia on I2C</a>
+ and <a href="https://www.i2c-bus.org/" target="-blank">I2C.org</a>
+
+<p><a href="#e03x">&#x21E7;</a></p></section>
+
+
+<!--   33 -->
+<section>
+<h2><a id="e033"></a>33
+<br> I2C ADC and DAC with PCF8591</h2>
+<h5>I2C input from an ADC and output to an 8-bit parallel I/O-driver</h5>
+
+<table><tr><td>
+<aside class="m6">Materials:
+I2C-print or other
+<a href="http://www.aliexpress.com/item/PCF8574-IO-Expansion-Board-I2C-Bus-Evaluation-Development-Module-Hot-Sale/32360058823.html" target="_blank">I2C-module with PCF8574</a>
+and <a href="http://www.aliexpress.com/item/PCF8591-AD-DA-Conversion-of-Analog-to-Digital-Digital-to-Analog-Converter-Module-Temperature-Illumination/32331185090.html" target="_blank">I2C module with PCF8591</a>.
+<hr><a href="i2c%20bitbang%20basics%20at%20p1.f" target="_blank">I2C-bitbang primitives</a>
+<a href="e37um%20-%20basics%20for%20usci%20i2c.f" target="_blank">I2C USCI primitives</a>
+<a href="e33%20-%20i2c%20adc%20%26%20dac.f" target="_blank">e33 Bitbang noForth program</a>
+<a href="e33u%20-%20usci%20i2c%20adc%20%26%20dac.f" target="_blank">e33 USCI noForth program</a>
+</aside>
+<img class="v5" src="s30%20-%20i2c%20print%20schematics.jpg" alt="scheme">
+</td><td>
+<img class="v6" src="p30(u)%20-%20i2c%20bitbang%26usci%20input%20and%20output%20to%20pcf8574.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<div class="nb">For both versions it is necessary that the correct
+I2C-primitives are already loaded.</div>
+</td></tr></table>
+Connect for example  the I2C-print from the Dutch Forth users group
+or any other module with a <a href="https://www.aurel32.net/elec/pcf8574.pdf" target="_blank">PCF8574</a>
+and 8 leds and a <a href="http://www.nxp.com/documents/data_sheet/PCF8591.pdf" target="_blank">PCF8591</a>.
+<br>Connect VCC, GND, P1.7 to SDA and P1.6 to SCL.
+<br>Do not forget that two pullup resistors have te be mounted.
+<br>094 = PCF8591 I2C-bus identification address 2.
+<br>
+<br>The forth commands:
+<pre>
+ADC ( +n -- byte ) Read ADC input '+n'
+DAC ( byte -- ) Write DAC output with 'byte'
+ANALOG ( -- ) Output analog data on leds</pre>
+More: <a href="https://en.wikipedia.org/wiki/IÂ²C" target="-blank">Wikipedia on I2C</a>
+ and <a href="https://www.i2c-bus.org/" target="-blank">I2C.org</a>
+
+<p><a href="#e03x">&#x21E7;</a></p></section>
+
+
+<!--   34 -->
+<section>
+<h2><a id="e034"></a>34
+<br> I2C DS1307 clock and 24C32 EEPROM</h2>
+<h5>Using a Smart Electronics I2C RTC DS1307</h5>
+
+<aside>Materials:
+<a href="https://nl.aliexpress.com/item/1PCS-New-Arrival-AT24C32-Real-Time-Clock-RTC-I2C-DS1307-Module-for-AVR-ARM-PIC-51/32572449320.html" target="_blank">I2C DS1307 module</a>.
+<hr><a href="i2c%20bitbang%20basics%20at%20p1.f" target="_blank">I2C-bitbang primitives</a>
+<a href="e37um%20-%20basics%20for%20usci%20i2c.f" target="_blank">I2C USCI primitives</a>
+<a href="e34%20-%20i2c%20ds1307%20clock%20%26%20eeprom.f" target="_blank">e34 Bitbang noForth program</a>
+<a href="e34u%20-%20usci%20i2c%20ds1307%20clock%20%26%20eeprom.f" target="_blank">e34 USCI noForth program</a>
+</aside>
+<img class="v5" src="ds1307%20module%20photo.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<table><tr><td>
+<img src="modified%20tiny%20rtc%20schematic.jpg" alt="scheme">
+</td><td><div class="nb">For both versions version it is necessary that the correct
+I2C-primitives are already loaded.</div>
+</td></tr></table>
+Connect the Tiny RTC I2C-module from AliExpress (or any other module)
+with a <a href="http://datasheets.maximintegrated.com/en/ds/DS1307.pdf" target="_blank">DS1307 RTC</a>
+and <a href="http://www.farnell.com/datasheets/1911340.pdf" target="_blank">24C32</a> EEPROM and connect VCC, GND, P1.7 to SDA and P1.6 to SCL.
+Do not forget that two pullup resistors have te be mounted.
+
+<br>
+<br>Forth commands:
+<pre>
+TIMER ( -- ) Flash leds every 10 seconds
+ALARM ( sec min -- ) Alarm goes off after given time
+SET-CLOCK ( sec min hr -- ) Set 24-hour clock
+CLOCK ( -- ) Show 24-hour clock
+SHOW ( -- ) Show data from EEPROM
+GATHER ( -- ) Store clock data in EEPROM</pre>
+<p><a href="#e03x">&#x21E7;</a></p></section>
+
+
+<!--   35 -->
+<section>
+<h2><a id="e035"></a>35
+<br> I2C character LCD using a PCF8574</h2>
+<h5>I2C output to an LCD using an 8-bit parallel I/O-driver</h5>
+
+<aside class="m6">Materials:
+I2C-print or other,
+<a href="https://nl.aliexpress.com/item/1602-16x2-HD44780-Character-LCD-Display-Module-LCM-BULE-light-GOOD-QUALITY/32661453613.html" target="_blank">2x16 LCD</a>,
+<a href="http://www.aliexpress.com/item/IIC-I2C-Interface-LCD1602-2004-LCD-Adapter-Plate-Free-Shipping-Dropshipping/32475302265.html" target="_blank">I2C LCD adapter</a>.
+<hr><a href="i2c%20bitbang%20basics%20at%20p1.f" target="_blank">I2C-bitbang primitives</a>
+<a href="e37um%20-%20basics%20for%20usci%20i2c.f" target="_blank">I2C USCI primitives</a>
+<a href="e35%20-%20i2c%20character%20lcd.f" target="_blank">e35 Bitbang noForth program</a>
+<a href="e35u%20-%20usci%20i2c%20character%20lcd.f" target="_blank">e35 USCI noForth program</a>
+</aside>
+<img class="v7" src="p35%20-%20i2c%20lcd%20driver.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<table><tr><td>
+<img src="i2c%20lcd%20schematic.jpg" alt="scheme">
+</td><td><div class="nb">For both versions it is necessary that the correct
+I2C-primitives are already loaded.</div>
+</td></tr></table>
+Connect a 3 or 5 Volt version of an 1602 LCD display
+to an I2C adapter print.
+Only four wires are needed: VCC, GND, SDA=P1.7, & SCL=P1.6
+<br>
+<br>Use the potmeter for contrast control, see schematic.
+<br>
+<br>The forth commands:
+<pre>
+LCD-SETUP ( -- ) Initialise LCD
+LCD-EMIT ( ch -- ) Send character 'ch' to LCD
+LCD-TYPE ( adr u -- ) Type string 'a' 'u' to LCD
+DEMO ( -- ) Type a message on LCD</pre>
+<p><a href="#e03x">&#x21E7;</a></p></section>
+
+
+<!--   36 -->
+<section>
+<h2><a id="e036"></a>36
+<br> I2C adc module YL-40</h2>
+<h5>I2C analog input using a PCF8591 module YL-40, from AliExpress</h5>
+<aside>Materials:
+<a href="http://www.aliexpress.com/item/Free-shipping-3pcs-lot-PCF8591-module-AD-DA-conversion-modules-analog-to-digital-digital-to-analog/32260787256.html" target="_blank">I2C-module with PCF8591</a>.
+<hr><a href="i2c%20bitbang%20basics%20at%20p1.f" target="_blank">I2C-bitbang primitives</a>
+<a href="e37um%20-%20basics%20for%20usci%20i2c.f" target="_blank">I2C USCI primitives</a>
+<a href="e36%20-%20i2c%20adc%20module.f" target="_blank">e36 Bitbang noForth program</a>
+<a href="e36u%20-%20usci%20i2c%20adc%20module.f" target="_blank">e36 USCI noForth program</a>
+</aside>
+<img class="v5" src="yl-40%20module.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<table><tr><td>
+<img src="s36%20-%20i2c%20adc%20module%20yl-40.jpg" alt="photo">
+</td><td><div class="nb">For both versions it is necessary that the correct
+I2C-primitives are already loaded.</div>
+<br>Connect the I2C-module with <a href="http://www.nxp.com/documents/data_sheet/PCF8591.pdf" target="_blank">PCF8591</a>
+ to P1.7 to SDA and P1.6 to SCL.
+<br>090 = PCF8591 I2C-bus identification address 0.
+</td></tr></table>
+
+<br>
+The PCF8591 has four 8-bit ADC inputs and one 8-bit DAC output.
+The used module is wired as shown below.
+<br>
+<br><code>0 ADC</code> ( Read AIN0 = LDR )
+<br><code>1 ADC</code> ( Read AIN1 = Thermistor )
+<br><code>2 ADC</code> ( Read AIN2 = Free )
+<br><code>3 ADC</code> ( Read AIN3 = Potmeter )
+<br><code>DAC</code> is connected to an output and a green led.
+<br><br>
+Forth commands:
+<pre>
+ADC  ( +n -- byte ) Read ADC input '+n' leaving 'byte'
+DAC  ( byte -- ) Write 'byte' to DAC output
+ANALOG  ( +n -- ) Read input '+n' send to screen & DAC</pre>
+<p><a href="#e03x">&#x21E7;</a></p></section>
+
+
+<!--   37 -->
+<section>
+<h2><a id="e037"></a>37
+<br>I2C basics at P1</h2>
+<h5>Primitives for the bitbang & USCI versions of I2C</h5>
+<aside>Materials:
+<a href="http://i2c.info/i2c-bus-specification" target="_blank">I2C specification</a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e37%20-%20i2c%20bitbang%20basics%20at%20p1%20(asm).f" target="_blank">e37 Bitbang master program</a>
+<a href="e37um%20-%20basics%20for%20usci%20i2c.f" target="_blank">e37 USCI I2C master program</a>
+<a href="e37us%20-%20basics%20for%20usci%20i2c.f" target="_blank">e37 USCI I2C slave program</a>
+</aside>
+<img  class="v4" src="i2c-bus.jpg" alt="photo">
+
+<div class="nofloat"></div>
+
+<img class="v2" src="i2c-small.gif" alt="photo">
+The files can be used to construct either bitbang or USCI applications.
+
+<div class="nofloat"></div>
+
+Connect for example the I2C-print from the Forth users group
+or any other module with I2C compatible chip(s).
+<br>Connect VCC, GND, P1.7 to SDA and P1.6 to SCL.
+<br>Do not forget that two pullup resistors have te be mounted.
+<br>
+<br><b>Note that the bitbang implementation does not use clockbit stretching.</b>
+<br>
+<br><div class="nbb">For the USCI implementation:
+<br>
+<br>The most hard to find data, are those for the selection registers.
+  To find the data for the selection register of Port-1 here 026 and
+  041 you have to go to the "Port Schematics". For P1.6 and P1.7 these
+  are page 48 and 49 of SLAS735J.PDF These tables say which function
+  will be on each I/O-bit, at a specific setting of the registers.
+<br>
+<br>Address 026 - P1SEL, port-1 selection register
+<br>Address 041 - P1SEL2, port-1 selection register 2
+<br>
+<br>A description of USCI as I2C can be found in SLAU144J.PDF from page
+  449 to page 473, the register description starts at page 468. The
+  UCB0CTL0 register selects the SPI- or I2C-mode we are in.
+</div>
+<br>
+<br>More: <a href="https://en.wikipedia.org/wiki/IÂ²C" target="-blank">Wikipedia on I2C</a>
+ and <a href="https://www.i2c-bus.org/" target="-blank">I2C.org</a>
+
+<p><a href="#e03x">&#x21E7;</a></p></section>
+
+
+<!--   38 -->
+<section>
+<h2><a id="e038"></a>38
+<br>I2C USCI master and slave implementation</h2>
+<h5>I2C slave input and output</h5>
+<aside class="m7">Materials:
+2x 10kOhm,
+8 leds or <a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">Led board</a>,
+2x Launchpad or Egel Kit,
+<a href="https://www.google.nl/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwjwxOasjb3KAhWEDQ4KHQurCbgQFggmMAE&amp;url=http%3A%2F%2Fwww.ti.com%2Flit%2Fan%2Fslaa383%2Fslaa383.pdf&amp;usg=AFQjCNF7LrHmUDx7thhWfoCSZ29knaVXNw" target="_blank">I2C slave function</a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e38a%20-%20usci%20i2c%20master.f" target="_blank">e38a USCI I2C master</a>
+<a href="e38b%20-%20usci%20i2c%20slave.f" target="_blank">e38b USCI I2C slave</a>
+</aside>
+<img class="v7" src="p38u%20-%20i2c%20usci%20master%20and%20slave%20example.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<table><tr><td>
+</td></tr></table>
+<table><tr><td>
+<img class="v4" src="i2c-small.gif" alt="photo">
+</td><td>
+<div class="nb">Load the assembler before the e38a/b&nbsp;noForth programs,
+the software RS232 routines are in assembler code.</div>
+</td></tr></table>
+
+
+The bitrate values are for an 8 MHz DCO, for 16 MHz they should be doubled.
+<br>
+<br>This code is improved, the routines work very solid, <code> &gt;SLAVE </code> and <code> SLAVE&gt; </code>
+  give an error mesage when the addressed device does not respond.
+
+<div class="nofloat"></div>
+Program e38a implements the I2C master. The program e38b implements the I2C slave.
+For both versions there are output- and input-examples. See the list below.
+<div class="nofloat"></div>
+
+<br><img class="v6" src="p38bu%20-%20usci%20i2c%20master%20%26%202%20slaves.jpg" alt="photo">
+Connect one ore more MSP-EXP430G2 Launchpads.
+You may also use Egel Kits (from the Forth users group).
+Add 6 or 8 leds and connect VCC, GND, P1.7 to SDA and P1.6 to SCL.
+<br>Don't forget the two pullup resistors of 10k and two
+line protection resistors of 220 Ohm. See schematics.
+<br>
+<br>The I2C-slave examples must be used in pairs,
+one MPU executes a word from the first table,
+the other has to execute the word on the second table.
+<br>The master command <code>MASTER-TRIO</code> implements a
+master with two slaves!
+<br>
+<br>Forth commands e38um:
+<pre>
+MASTER-OUT ( -- )   Show a running light on leds & slave 1
+MASTER-IN ( -- )    Change flash speed with data from slave
+MASTER-IO ( -- )    Running light, delay with S2 from slave
+MASTER-TRIO ( -- )  Count on slave 1, running light slave 2
+                    Change speed with S2 from slave 1
+</pre>
+Forth commands e38us:
+<pre>
+SLAVE-IN1 ( -- )    Display data from master
+SLAVE-OUT ( -- )    Send S2 to master, flash leds
+SLAVE-IO ( -- )     Get & send data from/to master
+SLAVE-IN2 ( -- )    Display data in slave 2</pre>
+<img src="s38mu%20-%20usci%20i2c%20master%20with%20leds.jpg" alt="scheme">
+<img src="s38su%20-%20usci%20i2c%20slave%20with%20leds.jpg" alt="scheme">
+
+<div class="nofloat"></div>
+Start the I2C-slave before you start the I2C-master!
+The slave controller always waits for the master to claim the slave.
+<br>The second example file contains a master with two slaves.
+<br>
+<br><img class="v1" src="t38i%20-%20usci%20i2c%20master%20out%20%26%20slave%20in.jpg" alt="signals">
+<br>
+<a href="https://www.youtube.com/watch?v=pzsGnZ8YYlg" target="-blank">
+A video introduction to I2C master/slave I2C</a>
+<p><a href="#e03x">&#x21E7;</a></p></section>
+
+
+
+                        <!--   40... -->
+<section>
+<a id="e04x"></a>
+<p class="groot"><a href="#top">&#x21E7;</a></p>
+<h3>40-49 SPI using USCI or bitbang interface</h3>
+<nav><br><a href="#e040">40 3-wire USCI SPI doing I/O</a>
+<br><a href="#e041">41 3-wire USCI master SPI ADC input to slave</a>
+<br><a href="#e042">42 4-digit 7-segment tube</a>
+<br><a href="#e043">43 nRF24L01+ send/recieve</a>
+<br><a href="#e044">44 WS2812 RGB-led controller</a>
+</nav>
+<div class="rechts"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+</section>
+
+
+<!--   40 -->
+<section>
+<h2><a id="e040"></a>40
+<br>3-wire USCI SPI doing I/O</h2>
+<h5> Hardware SPI master & slave</h5>
+
+<aside >Materials:
+Two Egel Kits or Launchpads,
+<a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">ledboard</a> or 8 leds,
+100 Ohm resistor.
+<hr><a href="e40u%20-%20usci%20b0%20spi%20intro.f" target="_blank">e40u USCI noForth program</a>
+</aside>
+<img class="v4" src="p40%20-%20bitbang%20spi%20intro.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<img src="s40%20-%20usci%20b0%20spi%20intro.jpg" alt="scheme">
+Connect the SPI lines of USCI-B0 P1.5, P1.6 & P1.7
+to the same pins on the other board.
+Connect 6 leds to P2 and start the slave on the unit with the led board.
+
+<div class="nofloat"></div>
+More info on page 445 of SLAU144J.PDF.
+<br>Configuration of the pins on page 49 of SLAS735J.PDF.
+<br>
+<br>The forth commands:
+<pre>
+SPI-MASTER ( -- ) Send binary counter, display answer
+SPI-SLAVE1 ( -- ) Display received data & sent it back
+SPI-SLAVE2 ( -- ) Translation of TI-example</pre>
+
+<br><img class="v5" src="t40i%20-%20spi%20signals.jpg" alt="signals">
+
+<div class="nofloat"></div>
+<a href="https://learn.sparkfun.com/tutorials/serial-peripheral-interface-spi"
+target="-blank">About SPI</a>
+<p><a href="#e04x">&#x21E7;</a></p></section>
+
+
+<!--   41 -->
+<section>
+<h2><a id="e041"></a>41
+<br>3-wire USCI SPI sending analog data</h2>
+<h5> ADC & hardware SPI I/O</h5>
+
+<aside class="m5">Materials:
+Two Egel Kits or Launchpads,
+<a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">ledboard</a>or 8 leds,
+100 Ohm resistor.
+<hr><a href="e41u%20-%20usci%20b0%20spi%20sending%20adc.f" target="_blank">e41u USCI noForth program</a>
+</aside>
+<img class="v5" src="p41%20-%20usci%20b0%20spi%20sending%20adc.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<img src="s41%20-%20usci%20b0%20spi%20sending%20adc.jpg" alt="scheme">
+Connect the SPI lines of USCI-B0 P1.5, P1.6 & P1.7
+to the same pins on the other board.
+<br>Connect 6 leds to P2 and start the slave on the unit with the led board.
+
+<div class="nofloat"></div>
+P1.3 on the MASTER is used as analog input,
+it is wired to a 4k7 potmeter to 3,3 Volt and ground.
+<br>
+<br>More info on page 445 of SLAU144J.PDF.
+<br>Pin configuration on page 49 of SLAS735J.PDF
+<br>
+<br>The forth commands:
+<pre>
+MASTER ( -- ) Send ADC to slave, receive dat from slave
+SLAVE ( -- )  Display ADC, sent counter back</pre>
+<img class="v5" src="t40i%20-%20spi%20signals.jpg" alt="signals">
+
+<div class="nofloat"></div>
+<a href="https://learn.sparkfun.com/tutorials/serial-peripheral-interface-spi"
+target="-blank">About SPI</a>
+<p><a href="#e04x">&#x21E7;</a></p></section>
+
+
+<!--   42 -->
+<section>
+<h2><a id="e042"></a>42
+<br>4-digit 7-segment tube</h2>
+<h5>Using 3-wire bitbang SPI</h5>
+<aside class="m3">Materials:
+<a href="http://www.aliexpress.com/item/J34-Free-Shipping-4-Bits-Digital-Tube-LED-Display-Module-Four-Serial-for-Arduino-595-Driver/32401419391.html" target="_blank">4-digit 7-segm. led display</a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e42%20-%20seven%20segment%20tube%20using%20bitbang%20spi.f" target="_blank">e42 Bitbang noForth program</a>
+</aside>
+The program uses a compare timer interrupt with machine code
+to control a seven segment LED-display with 4-digits.
+
+<div class="nofloat"></div>
+<img class="v7" src="7-segment%20schematic.jpg" alt="scheme">
+<br>The display module has two <a href="http://www.reichelt.de/index.html?ACTION=7&amp;LA=3&amp;OPEN=0&amp;INDEX=0&amp;FILENAME=A240%252F74HC595%2523STM.pdf" target="_blank">74HC595</a> shiftregister chips as drivers.
+<br>It takes 4x39=156 microseconds every 12388 microseconds
+to fill the tube display, that is about 1.26% of the MSP430 cpu time.
+<div class="nofloat"></div>
+
+<table><tr><td>
+<img src="p42%20-%20seven%20segment%20tube%20using%20bitbang%20spi.jpg" alt="photo">
+</td><td>
+<div class="nb">Load the assembler before the e42&nbsp;noForth programs,
+the software RS232 routines are in assembler code.</div>
+</td></tr></table>
+
+
+Connect a 74HC595 display module:
+<br>Pin-1 = VCC,
+<br>Pin-2 = P2.2 (SCLK),
+<br>Pin-3 = P2.0 (RCLK),
+<br>Pin-4 = P2.1 (DIO),
+<br>Pin-5 = Ground.
+
+<div class="nofloat"></div>
+All outputs are connected to a 7-segment display module. See schematic.
+<br>
+<br>On the 74HC595:
+<br>OE\ = Low (when OE\ is high the outputs are disabled),
+<br>MR = High (when MR=low the shiftregister is reset),
+<br>DS = The data input,
+<br>SHCP = The clock input,
+<br>STCP = Strobe and acts on a positive transition.
+<br>
+<br>Forth commands:
+<pre>
+COUNTER ( -- )  Run counter on tube display
+TU. ( u -- )    Print number on tube
+TCLR ( -- )     Clear tube display
+TDASH ( -- )    Print dashes on tube
+TMESSAGE ( -- ) Print message on tube</pre>
+<p><a href="#e04x">&#x21E7;</a></p></section>
+
+
+<!--   43 -->
+<section>
+<h2><a id="e043"></a>43
+<br>nRF24L01+ send/receive</h2>
+<h5>Using 4-wire USCI & bitbang SPI</h5>
+<aside class="m6">Materials:
+Two Egel Kits
+or Launchpads,
+<a href="https://www.aliexpress.com/item/20PCS-x-5518-Light-Dependent-Resistor-LDR-5MM-Photoresistor-wholesale-and-retail-Photoconductive-resistance-for-arduino/32808704376.html" target="_blank">LDR</a>,
+<a href="http://www.aliexpress.com/item/1pcs-NRF24L01-wireless-transceiver-module-Wireless-Module-2-4G-Wireless-Communication-Module-Upgrade-Module/1117777456.html" target="_blank">nRF24L01 module</a>.
+<hr><a href="e43a%20-%2024L01%20using%20bitbang%20spi.f" target="_blank">e43a Bitbang noForth program</a>
+<a href="e43b%20-%2024L01%20using%20usci%20spi.f" target="_blank">e43b USCI noForth program</a>
+</aside>
+<img class="v5" src="nrf24l01-schematic.png" alt="scheme">
+<div class="nofloat"></div>
+Program 43a and 43b do the same, the a-version using a bitbang interface.
+The b-version uses the USCI interface from the MSP430.
+<br><br>
+<img class="v7" src="p43%20-%2024L01%20using%20bitbang%20spi.jpg" alt="photo">
+Interfacing a <a href="https://www.nordicsemi.com/Products/Low-power-short-range-wireless/nRF24-series" target="_blank">nRF24L01+</a> thru SPI with two Launchpad boards and/or Egel Kits.
+
+<div class="nofloat"></div>
+<img class="v6" src="p43a%20-%2024L01%20using%20bitbang%20spi.jpg" alt="photo">
+Carefully connect the SPI lines of USCI-B0 with the nRF24L01+ using Launchpad:
+<br>
+<br>P1.5 = CLOCKPULSE,
+<br>P1.6 = DATA-IN,
+<br>P1.7 = DATA-OUT
+<br>P1.4 = CSN,
+<br>P2.3 = CE.
+
+<div class="nofloat"></div>
+<img class="v6" src="s43%20-%2024L01%20using%20bitbang%20or%20usci%20spi.jpg" alt="scheme">
+On the <b>Egel Kit</b> you can simply put the module on the connector marked nRF24L01.
+Do the same with the other board. Connect a powerled & 47 Ohm resistor,
+and a LDR & 2k2 resistor for the remote control examples.
+<br>Note that, a good power supply and decoupling right near the nRF24L01+ module are very important.
+
+<div class="nofloat"></div>
+<br>The Egel Kit vsn-2 has an extra 22&mu;F near the nRF24L01+ power connections. Both the Launchpad and the Egel Kit
+vsn-1 may need an extra 10&mu;F to 22&mu;F for decoupling!
+<br><br>
+<img class="v4" src="NRF24L01.jpg" alt="photo">
+SPI reg: SLAU144J.PDF page 445.
+<br>SPI pins: SLAS735J.PDF page 49.
+<br><br>
+<a href="https://mcuoneclipse.com/2013/07/20/tutorial-ultra-low-cost-2-4-ghz-wireless-transceiver-with-the-frdm-board/" target="_blank">nRF24L01+ background</a>
+<br>
+<a href="http://www.instructables.com/id/Enhanced-NRF24L01/" target="_blank">nRF24L01+ antenna modification</a>
+<br><br><br><b>nRF24L01+ module connections</b>
+<div class="nofloat"></div>
+
+<br>Forth commands (these words are all stack neutral):
+
+<br><br>
+<table><tr><td><code>CHECK ( -- )</code>
+    </td><td>Control disturbance on the selected RF-channel (channel 112 or 128).
+</td></tr>
+<tr><td><code>CONTROL & LAMP </code>
+    </td><td>Simple one way remote control.
+</td></tr>
+<tr><td><code>NRF-SEND  & NRF-REC </code>
+    </td><td>A counter demo, displayed on both boards (bi-directional communication).
+</td></tr>
+<tr><td><code>REMOTE  & RECEIVER </code>
+    </td><td> Remote controlled lamp, with lamp status feedback.
+</td></tr>
+</table>
+
+<div class="nofloat"></div>
+<br>
+    <img class="v6" src="nrf24l01%20read%20register%2000.jpg" alt="table">
+<a href="https://arduino-info.wikispaces.com/Nrf24L01-2.4GHz-HowTo" target="_blank">An nRF24L01 introduction</a>
+<p><a href="#e04x">&#x21E7;</a></p></section>
+
+
+
+
+<!--   44 -->
+<section>
+<h2><a id="e044"></a>44
+<br>WS2812 RGB-led controller</h2>
+<h5>Using 1-wire USCI SPI for bit output</h5>
+
+<aside class="m5">Materials:
+<a href="http://www.aliexpress.com/item/DC5V-1m-4m-5m-WS2812B-Smart-led-pixel-strip-Black-White-PCB-30-60-144-leds/32337440906.html" target="_blank">2 or more WS2812(B) leds,</a>
+<a href="http://www.aliexpress.com/item/MS-50-5-50W-5V-10A-Mini-size-LED-Switching-Power-Supply-Transformer-110V-220V-AC/1323532404.html" target="_blank">5 Volt power supply 10A,</a>
+<a href="http://www.reichelt.de/Schaltnetzteile-Case-geschlossen/SNT-RS-50-5/3/index.html?&amp;ACTION=3&amp;LA=2&amp;ARTICLE=137094&amp;GROUPID=4959&amp;artnr=SNT+RS+50+5" target="_blank">or at Reichelt 5V-10A,</a>
+Some wires.
+<a href="Patch%202553.f" target="_blank">Change noForth configuration</a>
+<hr><a href="e44ua%20-%20usci%201-wire%20spi%20as%20ws2812%20controller.f" target="_blank">e44a noForth program</a>
+<hr><a href="e44ub%20-%20usci%201-wire%20spi%20as%20ws2812%20controller.f" target="_blank">e44b noForth program</a>
+</aside>
+<img class="v6" src="pp44%20-%20ws2812%20timing.jpg" alt="signals">
+<img class="v6" src="p44u%20-%20usci%201-wire%20spi%20%20as%20ws2812%20controller.jpg" alt="photo">
+<div class="nofloat"></div>
+Program e44a is a slighty more easy to understand version of the <a href="https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" target="_blank">WS2812</a> led controller.
+The program e44b has a virtual field length as extra for longer strings of leds.
+With this field function, longer led strings can be addressed in smaller chunks that
+are repeated to the end of the led string.
+<br><br>
+<img class="v6" src="s44%20-%20usci%201-wire%20spi%20%20as%20ws2812%20controller.gif" alt="scheme">
+    Connect a WS2812 ledstrip with 4 to 1000 leds to P1.7, +5 Volt and ground.
+    Note that this code runs on a 16MHz clock!
+
+<div class="nofloat"></div>
+    USCI B0 is used to generate the bit pulses.
+    The pulse timing is a little over the maximum frequency of 800kHz,
+    but the WS2812 has no problems with that.
+    All the demo's are just within WS2812 timing parameters (see drawings),
+    sometimes the low part of the bit-pulses are streched to 4700 nanosec.
+    Note also, that the maximum is 5000 nanosec. Longer low pulses are seen as strobe!
+    <br><br>
+    It is possible to control over a 1000 leds using this code. It takes about 33
+    millisec. to address this much leds. Just type <code>dm 1000 >leds</code> or the
+    actual number of leds connected.
+    <br>The time to address one led is about 0.033 millisec.
+    <br>Take care 30 leds take about 9 Watt, that is almost 2 Ampere!
+
+<br><br><img class="v2" src="t44b%20-%20ws2812%20one%20led.jpg" alt="signals">
+<br><br><br>
+A few of the Forth user commands for e44a:
+
+<pre>
+>LEDS ( +n -- )  - Set number of leds connected
+ALL  ( dc -- )   - Set all leds to color (double number)
+                   from the stack
+S1 S2 S3 ( -- )  - Three colorful shiftreg. examples
+S4 S5 ( -- )     - Two multidot shiftregister examples
+RAINBOW ( -- )   - Set a rainbow divided over all leds
+</pre>
+
+    A few of the Forth user commands for e44b:
+<pre>
+>FIELD ( +n -- ) - Set led field length
+MSHIFT ( -- )    - Multidot shiftregister example
+VOLUME ( -- )    - Volume effect example
+BOUNCE ( -- )    - Bouncing dot example
+RAINBOW> ( -- )  - Shift a rainbow divided over all leds
+</pre>
+
+<a href="https://www.youtube.com/watch?v=bXo3O_spE1E" target="_blank">MSP430 & WS2812 demo</a>
+<p><a href="#e04x">&#x21E7;</a></p></section>
+
+
+
+
+<!--   50... -->
+<section>
+<a id="e05x"></a>
+<p class="groot"><a href="#top">&#x21E7;</a></p>
+<h3>50-59 Use of Low Power Modes</h3>
+<nav><br><a href="#e50">50 Wake on hardware interrupt</a>
+<br><a href="#e051">51 Wakeup with watchdog interval timer</a>
+<br><a href="#e052">52 Low power switching clocks</a>
+<br><a href="#e053">53 Low Power RC-5 decoder</a>
+<br><a href="#e054">54 Low Power noForth</a>
+</nav>
+<div class="mid"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+</section>
+
+
+<!--   50 -->
+<section>
+<h2><a id="e50"></a>50
+<br>Use of Low Power modes (LPM)</h2>
+<h5>Wake on hardware interrupt</h5>
+<aside>Materials:
+<a href="https://nl.wikipedia.org/wiki/Multimeter" target="_blank">multimeter</a>,
+<a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">ledboard</a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e50%20-%20low%20power%20modes%20%26%20hw%20int.f" target="_blank">e50 noForth program</a>
+</aside>
+<img class="v5" src="s50%20-%20use%20of%20low%20power%20modes.jpg" alt="scheme">
+
+<div class="nofloat"></div>
+<table><tr><td>
+<img class="v3" src="current%20in%20lpm4.jpg" alt="photo">
+</td><td>
+<div class="nb">The assembler must be loaded before the e50 noForth program.</div>
+</td></tr></table>
+    Connect a ledboard, see schematics, and ampere meter to check
+    the current used in different modes.
+    <br><br>
+    <a href="http://xanthium.in/clock-system-and-low-power-modes-of-msp430g2xxx" target="_blank">Low Power Modes</a> examples, using bit-input and bit-output.
+    A hardware interrupt with machine code is used to wakeup, using Port-1 and Port-2.
+    <br><br>
+    The S2&#x2011;switch triggers the hardware-interrupt. This interrupt wakes up
+    the MSP430 and activates a running light once.
+    The MSP430 goes to a low power mode right after that.
+    <br><br>
+    The settings for P1.3 can be found from page 327 and beyond in SLAU144J.PDF
+    <br><br>
+    When you are using the Egel Kit, the jumper named ON/OFF may be used,
+    to measure the current taken by the MSP430. Thus it is easy to see
+    how the low power modes work out. Use on the launchpad, the jumper named VCC.
+    This can be found on jumper strip J3.
+<br><br>
+<img src="msp430%20low%20power%20modes.jpg" alt="diagram">
+Forth commands:
+<pre>
+SLEEP0 ( -- ) Test LPM mode 0
+SLEEP2 ( -- ) Test LPM mode 2
+SLEEP3 ( -- ) Test LPM mode 3
+SLEEP4 ( -- ) Test LPM mode 4</pre>
+(the sleep numbers indicate the low power mode )
+<div class="nofloat"></div>
+
+<br>
+<a href="http://www.swarthmore.edu/NatSci/echeeve1/Class/e91/Lectures/E91(4)TimerA_Interrupts.pdf" target="_blank">A lecture on Low Power Modes</a>
+ and <a href="https://www.youtube.com/watch?v=ozMC1CdIhYU" target="_blank">about Launchpad power usage</a>
+<p><a href="#e05x">&#x21E7;</a></p></section>
+
+
+<!--   51 -->
+<section>
+<h2><a id="e051"></a>51
+<br>Using Low Power Modes (LPM)</h2>
+<h5>Wakeup using the watchdog interval timer</h5>
+
+<aside>Materials:
+multimeter,
+Egel Kit or Launchpad.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e51%20-%20watchdog%20as%20low%20power%20interval%20timer.f" target="_blank">e51 noForth program</a>
+</aside>
+<img class="v5" src="p51%20-%20watchdog%20as%20low%20power%20interval%20timer.jpg" alt="photo">
+<img class="v5" src="p51a%20-%20watchdog%20as%20low%20power%20interval%20timer.jpg" alt="photo">
+
+<div class="nofloat"></div>
+    <div class="nb">The assembler must be loaded before the e51 noForth program.</div>
+    <br>
+    Connect an ampere meter to check the current used in different modes.
+    <br><br>Watchdog as interval timer using LPM0, without use of LPM0 the CPU uses
+    about 2,56mA (green led on ~10mA) with LPM0 it is ~0,45mA.
+    <br>The lowest two bits of the WDTCL register
+    do set the clock divider, here it is set to 01 = SMCLK/8192.
+    The watchdog interrupt routine lowers the value <code>MS)</code> to zero.
+<br><br>
+<img class="v6" src="msp430%20low%20power%20modes%20a.jpg" alt="diagram">
+<br>The forth commands:
+<pre>
+MS ( ms -- ) Wait in LPM0
+INTERVAL ( ms -- ) Idem</pre>
+<p><a href="#e05x">&#x21E7;</a></p></section>
+
+
+<!--   52 -->
+<section>
+<h2><a id="e052"></a>52
+<br>Low power switching clocks</h2>
+<h5>32KHz interval timer & 8MHz DCO clock on wakeup</h5>
+<aside>Materials:
+multimeter,
+<a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">ledboard</a>,
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e52%20-%20low%20power%20modes%20at%2032khz%20%26%208mhz%20clock.f" target="_blank">e52 noForth program</a>
+</aside>
+<img class="v5" src="s01%20-%20basic%20port%20output%20to%20leds.jpg" alt="scheme">
+<div class="nofloat"></div>
+<table><tr><td>
+<img class="v4" src="p52%20-%20low%20power%20modes%20at%2032khz%20%26%208mhz%20clock.jpg" alt="photo">
+</td><td>
+<div class="nb">Load the assembler before the e52 noForth program.</div>
+<br>
+Connect a ledboard, see schematics, and ampere meter to check
+    the current used in different modes.
+</td></tr></table>
+In this example we use Low Power Modes, bit output, watchdog interrupt
+    and machine code. When the program enters a low power mode, it runs on the 32kHz crystal.
+    When active it uses the 8MHz DCO. The watchdog is used as interval timer, in steps of one second.
+    Each time when it runs out, a running light is activated.
+<br><br>
+<img src="p52a%20-%20low%20power%20modes%20at%2032khz%20%26%208mhz%20clock.jpg" alt="photo">
+Current while full running!
+<br>
+<br>The forth commands:
+<pre>
+SLEEP0 ( -- ) Test LPM mode 0
+SLEEP2 ( -- ) Test LPM mode 2
+SLEEP3 ( -- ) Test LPM mode 3</pre>
+
+<div class="nofloat"></div>
+The number in name of the forth commands, indicates the low power mode that is used.
+<p><a href="#e05x">&#x21E7;</a></p></section>
+
+
+<!--   53 -->
+<section>
+<h2><a id="e053"></a>53
+<br>Low power RC-5 decoder</h2>
+<h5>Consuming only 1/6 of the current</h5>
+
+<table><tr><td>
+<aside class="m7">Materials:
+2x 100 Ohm resistor,
+<a href="http://nl.farnell.com/webapp/wcs/stores/servlet/Search?catalogId=15001&amp;langId=31&amp;storeId=10168&amp;categoryId=700000043507&amp;sort=P_PRICE&amp;eq=N%3D221085%2B502%2B110126886%2B110137509%2B110158844%2B110158845%2B110169484%2B110169490%2B110169536%2B113162579%2B2021%26amp%3BNs%3DP_PRICE_FARNELL_NL%257c0%26amp%3BNtk%3Ddesc_pn%26amp%3BNtt%3Dn%2Bchannel%2Bmosfet%26amp%3BNtx%3Drel%2Bgensearch_store_specific%252cstatic%2528P_STORE_MARKETING_RANK_FARNELL_NL%252cascending%2529%2Bmode%2Bmatchpartialmax%26amp%3BNty%3D1%26amp%3BNtpc%3D1%26amp%3BNtpr%3D1%26amp%3BD%3Dn%2Bchannel%2Bmosfet*%26amp%3BDn%3D2021%2B2021%2B2021%2B2021%2B2021%2B2021%2B2021%26amp%3BDx%3Dmode%2Bmatchall&amp;st=n%20channel%20mosfet&amp;pageSize=25&amp;showResults=true&amp;aa=true&amp;sf=502&amp;pf=110126886,110158844,110158845,110169484,110169490,110169536,113162579&amp;vw=" target="_blank">N channel mosfet</a>,
+<a href="https://www.reichelt.de/SMD-LEDs-PLCC/EVL-67-21S-KK2C/3/index.html?ACTION=3&amp;LA=2&amp;ARTICLE=231785&amp;GROUPID=3036&amp;artnr=EVL+67-21S%2FKK2C&amp;trstct=pol_7" target="_blank">Powerled</a>,
+<a href="http://uk.farnell.com/vishay/tsop34536/ir-receiver-small-agc5-36khz/dp/2251343" target="_blank">RC-5 receiver</a>,
+6 leds or <a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">Led module</a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e53%20-%20low%20power%20rc5%20decoder.f" target="_blank">e53 noForth program</a>
+</aside>
+</td><td>
+<img class="v5" src="p53%20-%20rc5%20decoder.jpg" alt="photo">
+
+<div class="nofloat"></div>
+    <div class="nb">The assembler must be loaded before the e53&nbsp;noForth&nbsp;program.</div>
+</td></tr></table>
+
+<div class="nofloat"></div>
+<br>
+Put a 36&nbsp;KHz infrared&nbsp;receiver on the RC5&nbsp;connector.
+It must be a 3&nbsp;Volt version like <a href="http://www.farnell.com/datasheets/2049969.pdf" target="_blank">TSOP34536</a>.
+<br>Put a power led on the LED&nbsp;connector (with a 47 Ohm series resistor),
+or on the PWR connector (max. 2 Amp).
+<br>
+<br>
+
+<div class="nofloat"></div>
+
+<img class="v4" src="s26%20-%20rc5%20decoder.jpg" alt="scheme">
+
+Connect 6 leds or a led-module with P2.2 to P2.7.
+<br>Use the schematic and build a shield <a href="general%20introduction.html" target="_blank">(see general intro.)</a>
+when you have a Launchpad board.
+
+<div class="nofloat"></div>
+<code>RC-TEST</code> puts the received 6-bits key-code on leds.
+This is an example of two cooperating interrupt routines.
+Note that the only changes in the code, to make this routine low power,
+is the addition of the word <code>LPM4</code>
+and the code on the lines marked with *** !
+<br>
+<br>This low power version uses only 1/6 of the original version.
+    This could be less, by using an even more low power version of
+    the infrared receiver, or by using more clever tricks!
+    <br>
+<br>Forth commands:
+<pre>
+RC-LAMP  ( -- ) Control output P2.1
+RC-POWER ( -- ) Control output P2.4
+RC-TEST  ( -- ) Display RC-5 commands on leds</pre>
+<p><a href="#e05x">&#x21E7;</a></p></section>
+
+
+<!--   54 -->
+<section>
+<h2><a id="e054"></a>54
+<br>Low power noForth</h2>
+<h5>Without loss of functionality</h5>
+
+<!--
+<aside>Materials:
+Egel Kit or Launchpad.
+<hr><a href="http://home.hccnet.nl/anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e54 - low power noforth.f" target="_blank">e54 noForth program</a>
+</aside>
+<img class="v4" src="p54a - 8mhz active.jpg" alt="photo">
+<img class="v4" src="p54b - 8mhz in lpm0.jpg" alt="photo">
+<img class="v4" src="p54c - 8mhz in lpm2.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<div class="nb">Load the assembler before you load the e54 noForth program.</div>
+-->
+<table><tr><td>
+<aside>Materials:
+Egel Kit or Launchpad.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e54%20-%20low%20power%20noforth.f" target="_blank">e54 noForth program</a>
+</aside>
+</td><td>
+<br>
+<div class="nb">Load the assembler before you load the e54 noForth program.</div>
+</td></tr></table>
+<img class="v3" src="p54a%20-%208mhz%20active.jpg" alt="photo">
+<img class="v3" src="p54b%20-%208mhz%20in%20lpm0.jpg" alt="photo">
+<img class="v3" src="p54c%20-%208mhz%20in%20lpm2.jpg" alt="photo">
+
+<br>
+    The code for this version shows all the functions needed to build
+    a low power version of noForth. It uses an unused bit in the <code>OK</code>
+    register to add a switch. This switch selects the depth of the used sleep
+    mode. The word <code>SLEEP</code> must be implemented at the beginning of
+    the forth word <code>ACCEPT</code>.
+<br><br>
+    The word <code>MS1</code> always uses <code>LMP0</code>.
+    Bit-3 in the <code>OK</code> register holds the sleep mode for this example.
+<br><br>
+    A zero means minimal use of sleep modes, in this example it uses <code>LPM0</code>,
+    while waiting for a key. Most clocks keep on running in LPM0.
+<br>
+<br>    When bit-3 is set, this example uses deeper sleep modes. Like going
+    into <code>LPM4</code> in <code>SLEEP</code> and using <code>LPM2</code> to
+    further save power, while waiting for a key.
+    <br><br>
+    Connect an ampere meter to check the current used in different modes.
+    Note that most used current meters are not accurate when measuring short
+    current bursts. This can be rectified by adding a large capacitor.
+    <br><br>
+<pre>
+    8 ADR OK **BIS      \ set bit 3
+    8 ADR OK **BIC      \ clear bit 3
+
+</pre>
+    About the average current use.
+    <br><br>
+    Standard 8MHz noForth uses about 10mA, without leds that is ~2,6mA.
+    The first number is the current while the system waits for a key,
+    the second number is the average current while running.
+<pre>
+
+DCO freq.   LPM4-sleep       LPM2            LPM0
+ 1 MHz      0.0007mA    0.020mA/0.18mA  0.070mA/0.18mA
+ 8 MHz      0.0007mA    0.025mA/0.50mA  0.346mA/0.50mA
+16 MHz      0.0007mA    0.033mA/0.83mA  0.682mA/0.83mA
+
+</pre>
+Forth commands:
+<pre>
+1MHZ ( -- )      DCO on 1 MHz
+16MHZ ( -- )     DCO on 16 MHz
+SLEEP-ON ( -- )  Install LPM version of noForth
+SLEEP-OFF ( -- ) Back to normal noForth version
+MS1 ( ms -- )    LPM version of MS
+SLEEP ( -- )     Go to LPM mode 4</pre>
+<p><a href="#e05x">&#x21E7;</a></p></section>
+
+
+
+
+                        <!--   60... -->
+<section>
+<a id="e06x"></a>
+<p class="groot"><a href="#top">&#x21E7;</a></p>
+<h3>60-69 Advanced interfacing</h3>
+<nav><br><a href="#e060">60 - 128x64 bits graphics display</a>
+</nav>
+<div class="rechts"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+</section>
+
+
+<!-- 60 -->
+<section>
+<h2><a name="e060"></a>60
+<br>128x64 bits graphics display</h2>
+<h5>SSD1306 I2C display driver</h5>
+<aside class="m5">Materials:
+Egel kit or Launchpad,
+<a href="https://www.aliexpress.com/item/1pcs-0-96-white-0-96-inch-OLED-module-New-128X64-OLED-LCD-LED-Display-Module/32639731302.html" target="_blank">.96" OLED display</a>.
+
+<hr><a href="usci%20i2c%20master.f" target="_blank">USCI I2C master</a>
+<a href="e60a%20-%20ssd1306-setup.f" target="_blank">e60a noForth program</a>
+<a href="e60b%20-%20ssd1306-small-chars.f" target="_blank">e60b noForth program</a>
+<a href="e60c%20-%20ssd1306-fat-chars.f" target="_blank">e60c noForth program</a>
+<a href="e60d%20-%20ssd1306-thin-chars.f" target="_blank">e60d noForth program</a>
+<a href="e60e%20-%20ssd1306-graphic.f" target="_blank">e60e noForth program</a>
+<a href="e60f%20-%20ssd1306-hedgehog.f" target="_blank">e60f noForth program</a>
+
+</aside>
+<img class="v10" src="p60%20-%20graphics%20%26%208x14%20chars.jpg" alt="photo">
+<b>Graphics & 8x14 characters</b>
+<div class="nofloat"></div>
+
+<table><tr><td><img class="v6" src="s60%20-%20ssd1306%20128x64%20oled%20screen.jpg" alt="schematic">
+
+</td><td><div class="nb">Load the USCI I2C master before the e60 noForth programs.
+The software for SSD1306 driver is based on it.</div>
+</td></tr></table>
+<div class="nofloat"></div>
+
+<br>
+<img class="v10" src="p60%20-%208x14%20characters.jpg" alt="photo">
+<b>Fat 8x14 characters</b><br><br>
+Connect VCC to VDD on the display, Ground to GND, P1.7 to SDA and P1.6 to SCL.
+The display works without external pullupps but in case it does'nt work add
+a 4K7 pullup to SDA and SCL! The software is divided in several cooperating
+modules shown below.
+<div class="nofloat"></div>
+
+<br><b>Files needed for small characters example</b>
+<ul><li>usci i2c master.f
+</li><li>e60a - ssd1306-setup.f
+</li><li>e60b - ssd1306-small-chars.f
+</li></ul>
+
+<br>Forth commands:<pre>
+SMALL    ( -- )  Show small 5x8 characterset
+</pre>
+
+<br><b>Files needed for big fat characters example</b>
+<ul><li>usci i2c master.f
+</li><li>e60a - ssd1306-setup.f
+</li><li>e60c - ssd1306-fat-chars.f
+</li></ul>
+
+<br>Forth commands:<pre>
+FAT     ( -- )  Show big fat 8x14 character set
+</pre>
+
+<br><img class="v8" src="p60%20-%20thin%207x16%20characters.jpg" alt="photo">
+<b>Thin 7x16 characters</b><br><br><br><br><br><br>
+<div class="nofloat"></div>
+
+<br><b>Files needed for big thin characters example</b>
+<ul><li>usci i2c master.f
+</li><li>e60a - ssd1306-setup.f
+</li><li>e60d - ssd1306-thin-chars.f
+</li></ul>
+
+<br>Forth commands:<pre>
+THIN    ( -- )  Show big thin 7x16 character set
+</pre>
+
+<br>
+<img class="v3" src="t60%20-%20oled%20i2c%20command.jpg" alt="tracer">
+<div class="nofloat"></div>
+
+<br><b>Files needed for graphic characters example</b>
+<ul><li>usci i2c master.f
+</li><li>e60a - ssd1306-setup.f
+</li><li>e60c - ssd1306-fat-chars.f
+</li><li>e60e - ssd1306-graphic.f
+</li><li>e60f - ssd1306-hedgehog.f
+</li></ul>
+
+<br>Forth commands:<pre>
+GRAPHIC ( -- )  Show graphic and custom character set
+SHOW    ( -- )  Animated view of the hedgehog
+</pre>
+
+
+<div class="nofloat"></div>
+
+    <br><div class="mid">
+    <video id="Animated hedgehog" src="m60%20-%20hedgehog.mp4" controls>
+           Your browser does not support MP4 video
+    </video>
+    <br><b>Animated hedgehog demo</b>
+    </div>
+
+<p><a href="#e06x">&#x21E7</a></p></section>
+
+
+
+
+                        <!--   80... -->
+<section>
+<a id="e08x"></a>
+<p class="groot"><a href="#top">&#x21E7;</a></p>
+<h3>80-89 MSP430FR5xxx specific</h3>
+<nav><br><a href="#e080">80 - hardware multiply with msp430fr5xxx</a>
+</nav>
+<div class="rechts"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+</section>
+
+
+<!--   80 -->
+<section>
+<h2><a id="e080"></a>80
+<br>MSP430FR5xxx hardware multiply</h2>
+<h5>Hardware multiply versions of the basic noForth multiply routines</h5>
+<aside>Materials:
+<a href="http://www.ti.com/tool/msp-exp430fr5739#buy" target="_blank">MSP-EXP430FR5739</a> or
+<a href="http://www.ti.com/tool/msp-exp430fr5969#buy" target="_blank">MSP-EXP430FR5969</a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e80%20-%20hardware%20multiply%20with%20msp430fr5xxx.f" target="_blank">e80 noForth program</a>
+</aside>
+    Hardware multiply versions of the noForth basic multiply routines.
+Forth commands:
+<pre>
+*    ( x y -- x*y )
+M*   ( x1 x2 -- dx3 )
+UM*  ( u1 u2 -- du3 )
+DU*S ( du1 u2 -- du3 )</pre>
+<div class="nofloat"></div>
+
+<!-- <img class="v4" src="p80 - hardware multiply with msp430fr5xxx.jpg" alt="photo"> -->
+
+<table><tr><td>
+<img class="v5" src="p80.gif" alt="photo">
+</td><td>
+<div class="nb">Load the assembler before the e80&nbsp;noForth programs,
+the software RS232 routines are in assembler code.</div>
+</td></tr></table>
+
+<p><a href="#e08x">&#x21E7;</a></p></section>
+
+
+
+
+                        <!--   90... -->
+<section>
+<a id="e09x"></a>
+<p class="groot"><a href="#top">&#x21E7;</a></p>
+<h3>90-99 MSP430F149 specific</h3>
+<nav><br><a href="#e090">90 - hardware multiply with msp430f149</a>
+</nav>
+
+<div class="rechts"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+</section>
+
+
+<!--   90 -->
+<section>
+<h2><a id="e090"></a>90
+<br>MSP430F149 hardware multiply</h2>
+<h5>Hardware multiply versions of the basic noForth multiply routines</h5>
+<aside>Materials:
+<a href="http://www.aliexpress.com/item/MSP430F149-MSP430-CORE-core-board-development-board-USB-BSL-downloader-CD/32287682449.html" target="_blank">MSP430F149 Mini-V3 board</a>or
+<a href="https://nl.aliexpress.com/item/MSP430F149-430-download-minimum-system-board-with-the-MSP430-Development-Board-BSL/32448224490.html" target="_blank">MSP430F149 Dupont board</a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e90%20-%20hardware%20multiply%20with%20msp430f149.f" target="_blank">e90 noForth program</a>
+</aside>
+Forth commands:
+<pre>
+*    ( x y -- x*y )
+M*   ( x1 x2 -- dx3 )
+UM*  ( u1 u2 -- du3 )
+DU*S ( du1 u2 -- du3 )</pre>
+
+<div class="nofloat"></div>
+
+<!-- <img class="v5" src="p90 - hardware multiply with msp430f149.jpg" alt="photo"> -->
+
+<table><tr><td>
+<img class="v5" src="p90.png" alt="photo">
+</td><td>
+<div class="nb">Load the assembler before the e90&nbsp;noForth programs,
+the software RS232 routines are in assembler code.</div>
+</td></tr></table>
+
+<p><a href="#e09x">&#x21E7;</a></p></section>
+
+
+
+
+<!--   100... -->
+<section>
+<a id="e10x"></a>
+<p class="groot"><a href="#top">&#x21E7;</a></p>
+<h3>100-109 Simple applications</h3>
+<nav><br><a href="#e100">100 Wireless datalogger (using first 3 chapters)</a>
+<br><a href="#e101">101 Simple walking biped using four servos</a>
+<br><a href="#e102">102 WS2812 with RC-5 remote control</a>
+<!-- <br><a href="#e103">103 LCD, frequency measurement</a> -->
+</nav>
+<div class="mid"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+</section>
+
+
+<!--   100 -->
+<section>
+<h2><a id="e100"></a>100
+<br> Wireless analog datalogger</h2>
+<h5>Gathering data from a distance</h5>
+
+<aside class="m7">Materials:
+8 leds or <a href="http://www.aliexpress.com/item/5pcs-lot-Universal-3-12V-6-Digital-RED-LED-Indicator-Board-for-Marquees-Water-light-Breadboard/32273305801.html" target="_blank">Led module</a>,
+100 Ohm and 12K resistor,
+<a href="https://www.aliexpress.com/item/20PCS-x-5518-Light-Dependent-Resistor-LDR-5MM-Photoresistor-wholesale-and-retail-Photoconductive-resistance-for-arduino/32808704376.html" target="_blank">LDR</a>,
+<a href="https://nl.aliexpress.com/item/HC-08-Bluetooth-Serial-Port-Module-Bluetooth-4-0-Low-Power-Consumption-Microampere-Level-Current/32656352381.html" target="_blank">HC08 Bluetooth module</a>,
+a 3V to 3,6V battery.
+<hr><a href="e100%20-%20analog%20datalogger.f" target="_blank">e100 noForth program</a>
+</aside>
+<img class="v7" src="p100%20-%20analog%20datalogger.jpg" alt="photo">
+<img class="v5" src="p100%20-%20datalogger%20standalone.jpg" alt="photo">
+
+<img class="v5" src="p100%20-%20datalogger%20results%20%26%20connection.jpg" alt="photo">
+
+<div class="nofloat"></div>
+<img class="v5" src="s100%20-%20analog%20datalogger.jpg" alt="scheme">
+<br>Connect all materials used in the first four chapters to the shield, see schematics.
+<div class="nofloat"></div>
+The first 4 chapters taken as a whole
+describe in fact a wireless analog datalogger.
+<a href="bluetooth40_en.pdf" target="_blank">HC08 datasheet</a>.
+An LDR is used as an analog sensor.
+    <br><br>
+    The sensor is sampled 10 times every second, but only every tenth value is stored.
+    After 20 samples are gathered, they are sent back to the receiving device.
+
+<br>
+<br>The forth command <code>DATALOGGER</code>
+starts automatically after a reset.
+<br>To quit the program press 'reset' while S2 is held down.
+<p><a href="#e10x">&#x21E7;</a></p></section>
+
+
+<!--   101 -->
+<section>
+<h2><a id="e101"></a>101
+<br> Walking biped</h2>
+<h5>Simple walking robot</h5>
+
+<aside class="m6">Materials:
+<a href="biped%20material%20list.txt" target="_blank">e101 Biped BOM</a>
+Info on a <a href="https://nl.aliexpress.com/item/38g-S3003-Standard-Servo-For-RC-Futaba-HPI-Tamiya-Kyosho-Duratrax-GS-racing-Car-truch-Free/32355462026.html" target="_blank">standard servo</a>,
+and <a href="https://nl.aliexpress.com/item/HC-08-Bluetooth-Serial-Port-Module-Bluetooth-4-0-Low-Power-Consumption-Microampere-Level-Current/32656352381.html" target="_blank">HC08 Bluetooth module</a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e101a%20-%20walking%20biped%20robot-1.f" target="_blank">e101a noForth program</a>
+<a href="e101b%20-%20walking%20biped%20robot-2.f" target="_blank">e101b noForth program</a>
+<a href="e101s%20-%20servo-tester.f" target="_blank">e101s servo tester program</a>
+<a href="biped%20building%20plan.pdf" target="_blank">Biped building plan as PDF</a>
+</aside>
+<img class="v8" src="p101%20-%20walking%20biped%20robot.jpg" alt="photo">
+<div class="nofloat"></div>
+<img class="v5" src="s101%20-%20walking%20biped%20robot.jpg" alt="scheme">
+
+    <br>The small walking robot has two legs, using four servos.
+    It is wireless controlled thru
+    <a href="https://components101.com/sites/default/files/component_datasheet/HC-05 Datasheet.pdf" target="_blank">bluetooth</a>.
+    The code comes from the first eight chapters. The result is a cute walking robot.
+<div class="nofloat"></div>
+
+<div class="nb">Load the assembler before the e101&nbsp;noForth&nbsp;programs.</div>
+    <br>The e101a version has very simple code, in just a few lines the robot
+    really does something.
+
+    <br><br>
+    <div class="mid">
+    <video id="biped-first-steps" src="biped-first-steps.mp4" controls></video>
+    </div>
+    <br>
+    Version e101b implements a more sophisticated
+    version. This version has smoother motion control, more movements.
+    Finally a key interpreter was added for easy remote control using bluetooth.
+<br><br>
+<div class="nofloat"></div>
+
+<a href="biped%20building%20plan.gif" target="_blank"><img class="nofloat" src="biped%20building%20plan.gif" alt="drawings"></a>
+
+<br>The servos are connected to P1.4 to P1.7,
+the TX/RX of the HC08 are wired to P1.1 and P1.2, see also chapter E04!
+<div class="nofloat"></div>
+
+<img class="v5" src="p101s%20-%20servo%20tester.jpg" alt="photo">
+Program e101s implements a servo tester. With this tester, it is easy to determine
+the pulse range of a servo. The main word is <code>TESTER</code>.
+<br>A potmeter on P1.7 changes the servo position. When S2 is pressed the current position of the servo is printed
+in microseconds. The pulse range is .6 ms to 2.7 ms.
+<div class="nofloat"></div>
+
+<br>The Forth commands are:
+<pre>
+
+BIPED-ON ( -- )     - Activate Biped
+BIPED-OFF ( -- )    - Deactivate Biped
+WOBBLE ( u -- )     - Wobble u times
+WALK ( u -- )       - Walk forward u steps
+HELLO ( -- )        - Wave hello
+
+</pre>
+<img class="v4" src="safe%20lipo%20power%20supply.gif" alt="scheme">
+Basic Biped Forth commands, all stack neutral:
+<pre>
+REST  RIGHT-UP  LEFT-UP  RIGHT-FORW
+LEFT-FORW  DOWN  WAVE  TOES  REST </pre>
+These words can be used to build more complex functions.
+The code is kept very simple, so there is plenty room for improvement!
+<div class="nofloat"></div>
+
+    <div class="mid">
+    <h4>Simple Biped walking and saying hello</h5>
+    <video id="biped-first-steps" src="biped-1.mp4" controls></video>
+    </div>
+
+<br>The second program, e101b, has one main words named <code>DEMO</code>.
+This starts the remote control <code>DEMO </code> and boots automatically after a reset.
+<p><a href="#e10x">&#x21E7;</a></p></section>
+
+
+<!--   102 +++ -->
+<section>
+<h2><a id="e102"></a>102
+<br>WS2812 with RC-5 remote control</h2>
+<h5>With tailored user interface</h5>
+
+<table><tr><td>
+<aside>Materials:
+<a href="http://www.aliexpress.com/item/DC5V-1m-4m-5m-WS2812B-Smart-led-pixel-strip-Black-White-PCB-30-60-144-leds/32337440906.html" target="_blank">2 or more WS2812(B) leds,</a>
+<a href="http://www.aliexpress.com/item/MS-50-5-50W-5V-10A-Mini-size-LED-Switching-Power-Supply-Transformer-110V-220V-AC/1323532404.html" target="_blank">5 Volt power supply 10A,</a>
+<a href="http://www.reichelt.de/Power-Supplies-up-to-150-W/SNT-RS-50-5/3/index.html?ACTION=3&amp;LA=2&amp;ARTICLE=137094&amp;GROUPID=7264&amp;artnr=SNT+RS+50+5" target="_blank">or at Reichelt 5V-10A,</a>
+<a href="http://uk.farnell.com/vishay/tsop34536/ir-receiver-small-agc5-36khz/dp/2251343" target="_blank">RC-5 receiver,</a>
+<a href="https://www.conrad.nl/p/one-for-all-urc-2981-infrarood-afstandsbediening-zwart-943361" target="_blank">RC-5 remote</a>
+Some wires.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="Patch%202553.f" target="_blank">Change noForth configuration</a>
+<a href="e102a%20-%20rc5.f" target="_blank">e102a noForth program</a>
+<a href="e102b%20-%20ws2812%20controller%20using%20usci.f" target="_blank">e102b noForth program</a>
+<a href="e102c%20-%20ws2812%20rc-5%20interface.f" target="_blank">e102c noForth program</a>
+</aside>
+</td><td>
+<img class="v6" src="p44u%20-%20usci%201-wire%20spi%20%20as%20ws2812%20controller.jpg" alt="photo">
+<img class="v6" src="pp44%20-%20ws2812%20timing.jpg" alt="signals">
+
+<div class="nofloat"></div>
+<div class="nb">Load the assembler before the e102&nbsp;noForth&nbsp;programs.</div>
+</td></tr></table>
+
+<br>RC-5 Remote
+
+<div class="nofloat"></div>
+<img class="v13" src="rc-5%20remote%20an.gif" alt="photo">
+The program has three parts:
+<br> a. 16MHz version of the RC-5 decoder
+<br> b. WS2812 driver using USCI B0
+<br> c. User interface build around the SBCRP520 (photo)
+<br>
+<br>The WS2812 code is for a 16MHz clock, the output bit is P1.7.
+The RC-5 input bit P2.0 is also adjusted for 16MHz&nbsp;DCO.
+<!-- USCI B0 is used to generate the bit pulses. -->
+The bit pulses for Ws2812(B) come from USCI&nbsp;B0.
+Use "Patch 2553.f" to change the DCO settings.
+<br>This application is able to control 2 to 999 WS2812 leds.
+The configuration can be done via remote control.
+
+<br>The main program WS2812 starts up after a reset.
+You may save (in RAM) three individual color/brightness settings.
+
+The brightness of every setting can be changed in real time,
+without the loss off the selected color mix.
+
+<div class="nofloat"></div>
+Take care: 30 leds take about 9 Watt, that is almost 2 Ampere!
+<br>
+<br><img class="v2" src="t44b%20-%20ws2812%20one%20led.jpg" alt="signals">
+
+Forth command:<code> WS2812 ( -- )</code>
+<p><a href="#e10x">&#x21E7;</a></p></section>
+
+
+
+
+<section>
+<a id="e11x"></a>
+<p class="groot"><a href="#top">&#x21E7;</a></p>
+<h3>110-119 More complex applications</h3>
+<nav>
+<br><a href="#e110">110 Autonomous walking biped</a>
+<br><a href="#e111">111 Cloning noForth</a>
+<br><a href="#e112">112 Walking hexapod</a>
+<!--  <br><a href="#e113">113 Connection festival</a>  -->
+</nav>
+<div class="mid"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
+</section>
+
+
+<!--   110 -->
+<section>
+<h2><a id="e110"></a>110
+<br>Autonomous walking biped</h2>
+<h5>Using ultrasonic distance measuring from chapter 13</h5>
+
+<aside class="m6">Materials:
+<a href="autonomous%20biped%20bom.txt" target="_blank">e110 Biped BOM</a>
+Info on a <a href="https://nl.aliexpress.com/item/38g-S3003-Standard-Servo-For-RC-Futaba-HPI-Tamiya-Kyosho-Duratrax-GS-racing-Car-truch-Free/32355462026.html" target="_blank">Standard servo</a>,
+And <a href="https://nl.aliexpress.com/item/HC-08-Bluetooth-Serial-Port-Module-Bluetooth-4-0-Low-Power-Consumption-Microampere-Level-Current/32656352381.html" target="_blank">HC08 Bluetooth module</a>.
+<hr><a href="e110%20-%20autonomous%20walking%20biped.f" target="_blank">e110 noForth program</a>
+<a href="biped%20building%20plan.pdf" target="_blank">Biped building plan</a>
+<a href="biped%20building%20manual.pdf" target="_blank">Biped building manual</a>
+</aside>
+<img class="v7" src="p110a%20-%20autonomous%20walking%20biped.jpg" alt="photo">
+<div class="nofloat"></div>
+<img class="v5" src="s110%20-%20autonomous%20walking%20biped.gif" alt="scheme">
+<br>
+The small walking robot has two legs, using four servos.
+It is wireless controlled thru <a href="https://components101.com/sites/default/files/component_datasheet/HC-05 Datasheet.pdf" target="_blank">Bluetooth</a>.
+The code comes from the first thirteen chapters.
+The result is a cute autonomous walking robot.
+The used sensor is a <a href="https://nl.aliexpress.com/item/HC-SR04P-HC-SR04-Ultrasonic-Ranging-Module-Ranging-Sensor-Module-3-5-5V-Wide-Voltage-Performance/32666978730.html" target="_blank">HC-SR04</a> ultrasonic distance meter.
+
+<div class="nofloat"></div>
+<img class="v5" src="safe%20lipo%20power%20supply.gif" alt="scheme">
+When using a <a href="http://www.aliexpress.com/item/GoolRC-900mAh-25C-LiPo-Battery-7-4V-2S-with-JST-Plug-for-WLtoys-912-RC-Helicopter/32475093243.html" target="_blank">7,4 Volt 900mAh Li-Po accu</a>, a cheap
+<a href="https://nl.aliexpress.com/item/1pcs-Ultra-small-LM2596-power-supply-module-DC-DC-BUCK-3A-adjustable-buck-module-regulator-ultra/32803724397.html" target="_blank">LM2596 buck power supply</a> and build a
+Li-Po undervoltage protection as shown in the schematic on the left.
+The biped has plenty of power to play a very long time.
+
+
+<div class="nofloat"></div>
+<a href="biped%20building%20plan.gif" target="_blank"><img class="nofloat" src="biped%20building%20plan.gif" alt="drawings"></a>
+    <br>The servos are connected to P1.4 to P1.7, the TX/RX of the HC08 are
+    wired to P1.1 and P1.2 see also chapter E04!
+
+<div class="nofloat"></div>
+<img class="v6" src="p110b%20-%20autonomous%20walking%20biped.jpg" alt="photo">
+    The forth commands are:
+<pre>BIPED-ON ( -- )  Activate Biped
+BIPED-OFF ( -- )    Deactivate Biped
+WOBBLE ( u -- )     Wobble u times
+WALK ( u -- )       Walk forward u steps
+LEFT ( u -- )       Turn left u steps
+RIGHT ( u -- )      Turn right u steps
+HELLO ( -- )        Wave hello
+DEMO ( -- )         Remote control demo
+</pre>
+
+<div class="nofloat"></div>
+<img class="v6" src="p110e%20-%20autonomous%20walking%20biped.jpg" alt="photo">
+
+Some basic Biped (stack neutral) forth commands:
+<pre>
+
+REST  RIGHT-UP  LEFT-UP
+RIGHT-FORW  LEFT-FORW
+DOWN  WAVE  TOES  REST
+</pre>
+These words may be used to build more complex functions.
+
+<div class="nofloat"></div>
+<img class="v6" src="p110c%20-%20autonomous%20walking%20biped.jpg" alt="photo">
+<img class="v6" src="p110d%20-%20autonomous%20walking%20biped.jpg" alt="photo">
+The main noForth word <code>DEMO</code> is a key interpreter,
+that does handle one-touch commands, by means of a remote control.
+It will start automatically after a reset.
+<p><a href="#e11x">&#x21E7;</a></p></section>
+
+
+<!-- 111 -->
+<section>
+<h2><a id="e111"></a>111
+<br>Cloning noForth</h2>
+<h5>Using built-in BSL to copy noForth</h5>
+<aside class="m5">Materials:
+Egel kit or Launchpad,
+<a href="https://nl.aliexpress.com/item/2PCS-LOT-20P-lock-block-IC-block-20PIC-test-block-20P-live-socket/32716621540.html" target="_blank">20 pin ziff socket</a>,
+<a href="https://www.aliexpress.com/item/20pcs-32-768KHz-32768HZ-Crystal-Oscillator-2-x-6-mm-TOP/32710173347.html" target="_blank">32 kHz xtal</a>.
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e111a%20-%20clone%20launchpad.f" target="_blank">e111a noForth program</a>
+<a href="e111b%20-%20clone%20egel%20kit.f" target="_blank">e111b noForth program</a>
+
+</aside>
+<img class="v7" src="p111%20-%20cloning%20noforth%202.jpg" alt="photo">
+<div class="nofloat"></div>
+
+More info about the built-in BSL in SLAU319L.PDF
+<br>Read the pages 5 to 12, it contains the core of the BSL.
+
+<br><br>
+<img class="v6" src="s111%20-%20cloning%20noforth.jpg" alt="scheme">
+<div class="nofloat"></div>
+
+Place an 20-pin ziff-socket on the Egel kit as shown on the photo on top.
+Add a green and red led connect them using the schematic. Then connect the
+six wires for the programmer to the ziff socket. Finally connect a 32kHz
+crystal to pin 18 & 19 of the ziff socket. Information about the built-in
+capacitators see SLAU144J.PDF page 274 and beyond.
+The programmer now is ready to clone itself to an other MSP430G2553.
+
+<br><br>
+<table><tr>
+<td><img class="v6" src="p111%20-%20clone%20launchpad%20to%20microbox.jpg" alt="photo"></td>
+<td><div class="nb">Load the assembler before the e111 noForth program,
+there are several routines in assembler code.</div>
+</td></tr></table>
+
+<br><br>
+<img class="v4" src="p111%20-%20bsl%20entry%20sequence.gif" alt="signals">
+The <code>APP</code>-vector is filled with the DCO restoration program.
+The <code>CLONE</code>-program ends with a reset of the "clone". When the DCO
+constants where erased, they are restored immediatly by executing the <code>APP</code>-vector.
+<div class="nofloat"></div>
+
+<br>What does the BSL-programmer do:
+<br>
+<ol><li>Enter the BSL programmer on the target MPU
+</li><li>Send password. When a password error occurs the target
+    device is completely erased, including the DCO-constants!
+</li><li>Erase info-B and main Flash memory
+</li><li>Program info-B and main memory
+</li><li>Give target a reset pulse
+         The target MPU then starts the noForth clone. This will restore the
+         DCO-constants. But only when they were erased using an incorrect password.
+<br>     After restoring calibration values you may use the chip like a new one.
+         With or without the xtal.
+</li></ol>
+
+<img class="v2" src="t111%20-%20clone%20noforth%2c%20send%20password.jpg" alt="signals">
+<div class="nofloat"></div>
+
+<br>Forth commands:
+<pre>
+EMPTY-PASS  ( -- )    Set password to all $FF
+MODIFY-PASS ( a -- )  Set password, 'a' is reset vector
+CLONE       ( -- )    Copy yourself to another MSP430G2553</pre>
+<p><a href="#e11x">&#x21E7;</a></p></section>
+
+<!-- 112 -->
+<section>
+<h2><a name="e112"></a>112
+<br>Six legged walking robot</h2>
+<h5>Controlling 20 RC-servo's using one MSP430F149</h5>
+<aside class="m5">Materials:
+MSP430F149 robot board,
+<a href="https://nl.aliexpress.com/store/product/10pcs-TowerPro-MG92B-Digital-Servo-Motor-Metal-Gear-3-5kg-cm-High-Torque-Double-Bearing-For/1304712_32255216023.html" target="_blank">MG92B servo</a>,
+<a href="https://www.aliexpress.com/item/1pcs-xl4005-DC-to-DC-4V-38V-to-1-25V-36V-5A-Step-Down-Power-Supply/1994905157.html" target="_blank">Step down power supply</a>,
+<a href="https://nl.aliexpress.com/item/HC-08-Bluetooth-Serial-Port-Module-Bluetooth-4-0-Low-Power-Consumption-Microampere-Level-Current/32656352381.html" target="_blank">HC08 Bluetooth module</a>,
+<a href="https://www.aliexpress.com/item/Lion-power7-4V-1300MAH-25C-High-Power-lipo-battery-AKKU-MAX-30C-RC-Model-BT684-free/536510750.html" target="_blank">1300mAh LiPo accu</a>,
+<a href="https://www.aliexpress.com/item/6-Legs-18-DOF-Robot-Spider-BK-Robot-Bracket-Stent-Kit-NO-SERVO/32416579382.html" target="_blank">Cheap hexapod frame</a>.
+
+<hr><a href="../../anij/nof/noforth%20asm.f" target="_blank">noForth assembler</a>
+<a href="e112a%20-%20rs232%20usb1.f" target="_blank">e112a noForth program</a>
+<a href="e112b%20-%20i2c-24c64a.f" target="_blank">e112b noForth program</a>
+<a href="e112c%20-%202x10%20servo%20interrupt%201a.f" target="_blank">e112c noForth program</a>
+<a href="e112d%20-%20random6b.f" target="_blank">e112d noForth program</a>
+<a href="e112e%20-%20piliplop6c.f" target="_blank">e112e noForth program</a>
+<a href="e112f%20-%20legs5b.f" target="_blank">e112f noForth program</a>
+<a href="e112g%20-%20ext-legs.f" target="_blank">e112g noForth program</a>
+<a href="e112h%20-%20servotester1.f" target="_blank">e112h noForth program</a>
+<a href="e112i%20-%20ant-3.f" target="_blank">e112i noForth program</a>
+
+</aside>
+<img class="v9" src="p112a%20-%20hexapod-1.jpg">
+<a href="s112%20-%20robot%20controller%204be.pdf" target="_blank"><img class="v8" src="p112c%20-%20robot%20controller%20v2.jpg" alt="schematic"></a>
+<div class="nofloat"></div>
+
+<table><tr><td><img class="v6" src="p112e%20-%20triplex%20hexapod%202.jpg">
+
+</td><td><div class="nb">Load the noforth assembler before the e112&nbsp;noForth programs.</div>
+<br><b>Hexapod version 2</b>
+</td></tr></table>
+<div class="nofloat"></div>
+
+<img class="v8" src="p112f%20-%20torpoot.gif">
+First load the assembler, then e112b to add extra RS232 routines.
+After that connect an USB cable, then download the rest of the software at 38k4.
+After this is done type: BLUETOOTH and FREEZE now the robot starts up,
+using the Bluetooth connection at 9600 baud.
+
+<br>
+<div class="nofloat"></div>
+
+<b>Files needed for the basic hexapod</b>
+<ul><li>noforth-asm.f
+</li><li>e112a - rs232 usb.f
+</li><li>e112b - i2c-24c64a.F
+</li><li>e112c - 2x10 servo interrupt 1a.f
+</li><li>e112d - random6b.f
+</li><li>e112e - piliplop6c.f
+</li><li>e112f - legs5b.f
+</li></ul>
+
+<br>Forth commands:<pre>
+READY    ( -- )   Startup the hexapod carefully
+WALK     ( u -- ) Walk forward u steps
+BACKW    ( u -- ) Walk backward u steps
+REST2    ( u -- ) Go to resting position 2
+</pre>
+
+<br><b>File needed to test servo ranges using a MSP-EXP430G</b>
+<ul><li>e112h - servotester1.f
+</li></ul>
+
+<br>Forth commands:<pre>
+TESTER    ( -- )  A servo tester using a potmeter at P1.7
+</pre>
+
+
+<br><b>Files needed for some extra hexapod functonality</b>
+<ul><li>e112g - ext-legs.f
+</li><li>e112i - ant-3.f
+</li></ul>
+
+<br>Forth commands:<pre>
+LSTEPS    ( u -- )  Crawl forward
+HSTEPS    ( u -- )  Walk on hi heels
+ANT       ( -- )    Simulation of an ANT walking
+</pre>
+<div class="nofloat"></div>
+
+<h3>A lecture about walking robots (Dutch)</h3>
+
+<div class="mid">
+
+<a href="https://www.youtube.com/embed/fybYGWkLrgM"target="_blank">
+<img class="v8" src="p112g%20-%20hexapod%20baseplate%20completely%20mounted.jpg" alt="picture">
+<br>Lecture about walking robots</a>
+<br>
+<br><a href="walking%20robots.pdf" target="_blank">Light images from walking robots lecture as PDF</a>
+
+</div>
+
+<p><a href="#e11x">&#x21E7</a></p></section>
+
+
+<h1>*</h1>
+</body>
+<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/egel for launchpad.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 27 Apr 2020 22:10:27 GMT -->
+</html>
+

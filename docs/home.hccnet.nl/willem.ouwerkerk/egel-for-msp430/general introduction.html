@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/general introduction.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 27 Apr 2020 22:10:37 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=iso-8859-1" /><!-- /Added by HTTrack -->
+<head>
+    <link rel="SHORTCUT ICON" href="egeltje4.ico">
+    <title>general introduction</title>
+<style>
+body { background-color:#9ee; }
+section, nav { padding:0.5em 1.5em 1em 1.5em; width:32em;
+    background-color:#fff; color:#000;
+    margin-left:auto; margin-right:auto;
+    margin-top:2em; margin-bottom:0.5em;
+    border-left:0px solid #9cc; border-top:0px solid #9cc;
+    border-right:3px solid #9cc; border-bottom:3px solid #9cc; }
+h1 { font-weight:100; clear:left;
+    color:#099; font-size:220%;
+    text-align:center;  }
+h2 { font-weight:100; clear:left;
+    color:#c00; font-size:170%;
+    text-align:center; }
+h3 { font-weight:100; color:#066; font-size:140%; text-align:center; }
+.mid { text-align:center; }
+.rechts { text-align:right; }
+aside { padding:0.5em; margin:0 0.5em 0.5em 0;
+    background-color:#099; color:#fff;
+    float:left; white-space:pre; }
+img { float:left; padding: 0;
+    margin:0 1em 0.5em 0; height:7em; }
+.mid img, .rechts img { float:none; }
+.logo { height:4em; margin:0; padding:0; }
+.egeltje {height:1.5em; margin:0; padding:0;  txext-align:center;}
+p { clear:left;}
+a { text-decoration:none; padding:0 0.5em;
+    cxolor:#fff; border-radius:10px;
+    margin:0 0.5em 0.5em 0; }
+h1 a,h2 a,h5 a { padding:0; margin:0; border:0; }
+section  a { color:#f00; background-color:#fff; }
+nav {background-color:#eee; width:26em; }
+
+section nav a { color:#900; background-color:#fff;
+    line-height:150%; }
+section p a { background-color:#9ee; color:#933; }
+section aside a { color:#fff; background-color:#0bb;
+    margin:0 0.5em 0.5em 0; }
+section a { color:#c00; padding:0 0.2em; margin:0; }
+a:hover { color:#900; background-color:#ff0; }
+.nofloat { clear:left; }
+pre,code { font-size:90%; font-family: hack,
+    "Andale Mono","Lucida Console", Monaco, monospace;
+    padding:0; margin:0; margin-bottom:0.5em; }
+i { background-color:#c99; }
+td { padding:0 1em 0 0; }
+.lijst {padding-left:4em; width:26em; }
+hr { border-left:0; border-top:0; border-right:0; margin: 0.2em; }
+ul { padding-left:1em;}
+</style>
+</head>
+
+<body>
+
+<section> <!-- 1 -->
+<p><a href="egel%20for%20launchpad.html">&#x21D0;</a>
+</p>
+<h1>General introduction</h1>
+<h3>MSP430</h3>
+There are several families of MSP430s,
+all with the same basic set of opcodes:
+<ul><li> 100 series    - e.g. MSP430F149
+</li><li> 200 series   - e.g. MSP430G2553
+</li><li> 300 series   - Masked ROM version, e.g. MSP430C325
+</li><li> 400 series   - e.g. MSP430F412
+</li><li> 500 series   - e.g. MSP430FR5739
+</li><li> 600 series   - e.g. MSP430F6433
+</li></ul>
+
+<br>
+<img class="v5" src="msp430g2553.png">Some differences between them:
+<ul><li>I/O-port structure
+</li><li>ADC
+</li><li>Timers
+</li><li>Memory lay-out  &nbsp; etc.
+</li>
+</ul>
+
+</section>
+
+
+<section> <!-- 2 -->
+<h3>MSP430G2553</h3>
+The 'Egel project' concentrates mainly on the MSP430G2553 processor
+with the following hardware:
+<ul><li>The <a href="../../anij/nof/boards/msp430g2553%20launchpad.html" target="_blank">'Launchpad Starter kit' (MSP-EXP430G2)</a>
+(Texas Instruments)
+</li><li>The
+  <a href="msp430%20egel%20kit-2c%20manual.pdf" target="_blank">'Egel Kit'</a>
+ (<a href="mailto:w.ouwerkerk@kader.hcc.nl?subject=About Egel kit/shield">Direct order</a>or using
+  <a href="https://www.tindie.com/stores/Willem_O/?ref=offsite_badges&amp;utm_source=sellers_Willem_O&amp;utm_medium=badges&amp;utm_campaign=badge_medium">Tindie</a>)
+</li></ul>
+The Egel kit is basically a clone of the MSP-EXP430G2 Launchpad.
+<br>
+<br><img class="v6" src="egel%20kit%20and%20launchpad.jpg">
+<br>Here we use a Launchpad to put an executable on the Egel kit.
+
+<div class="nofloat"></div>
+<a href="https://www.youtube.com/watch?v=dL2YPS96L18" target="_blank">
+1) Launchpad as ISP (In System Programmer) on YouTube.</a>
+<br><a href="http://43oh.com/2011/11/tutorial-to-use-your-launchpad-as-a-programmer/" target="_blank">
+2) Launchpad as ISP programmer article.</a>
+<br>
+<br>Most of the examples also run on other MSP430 processors,
+but sometimes you will have to adapt the hardware addresses.
+There are some examples specially for the  MSP430F1xx and the MSP430FR5xxx.
+
+<h3>Shields</h3>
+We recommend to use a 'shield' for your experiments
+because that will save you a lot of soldering.
+The Egel Kit has already a shield, for the Launchpad starter Kit
+you could build
+<a href="../../anij/nof/hardware%20explorer.pdf" target="_blank">
+the Launchpad Explorer</a>,
+ or buy an <a href="egel%20shield%20construction-1.pdf" target="_blank">'Egel&nbsp;shield'</a> from the <a href="mailto:w.ouwerkerk@kader.hcc.nl?subject=About Egel kit/shield">author</a>.
+
+<br><br>
+<a href="https://www.tindie.com/stores/Willem_O/?ref=offsite_badges&amp;utm_source=sellers_Willem_O&amp;utm_medium=badges&amp;utm_campaign=badge_medium"><img src="https://d2ss6ovg47m0r5.cloudfront.net/badges/tindie-mediums.png" alt="I sell on Tindie" width="150" height="78"></a>
+<img src="egel%20kit%20vsn-2a.jpg">
+<div class="nofloat"></div>
+
+<br>The Egel Kit is versatile. It has a power output and accepts on its pins
+ready made components, for example:
+<br> Serial Bluetooth module, nRF24L01 transceiver, infrared receiver, Analog sensors, power steering, etc.
+     Links to components, ready made modules and backgound information are added where needed.
+<br><br>
+</section>
+
+
+<section> <!-- 3 -->
+<h3>noForth</h3>
+We use noForth in our examples.
+<a href="https://en.wikipedia.org/wiki/Forth_(programming_language)" target="_blank">Forth</a> is an interactive compiler/interpreter.
+It fits in about 8 kByte of the 16 kByte Flash, so there remains enough workspace.
+For example to control an autonomous legged robot or control over 300 multicolor leds
+using an infrared remote control.
+The noForth language is a 16 bits ISO standard, as far flash memory makes that possible.
+
+<br>
+<br>Once noForth is on the board,
+you only need a simple terminal program to execute or compile noForth code
+or to erase the compiled code.
+<br>
+<br>There is a noForth for MSP430F149, MSP430G2553, MSP430FR5739
+and MSP430FR5969.
+See the
+<a href="../../anij/nof/noforth.html" target="_blank">
+noForth page</a>
+ under 'Downloads'.
+<br>The noForth metacompiler (crosscompiler) is also available.
+It runs under a 32 or 64 bit ISO Forth system.
+
+<h3>Hardware, assembler and forth</h3>
+Forth is well equipped for hardware control because
+it has the commands to access the hardware interactively and directly.
+No need to embed your commands in a bigger context program
+that regulates preferences or handles the input or output.
+<br>
+<br>To extract that last bit of performance or for writing code that is
+executed by an MSP430 interrupt, it is an advantage that
+machine language can be used organically in forth.
+Fortunately the MSP430 has a simple and beautiful instruction set.
+</section>
+
+<section> <!-- 4 -->
+<h3>TI documentation</h3>
+
+There is a lot of TI documentation, well written, but hard to decode.
+The information often must be gathered from several documents, e.g.
+<a href="http://www.ti.com/product/msp430g2553" target="_blank">
+    MPU document and Family User's Guide</a>.
+In addition you can find examples in assembly or in C
+and also the
+<a href="http://energia.nu/?OrderOnline=View&amp;TICOM_AUTHLEVEL=3&amp;TICOM_VALIDATE_INPUT=1" target="_blank">Energia platform</a>
+offers some information.
+Egel tries to fill in the gap, by giving working examples together
+with links to the TI-documentation.
+<br>
+<img class="v5" src="msp430g2553dil.png">
+<div class="nofloat"></div>
+
+<h5>The two most used documents in this project:</h3>
+
+MSP430x2xx Family users guide:<a href="slau144j.pdf" target="_blank">SLAU144J.PDF</a>
+<br>Datasheet MSP430G2x53:<a href="slas735j.pdf" target="_blank">SLAS735J.PDF</a>
+<br>
+<p><a href="egel%20for%20launchpad.html">&#x21D0;</a>
+</p>
+</section>
+
+</body>
+
+<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/general introduction.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 27 Apr 2020 22:10:48 GMT -->
+</html>
+

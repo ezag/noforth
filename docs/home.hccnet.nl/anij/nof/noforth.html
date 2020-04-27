@@ -1,0 +1,414 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Mirrored from home.hccnet.nl/anij/nof/noforth.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 27 Apr 2020 22:05:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=iso-8859-1" /><!-- /Added by HTTrack -->
+<head><title>noForth</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="KeyWords" content="Forth, noForth, msp430, launchpad, msp430g2553, msp430f149, msp-exp430fr5739, stand-alone, interactive, embedded forth, forth compiler, metacompiler">
+<meta name="Description" content="noForth, a 16-bit stand-alone FORTH for MSP430 processors">
+<style type="text/css">
+body{font-size:100%;color:#000;line-height:150%;
+   font-family:"optima","Lucida Sans Unicode", "Lucida Grande",  sans-serif; }
+pre, code  {font-family: hack, "Andale Mono","Lucida Console", Monaco, monospace;}
+pre {border:1px solid #ccc; padding:0.5em; font-size:80%}
+td {vertical-align:top;padding:0.2em 0.5em;font-size:100%;}
+hr {border:0;border-bottom:1px solid #3CC;}
+.buiten {padding:1em;width:42em; bxorder:1px solid #3CC; margin:auto auto;}
+span {padding:0 ;color:#099;}
+a {color:red;text-decoration:none;}
+a:hover {color:#066;}
+.nb {color:#f60;}
+.vakjes td {border-bottom:1px solid #3CC;padding: 0.3em;}
+.license {border:1px solid #099;padding: 1em; font-size:67%; line-height:108%}
+ul, ol {padding-left:0.5em;}
+li {padding:0;}
+h5 {font-size:100%;margin:0.5em 0;}
+h4 {font-weight:100;font-size:115%;background-color:#cff;padding:0.5em;}
+h3 {font-weight:100;font-size:130%;line-height:133%;padding-left:0.5em;}
+h2 {font-weight:100;font-size:170%;padding:0 0 0.2em 0;margin:0;color:#099;}
+h1 {font-weight:100;font-size:300%;padding:0; padding-top:1em; margin:0;}
+.new {border-left:3px solid red;padding:0em 1em;}
+tt {font-family:"Andale Mono","Lucida Console", Monaco, monospace;}
+.mid{text-align:center;}
+.kleur {background-color:#fee; padding: 0 0.3em;}
+.re {float:right;}
+</style>
+</head>
+<body>
+
+<div class="buiten">
+<div class="mid">february 2020
+<br><img src="noforth.jpg" alt="noforth logo" width="320">
+<br>
+
+<h1><span>noForth</span></h1>
+<h3><br> is an interactive 16-bit stand-alone forth for MSP430.
+
+<br>Authors:
+Albert Nijhof &amp; Willem Ouwerkerk
+(<a href="mailto:anij@hccnet.nl,w.ouwerkerk@kader.hcc.nl?subject=noForth">Mail us</a>)
+<br>
+<br><i>Last update 02feb2020</i></h3>
+</div>
+<h4>
+You can put the noForth image on a Launchpad
+and then program the chip using any serial terminal.
+ </h4>
+
+ <h2><br> noForth&nbsp;C and V</h2>
+
+noForth comes in two variants:
+
+<ul>
+<li><b>noForth&nbsp;C</b>, Compact, for the smaller 16kB flash processors.
+</li><li><b>noForth&nbsp;V</b>, with Vocabularies, for larger flash memories.
+</li>
+</ul>
+However,
+noForth C can be used in the larger flash memories
+and
+noForth&nbsp;V in the smaller ones.
+To get an idea of the differences between C and V,
+see <a href="noforth%20words.pdf" target="_blank"> noforth words.pdf </a>
+<h2><br>Low Power noForths</h2>
+The "Low Power" noForths are marked with a dash: noForth C-, V-, CC- and VV-.
+<br>
+<br>
+ <h2>"Double" noForth</h2>
+noForth CC and noForth VV are faster but less compact than noForth C and noForth V.
+<table><tr><td>The priorities for noForth C and V: </td><td>1. robust and comfortable, 2. compact, 3. fast </td></tr>
+<tr><td>The priorities for noForth CC and VV: </td><td>1. robust and comfortable, 2. fast, 3. compact </td></tr></table>
+<br>
+
+
+
+<h4>New in noForth 200202</h4>
+<div class="new">
+<h2>Loops</h2>
+
+<h5>Added:<code> FOR NEXT</code></h5>
+<pre><i>u</i> for .. next
+</pre>
+FOR-NEXT is faster than DO-LOOP.
+It uses only 1 cell on the return stack and
+loops <i>u</i> times.
+The index is on the reurn stack and counts down from <i>u-1</i> to zero.
+On <i>u</i> = 0 the code between <code>for</code> and <code>next</code> is skipped .
+<br>
+<code>i ( -- index )</code> can be used with FOR-NEXT:
+<pre>
+: 4x ( -- ) 4 for i . next ;
+4x [enter]  3 2 1 0  ok
+</pre>
+&bullet; <code>leave</code> and <code>unloop</code> do not function with FOR-NEXT.
+You may use <code>rdrop</code> or <code>r></code> to leave FOR-NEXT conditionally
+because <code>i</code> equals <code>r@</code> :
+<pre>
+: <i>name</i> .. for .. key? if r> exit then .. next -1 ;
+</pre>
+
+<h5>Revised:<code> DO ?DO LOOP +LOOP</code></h5>
+DO-LOOP now uses 2 cells on the return stack (was 3 cells).
+It no longer uses the processor register DOX.
+This means that DOX is now a free register, together with XX, YY and ZZ.
+<br>The behaviour of DO-LOOP has not changed.
+</div>
+<!--
+<h5><code>WHILE</code></h5>
+<code>while</code> can be used with FOR-NEXT and DO-LOOP:
+<pre>
+: <i>name</i> .. do .. key? 0= while .. loop .. else .. unloop then .. ;
+: <i>name</i> .. for .. key? 0= while .. next .. else .. rdrop then .. ;
+</pre>
+-->
+<h2><br>The noForth solutions for conflicting names</h2>
+
+
+<h5><code>NEXT</code> is state-smart</h5>
+compiling: the NEXT of FOR-NEXT.
+<br>executing: the assembler-NEXT of the inner interpreter.
+
+<h5><code>#</code> is state-smart</h5>
+compiling: the forth-# for number printing.
+<br>executing: the assembler-# that denotes a literal.
+
+<h5><code>AND</code> and <code>XOR</code> (forth vs. msp430)</h5>
+In noForth assembler the msp430-AND is <code>BIA</code> .
+<br>In noForth assembler the msp430-XOR is <code>BIX</code> .
+<br>This is in harmony with the existing msp430 commands <code>BIC</code> and <code>BIS</code>.
+
+
+<h2><br>Some details to remember</h2>
+<ul><li>noForth skips characters greater than hex 7E in the input stream.
+</li><li><code>WORD</code> no longer exists in noForth.
+Use <code>BL-WORD</code> instead of <code>BL WORD</code> .
+</li></ul>
+
+<!--
+
+
+<br><a href="updates summary.pdf" target="_blank">Summary of the most important noForth updates until now</a>
+<h3>2019</h3>
+<div class="new">
+190519
+<br>This update only has some minor internal changes.
+<br>
+<br>
+190101
+<br>This update only has some minor internal changes.
+<br>New: NoForth skips characters in the input stream which are greater than hex 7E.
+</div>
+<br><br><div>
+181010
+<ul><li>New: noforth for msp-exp430fr2355 experimenter board
+</li><li>The noforth binaries now have the extension .hex
+and contain <b>only the noForth kernel.
+You have to load the file <a href="noforth tools.f" target="-blank"> noforth tools.f</a> </b>onto the kernel for words as
+.S WORDS MANY DMP and SEE.
+
+</li><li>WORD no longer exists in noForth. Use BL-WORD instead.
+
+</li></ul>
+</div>
+<a href="earlier-updates.pdf" target="_blank">Earlier updates</a>
+-->
+<hr>
+
+<h2><br>Downloads</h2>
+The noForth binaries contain only the noForth kernel without the tools.
+<b>After noForth is programmed on the chip you have to send the file <a href="noforth%20tools.f"> noforth tools.f</a> to noForth for
+.S WORDS MANY DMP and SEE.</b>
+<br>In the list below you find the general noForth Intel-hex files for the MSP430 processors.
+It may be necessary to adapt the CONFIG list (settings for Baud rate, Clock speed, etc.) in the noForth Intel-hex files. Follow the instructions in the README file.
+<br>
+<br><b>noForth versions 200202</b>
+<table>
+<tr><td>MSP430F149</td><td><a href="ihxx/noforths%20149.zip"> noforths 149.zip</a></td></tr>
+<tr><td colspan="2"><hr></td></tr>
+<tr><td>MSP430G2553</td><td><a href="ihxx/noforths%202553.zip"> noforths 2553.zip</a></td></tr>
+<tr><td>MSP430G2955</td><td><a href="ihxx/noforths%202955.zip"> noforths 2955.zip</a></td></tr>
+<tr><td colspan="2"><hr></td></tr>
+<tr><td>MSP430FR2433</td><td><a href="ihxx/noforths%202433.zip"> noforths 2433.zip</a></td></tr>
+<tr><td>MSP430FR2x55</td><td><a href="ihxx/noforths%202x55.zip"> noforths 2x55.zip</a></td></tr>
+<tr><td>MSP430FR5739</td><td><a href="ihxx/noforths%205739.zip"> noforths 5739.zip</a></td></tr>
+<tr><td>MSP430FR5969</td><td><a href="ihxx/noforths%2059x9.zip"> noforths 59x9.zip</a></td></tr>
+<tr><td>MSP430FR5994</td><td><a href="ihxx/noforths%205994.zip"> noforths 5994.zip</a></td></tr>
+</table>
+
+<br><b>How to get noForth in the MSP430?</b>
+<table><tr><td>Put the noForth image in the MSP430
+with the 'UniFlash' program (by Texas Instruments).
+<br>See <a href="howto/how%20to%20use%20uniflash.pdf" target="_blank"> how to use uniflash</a>
+</td></tr><tr><td>Uniflash will not function with the MSP430F149.
+<br>See <a href="howto/how%20to%20f149.pdf" target="_blank"> how to f149</a>
+</td></tr><tr><td>With the FET-interface on the MSP-EXPFR2355
+all MSP430 chips (with the exception
+of the 100-series)
+can be programmed.
+<br>See <a href="howto/msp-exp430fr2355%20as%20programmer.pdf" target="_blank"> msp-exp430fr2355 as programmer</a>
+</td></tr></table>
+
+<br><b>Documentation about boards </b>
+<table>
+<tr><td><a href="boards/msp430f149%20minim%20core%20board.pdf" target="_blank"> MSP430F149 Minim Core board.pdf </a>
+    </td><td> 61kB FROM, Baud rate 9600
+</td></tr><tr><td><a href="boards/msp430f149%20dupont%20board.pdf" target="_blank">MSP430F149 Dupont board.pdf </a>
+    </td><td> 61kB FROM, Baud rate 9600
+</td></tr><tr><td><a href="boards/msp430f149%20mini-v3%20board.pdf" target="_blank">MSP430F149 Mini-V3 board.pdf </a>
+    </td><td> 61kB FROM, Baud rate 9600
+</td></tr><tr><td colspan="2"><hr>
+</td></tr><tr><td><a href="boards/msp-exp430g2.pdf" target="_blank">MSP-EXP430G2.pdf </a>
+    </td><td> 16kB FROM, Baud rate 9600
+</td></tr><tr><td><a href="boards/msp-exp430g2et.pdf" target="_blank">MSP-EXP430G2et.pdf </a>
+    </td><td> 16kB FROM, Baud rate 9600
+</td></tr><tr><td colspan="2"><hr>
+</td></tr><tr><td><a href="boards/msp-exp430fr2433.pdf" target="_blank">  MSP-EXP430FR2433.pdf </a>
+    </td><td> 16kB FRAM, Baud rate 115k2
+</td></tr><tr><td><a href="boards/msp-exp430fr5739.pdf" target="_blank">  MSP-EXP430FR5739.pdf </a>
+    </td><td> 16kB FRAM, Baud rate 9600
+</td></tr><tr><td><a href="boards/msp-exp430fr2355.pdf" target="_blank">MSP-EXP430FR2355.pdf </a>
+    </td><td> 32kB FRAM, Baud rate 115k2
+</td></tr><tr><td><a href="boards/msp-exp430fr5969.pdf" target="_blank">  MSP-EXP430FR5969.pdf </a>
+    </td><td> 64kB FRAM, Baud rate 115k2
+</td></tr><tr><td><a href="boards/msp-exp430fr5994.pdf" target="_blank">  MSP-EXP430FR5994.pdf </a>
+    </td><td> 256kB FRAM, Baud rate 115k2
+</td></tr><tr><td colspan="2"><hr>
+</td></tr><tr><td><a href="boards/msp430g2553%20on%20egel%20kit.pdf" target="_blank">MSP430G2553 on Egel kit.pdf </a></td><td> 16kB FROM, Baud rate 38k4
+</td></tr><tr><td><a href="boards/msp430g2955%20on%20cosey%20robot.pdf" target="_blank">MSP430G2955 on Cosey robot.pdf </a>
+    </td><td> 56kB FROM, Baud rate 9600
+</td></tr></table>
+
+<!--
+<br><i>- under Windows, Linux and Mac OS:</i>
+<br>&bullet; <a &bullet; href="howto/howto-fr2355.pdf" target="_blank"> MSP-EXP430FR2355 Experimenter's Board</a> with UniFlash.
+<br>&bullet; <a href="howto/msp-exp430fr2355 board as programmer.pdf" target="_blank"> Any MSP430 board</a> with UniFlash, using the MSP-EXP430FR2355 Board as interface.
+<br><i>- under Windows:</i>
+<br>&bullet; <a href="howto/howto-launchpad.pdf" target="_blank"> MSP430G2553 Launchpad</a>
+<br>&bullet; <a href="howto/howto-egel.pdf" target="_blank"> MSP430G2553 Egel kit </a>
+<br>&bullet; <a href="howto/howto-f149.pdf" target="_blank"> MSP430F149 boards </a>
+<br>&bullet; <a href="howto/howto-fr2433.pdf" target="_blank"> MSP-EXP430FR2433 Experimenter board </a>
+<br>&bullet; <a href="howto/howto-fr5739.pdf" target="_blank"> MSP-EXP430FR5739 Experimenter board </a>
+<br>&bullet; <a href="howto/howto-fr59xx.pdf" target="_blank"> MSP-EXP430FR59xx boards </a>
+<br>&bullet; <a href="howto/howto-g2955.pdf" target="_blank"> MSP-EXP430G2955 boards </a><br><i>- under Linux:</i>
+<br>&bullet; <a href="howto/howto-fr59xx-linux.pdf" target="_blank"> MSP-EXP430FR59xx boards </a>
+<br>&bullet; <a href="howto/howto-linux.pdf" target="_blank"> MSP430G2553 Launchpad  </a>
+-->
+<hr>
+
+<h2><br>Egel project</h2>
+<table><tbody><tr><td>
+<img src="egeltje1.jpg" alt="egeltje">
+</td><td>
+The <a href="../../willem.ouwerkerk/egel-for-msp430/egel%20for%20launchpad.html" target="-blank">
+Egel project</a>
+ consists of about 50 elementary examples of hardware control
+ with noForth on the MSP430.
+ In each example you find a file with forth code, documentation
+ and links to more information on the internet.
+</table>
+<br><hr>
+
+<h2><br>Four answered questions about noForth</h2>
+
+<ol><li>
+<h4>What do I need to get my program compiled in noForth?</h4>
+noForth receives the text, translates it into code and compiles that in flashrom.
+You need a simple communication program which is able
+to send text to noForth on the chip.
+(Teraterm for Windows, CoolTerm for OS X,
+<a href="https://wiki.forth-ev.de/doku.php/en:projects:e4thcom" target="_blank">e4thcom</a> for Linux, ... )
+   <br>&nbsp; Baud rate 9600 -
+   data 8 bit -
+   parity none -
+   stop 1 bit -
+   flow control none -
+<br>&nbsp;
+   transmit delay:  0 ms/char, 100 ms/line
+
+
+</li><li><h4>Will compiled code stay in flashrom after a power off/on?</h4>
+No, unless you have sent the command <code>FREEZE</code>.
+</li><li><h4>Is it possible to erase 'frozen' code?</h4>
+Yes. Executing a MARKER or a SHIELD erases the code that is compiled after it.
+
+</li><li><h4>Re-configuration: is it possible to change clock speed, Baud rate,
+serial port, pin and port for the APP button from within noForth?</h4>
+Yes, see the documentation in
+<a href="noforth%20re-config%20files.zip" target="_blank">noforth re-config files.zip.</a>
+
+</li></ol>
+
+<br><hr>
+<h2><br>Before you start:</h2>
+<p>Since noForth compiles in FlashROM,
+it is unavoidable that some words don't behave exactly as the standard prescribes.
+<b>We tried, without restricting the programming freedom, to minimize
+the aberrations from the standard.</b> This concerns:
+<br><tt>HERE ALLOT ! C! +! MOVE</tt> (only RAM)
+<br><tt> , C,</tt> (only ROM)
+<br><tt>  CREATE</tt>
+</p>
+<br><hr>
+
+<h2><br>Files</h2>
+Programs (.f) and documentation
+<table><tbody><tr><td>
+<ul>
+<li> <a href="ram%26rom.pdf" target="_blank"> Readme-1 </a> (about RAM &amp; ROM)
+</li><li> <a href="freeze%26forget.pdf" target="_blank">Readme-2 </a> (about freeze &amp; forget)
+<br><br>
+</li><li><a href="noforth%20tools.f" target="_blank">noforth tools.f</a>
+<br><br>
+</li><li><a href="noforth%20c%20more%20standard%20words.f" target="_blank">noforth c more standard words.f</a>
+</li><li><a href="noforth%20v%20more%20standard%20words.f" target="_blank">noforth v more standard words.f</a>
+<br><br>
+</li><li><a href="noforth%20asm.f" target="_blank"> noforth asm.f (180401)</a> (noForth assembler)
+</li><li><a href="noforth%20das.f" target="_blank"> noforth das.f </a> (noForth disassembler)
+<br><br>
+</li><li><a href="aux430asm.f" target="_blank"> aux430asm.f</a> Cross assembler (160412)
+</li><li><a href="bh430/music%20on%20the%20launchpad.html"> Beethoven430</a> (Music on the launchpad)
+</li>
+</ul>
+</td><td>
+<ul>
+<li><a href="noforth%20documentation.pdf" target="_blank">noforth documentation.pdf</a> 200202
+</li><li><a href="noforth%20asm.pdf" target="_blank"> noforth asm.pdf </a> (Assembler notation in noForth)
+<br><br>
+</li><li> <a href="session1.pdf" target="_blank"> session1.pdf</a> (BASE and the prompt)
+</li><li><a href="session2.pdf" target="_blank"> session2.pdf</a> (Decompiler output)
+<br><br>
+</li><li><a href="input%20stream.pdf" target="_blank"> input stream.pdf </a> (About the input stream)
+</li><li><a href="commacode.pdf" target="_blank"> commacode.pdf </a> (How to use it)
+</li><li><a href="commacode%202.pdf" target="_blank"> commacode 2.pdf </a>
+<br><br>
+</li><li> <a class="kleur" href="how%20noforth%20is%20made.pdf" target="_blank"> how noforth is made.pdf</a>
+</li><li> <a class="kleur" href="noforth%20metacompiler.zip" target="_blank"> noforth metacompiler.zip</a> 200202
+<br><br>
+</li><li><a href="hardware%20explorer.pdf" target="_blank"> hardware explorer.pdf</a> (English),
+</li><li><a href="launchpad%20experimenteerkit.pdf" target="_blank"> launchpad experimenteerkit.pdf</a> (Dutch)
+</li>
+</ul>
+</td></tr></tbody>
+</table>
+
+<pre> This noForth software
+ is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This software is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ <a href="http://www.gnu.org/licenses/gpl.txt" target="_blank">GNU General Public License </a>for more details.
+ </pre>
+
+<hr>
+<h2><br>How to make a turnkey system</h2>
+
+<p><tt>' </tt>  &lt;<i>my-application</i>&gt; &nbsp; <tt> TO APP &nbsp; FREEZE</tt>
+<br>(Put the application token in the value <tt>APP</tt> and type <tt>FREEZE</tt>)
+<br>The execution of the <tt>APP</tt> vector can be bypassed with a switch.
+</p>
+
+<hr>
+
+<h2><br>noForth is written 'from scratch'</h2>
+<img class="re" src="p44u%252520-%252520usci%2525201-wire%252520spi%252520%252520as%252520ws281.jpg" alt="pwm" width="200">
+<ul>
+<li>Floored division
+</li><li>With decompiler
+</li><li><tt>CATCH</tt> and <tt>THROW</tt>
+</li><li>With meta compiler
+</li><li>Fast <tt>FIND</tt> (eight threads)
+</li><li><tt>KEY KEY?</tt> and <tt>EMIT</tt> are vectored
+</li><li>Adjustable prompt, for extra information
+</li><li><tt>VALUE</tt> with prefixes <tt>TO +TO</tt> and <tt>INCR</tt>
+</li><li>Missing core words are available as source
+</li><li>Assembler and disassembler available as source
+</li><li>Also an external assembler aux430ass.f (in Win32forth)
+</li><li>Forget-functions (<tt>MARKER</tt> and <tt>SHIELD</tt>) do not spill Flash memory
+</li><li>When an error occurs while loading a file, noForth will ignore the rest of the file
+</li><li>...
+</li>
+</ul>
+
+<hr>
+<table><tbody><tr>
+<td><a href="http://home.hccnet.nl/anij/index.html"><img src="home.gif" alt="home" width="96"></a>
+<!-- </td>
+<td>
+<a href="http://home.hccnet.nl/anij/nof1210/noforth.html">Link to the previous version: noForth&nbsp;1210</a>  -->
+</td>
+</tr></tbody></table>
+<br>
+<br>
+</div>
+
+
+
+
+</body>
+<!-- Mirrored from home.hccnet.nl/anij/nof/noforth.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 27 Apr 2020 22:06:00 GMT -->
+</html>
+

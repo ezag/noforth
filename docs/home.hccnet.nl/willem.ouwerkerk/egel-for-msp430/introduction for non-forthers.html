@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/introduction for non-forthers.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 27 Apr 2020 22:10:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=iso-8859-1" /><!-- /Added by HTTrack -->
+<head>
+    <link rel="SHORTCUT ICON" href="egeltje4.ico">
+    <title>introduction for non-forthers</title>
+<style>
+article {width:32em; padding:1em; margin:auto; color:#100; }
+pre { font-size:90%; font-family: hack,
+    "Andale Mono","Lucida Console", Monaco, monospace;
+    margin:0.4; padding:0.5em; padding-left:2em;
+    background-color:#ff9; }
+b { color:#066; font-size:110%; }
+span {color:#fff; font-size:110%; background-color:#0aa;
+     padding:0 0.3em }
+h1 {font-size:250%; font-weight:100; color:#099; }
+a { text-decoration:none; padding:9px;
+    color:#900; background-color:#9ff;
+    line-height:150%; border-radius:11px; font-size:120%; }
+a:hover{ color:#099; }
+</style>
+</head>
+<body><article>
+<p><a href="egel%20for%20launchpad.html">&#x21D0;</a></p>
+<h1>Introduction for non-forthers</h1>
+If you are new to forth,
+here are a few things you should absolutely know
+before you try to read forth programs.
+
+<br>
+
+<h2>1. &nbsp; Words</h2>
+Forth code consists of words (commands).
+Words appear as strings separated by one or more spaces.
+This means that forth does not know compound expressions like
+<pre>print(12x+y)/3</pre>
+In forth such an expression is written as a series of independent
+commands separated by spaces:
+<pre>x 12 *  y +  3 /  .</pre>
+The dot prints the result.
+<br>
+<br>The main forth rule is:
+<br><span>First the data, then the operation on the data.</span>
+<br>
+<br>Numbers, constants, variables and operations as
+<b>&nbsp;+ &nbsp; * &nbsp; / &nbsp;</b> and <b>&nbsp;.&nbsp;</b> (dot)
+are all independent commands, even when they are one character words.
+They are not part of an expression
+and can appear in any order
+because there is no syntax (and consequently no syntax error ;).
+Of course the result will be different when you change the word order.
+
+
+<h2>2. &nbsp; Comment</h2>
+<pre>\ This is comment</pre>
+'<b>\</b>' is a word. It (the backslash) simply ignores the rest of the line.
+<br>
+<br>
+<pre>x 12 * ( 12x )   y + ( 12x+y )   3 /   .</pre>
+'<b>(</b>' is a word, it ignores text until
+'<b>)</b>' appears.
+Yes, it is indeed the word '<b>(</b>'
+itself that does this, not a compiler or an interpreter.
+
+<br>
+<br>
+<h2>3. &nbsp; Defining new words in forth</h2>
+<pre>\ this a colon definition:
+: FORMULA1   x 12 * y + 3 /  ;</pre>
+'<b>:</b>' starts the definition of a new word.
+<br>The following word <b>FORMULA1</b> will be its name.
+<br>The words
+<b>&nbsp;x &nbsp; 12 &nbsp; * &nbsp; y &nbsp; + &nbsp; 3 &nbsp; /&nbsp;</b>
+are not executed. They are compiled in the definition.
+<br>'<b>;</b>' finishes the definition.
+<br>Now there is a new forth word <b>&nbsp;FORMULA1&nbsp;</b>. When you type its name and press 'enter'
+the
+<b>&nbsp;x &nbsp; 12 &nbsp; * &nbsp; y &nbsp; + &nbsp; 3 &nbsp; /&nbsp;</b> will be executed.
+<br>
+<br>
+<pre>\ this is a definition in assembler:
+code LED-ON ...assembly... next end-code</pre>
+<b>code&nbsp;</b> and <b>&nbsp;next end-code&nbsp;</b> behave like the pair
+'<b>:</b>' and '<b>;</b>'.
+The difference is that code definitions are written in assembler.
+<br>
+<br>When you type a forth word and press 'enter' the word will
+be executed, but while defining a new definition the words will be compiled in
+the definition for later execution.
+<br>
+<br>Documentation: When a new word is defined, it is usually followed
+by an <br><span>( in -- out ) diagram</span> that symbolically shows the data 'eaten' by the word
+and the data produced by the word:
+<pre>*  ( x y -- x*y )
+.  ( x -- )</pre>
+
+<h2>4. &nbsp; if then &nbsp; begin until &nbsp; begin while repeat</h2>
+These words are a bit tricky in forth. You might expect:
+<pre>IF rain THEN umbrella ..      <span>wrong in forth!</span></pre>
+
+<br>Remember:
+<span>First the data, then the operation on the data.</span>
+<br>
+<br>
+<pre>rain? IF umbrella ELSE no-umbrella THEN ..</pre>
+<b>rain?&nbsp;</b> (a rain detector) produces a flag
+for the decision maker <b>&nbsp;IF&nbsp;</b> (zero=false=no, non-zero=true=yes).
+When the flag is zero <b>&nbsp;IF&nbsp;</b> jumps to <b>no-umbrella</b> just after <b>&nbsp;ELSE&nbsp;</b>
+otherwise it does nothing.
+<br>
+<br>
+<pre>BEGIN umbrella rain-stopped? UNTIL no-umbrella ..</pre>
+On zero <b>&nbsp;UNTIL&nbsp;</b> jumps back to <b>&nbsp;BEGIN&nbsp;</b>
+<br>
+<br>
+<pre>BEGIN rain? WHILE umbrella REPEAT no-umbrella ..</pre>
+On zero <b>&nbsp;WHILE&nbsp;</b> jumps to ... just after <b>&nbsp;REPEAT&nbsp;</b>
+and quits the loop.
+<p><a href="egel%20for%20launchpad.html">&#x21D0;</a></p>
+</article>
+</body>
+<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/introduction for non-forthers.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 27 Apr 2020 22:10:48 GMT -->
+</html>
+

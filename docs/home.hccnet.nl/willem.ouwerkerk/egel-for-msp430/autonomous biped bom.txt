@@ -1,0 +1,24 @@
+
+    -- Biped material list --
+
+- Drawing & material feet (3mm Plywood or 1,5mm alu, FR4 epoxy board)
+- Drawing & material base plate (3mm Plywood or 1,5mm alu, FR4 epoxy board)
+- Egel kit with shield
+- 4x standard servo (HS-300/HS-311, Towerpro 996 or similar)
+- Switched power supply 3 Amp. 5 Volt LM2596 (LM2596S DC-DC)
+- Bluetooth module HC06 (HC-06 Bluetooth serial module)
+- HC-SR04 ultrasone sensor (see links)
+- Beeper or small high impedance speaker (see links)
+- Alu strip 2x 80mmx10mmx2mm flat
+- Switch 3 Amp. ( MTS-102 SPDT )
+- 3x 15 mm column spacer m2
+- 4x 10mm column spacer m3
+- 4x 27mm column spacer m3
+- 50mmx40mmx5mm of styrofoam
+- Some wired, solder & connectors
+- A few M3 bolts, nuts and small metal screws
+- 6 cm double-sided sticky tape
+- LiPo accu 7,4V - 900mAh (Lion power 7.4V 900MAH 25C 2s lipo)
+- Lipo under voltage protection (See schematic)
+- LiPo charger! (ImaxRC B3 Pro Compact, Balance Charger)
+
