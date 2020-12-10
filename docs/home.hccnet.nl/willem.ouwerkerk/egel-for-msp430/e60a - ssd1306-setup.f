@@ -1,6 +1,6 @@
-(* E60a - For noForth C&V2553 lp.0, I2C driver for SSD1306 0.96 inch 128x64 
-   pixels oled screen using USCI I2C routines. Separated files with a small 
-   and big character set.
+(* E60a - For noForth C&V 200202: I2C driver for SSD1306 
+   The SSD1306 is a 0.96 inch 128x64 pixels oled screen using USCI I2C routines. 
+   Separate files with a small, big, bold & graphic character set.
 *)
 
 hex

@@ -1,4 +1,4 @@
-(* E53 - For noForth C&V2553 lp.0, bit input and output, timer interrupt and hardware
+(* E53 - For noForth C&V 200202: bit input and output, timer interrupt and hardware
    interrupt with machine code, on MSP430G2553 using port-1 and port-2.
 
   RC5 remote control decoder and power control for MSP430 Launchpad.
@@ -19,16 +19,16 @@
   the infrared receiver! 
 
  P2.0 is used as RC5 input.
-  01 028 = P2IN   - P2 RC5 receiver input           \ P2.0
-  FE 029 = P2OUT  - P2 output bits
-  FE 02A = P2DIR  - P2 direction register
-  01 02B = P2IFG  - P2 Interrupt flag
-  01 02C = P2IES  - P2 Interrupt edge
-  01 02D = P2IE   - P2 Interrupt enable
-  01 02E = P2SEL  - P2 configuration bits 0
-  01 02F = P2REN  - P2 resistance on/off
-  01 042 = P2SEL2 - P2 configuration bits 1
-  FFE6   - P2 Interrupt vector
+  01 28 = P2IN   - P2 RC5 receiver input           \ P2.0
+  FE 29 = P2OUT  - P2 output bits
+  FE 2A = P2DIR  - P2 direction register
+  01 2B = P2IFG  - P2 Interrupt flag
+  01 2C = P2IES  - P2 Interrupt edge
+  01 2D = P2IE   - P2 Interrupt enable
+  01 2E = P2SEL  - P2 configuration bits 0
+  01 2F = P2REN  - P2 resistance on/off
+  01 42 = P2SEL2 - P2 configuration bits 1
+  FFE6  - P2 Interrupt vector
  Adresses of Timer-A0
   160 = TA0CTL   - Timer A0 control
   162 = TA0CCTL0 - Timer A0 Comp/Capt. control 0
@@ -51,7 +51,7 @@ hex
 : >LEDS     FC 29 *bic  2* 2* 29 *bis ; \ P2OUT  ( b -- )
 : RED       01 21 ;                    \ P1OUT  Red led at P1.0
 : GREEN     40 21 ;                    \ P1OUT  Green led at P1.6
-: LAMP      02 29 ;                    \ P2OUT  Solid state relais at P2.1
+\ : LAMP      02 29 ;                    \ P2OUT  Solid state relais at P2.1
 : POWER     10 29 ;                    \ P2OUT  Power output at P2.4 (2 Amp. max.)
 : FLASH     -1 >leds 200 ms  0 >leds 200 ms ;
 
@@ -124,22 +124,22 @@ routine RCSTART     ( -- )          \ Edge noticed, start decoder!
 end-code
 
 : RC-ON             ( -- )          \ Install decoder hardware
-    0000 160 !  0010 162 !          \ TA0CTL, TA0CCTL0 Timer A0 off and compare 0 interrupt on
+    0 160 !  10 162 !               \ TA0CTL, TA0CCTL0 Timer A0 off and compare 0 interrupt on
 \ Set hardware interrupt at P2.0 ready, all other bits of P2 are outputs
-    00 02E c!                       \ P2SEL  Port-2 use all bits as normal I/O
-    01 2F *bis                      \ P2REN  Bit-0 resistor on
+    0 2E c!                         \ P2SEL  Port-2 use all bits as normal I/O
+    1 2F *bis                       \ P2REN  Bit-0 resistor on
     FE 2A c!                        \ P2DIR  Bit-0 is input, 1 t/m 7 are output
-    01 29 *bis                      \ P2OUT  Bit-0 pullup resistance
-    01 2C *bis                      \ P2IES  Bit-0 falling edge
-    01 2B *bic                      \ P2IFG  Bit-0 reset HW interrupt flag
-    01 2D *bis                      \ P2IE   Bit-0 interrupt on
+    1 29 *bis                       \ P2OUT  Bit-0 pullup resistance
+    1 2C *bis                       \ P2IES  Bit-0 falling edge
+    1 2B *bic                       \ P2IFG  Bit-0 reset HW interrupt flag
+    1 2D *bis                       \ P2IE   Bit-0 interrupt on
     0 to rckey?                     \ Allow new key input
     interrupt-on ;                  \ Activate decoder
 
 : RC-OFF            ( -- )
     interrupt-off                   \ Deactivate decoder
-    0000 160 !  0000 162 !          \ TA0CTL, TA0CCTL0 Stop timer-A0
-    01 2D *bic ;                    \ P2IE  HW interrupts off
+    0 160 !  0 162 !                \ TA0CTL, TA0CCTL0 Stop timer-A0
+    1 2D *bic ;                     \ P2IE  HW interrupts off
 
 \ Receive a RC5 databyte, x is a code from the definined RC5-code
 \ command set. More info search for RC5 device documentation
@@ -149,12 +149,13 @@ end-code
     rcdata 3F and                   \ Low 6-bits are key-code
     0 to rckey? ;                   \ Allow next key
 
+(*
 : RC-LAMP           ( -- )          \ Control a lamp thru rc5
     rc-on  flash                    \ Show startup 
     lamp *bic  green *bic  red *bic \ (Led)lamp and green led off
     begin
         LPM4 rckey 0C = if          \ On/Off key received ? ***
-            0E0 ms  rckey? if       \ Yes, wait a moment, check for key
+            E0 ms  rckey? if        \ Yes, wait a moment, check for key
                 rckey drop          \ Throw repeated key away!
             then
             lamp *bix               \ Switch lamp On/Off
@@ -163,13 +164,14 @@ end-code
         then
     key? until  rc-off
     lamp *bic  green *bic ;         \ Outputs off
+*)
 
 : RC-POWER          ( -- )          \ Control power output thru RC5
     rc-on  flash                    \ Show startup 
     power *bic green *bic red *bic  \ (Led)lamp and green led off
     begin
         LPM4 rckey 0C = if          \ On/Off key received ? ***
-            0E0 ms  rckey? if       \ Yes, wait a moment, check for key
+            E0 ms  rckey? if        \ Yes, wait a moment, check for key
                 rckey drop          \ throw repeated code away!
             then
             power *bix              \ Switch power output On/Off
@@ -190,6 +192,7 @@ end-code
 rcbit-in  FFF2 vec!                 \ Set timer-A0 interrupt vector
 rcstart   FFE6 vec!                 \ Set P2 interrupt vector
 
-' rc-power  to app   shield rc5\  freeze
+' rc-power  to app   
+shield rc5\  freeze
 
 \ End

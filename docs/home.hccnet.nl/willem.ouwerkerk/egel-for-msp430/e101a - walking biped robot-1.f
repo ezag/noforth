@@ -1,4 +1,4 @@
-(* E101 - For noForth C2553 lp.0, C&V version: Load noforth-asm.f first !!
+(* E101 - For noForth C&V 200202 or later: Load noforth-asm.f first !!
   Biped with 4 model servo's at output P1.4 to P1.7 with MSP430G2553
 
   P1.4 to P1.7 are wired to four servos on the launchpad experimenters kit.

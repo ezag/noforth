@@ -1,4 +1,4 @@
-(* e16c - For noForth C&V2553 lp.0 routines for full duplex software
+(* e16c - For noForth C&V 200202: routines for full duplex software
    RS232 using interrupts with timer-A1 on P2.0 and timer-A0 on P2.1
  \ -------------------------------------------------------------------
  \ LANGUAGE    : noForth vsn April 2016

@@ -1,4 +1,4 @@
-(* E25 - For noForth C&V2553 lp.0, Watchdog as interval timer.
+(* E25 - For noForth C&V 200202: Watchdog as interval timer.
   The lowest two bits of the WDTCL register set the clock divider
   here it is set to 01 = SMCLK/8192
   The watchdog interrupt lowers a value MS) to zero

@@ -1,5 +1,4 @@
-(* E02 - For noForth C2553 lp.0, C&V version: Port input at P1 & output at P2 
-  with MSP430G2553 
+(* E02 - For noForth C&V 200202 or later: Port input at P1 & output at P2 with MSP430G2553
 
   Port-2 must be wired to 8 leds, placed on the launchpad experimenters kit.
   Wire P2.0 to P2.7 to the anode of eight 3mm leds placed on the breadboard 
@@ -23,17 +22,17 @@
 
 hex
 \ Use bit 3 to make a delay value (S?)
-: WAIT          ( -- )      008 020 bit* 5 + 0A * ms ; \ P1IN bit-3
-: >LEDS         ( b -- )    029 c! ; \ P2OUT  Store pattern b at leds
+: WAIT          ( -- )      8 20 bit* 5 + 0A * ms ; \ P1IN bit-3
+: >LEDS         ( b -- )    29 c! ; \ P2OUT  Store pattern b at leds
 
 : FLASH         ( -- )  \ Visualise startup
-    -1 >leds  064 ms    \ All leds on
-    00 >leds  064 ms ;  \ All leds off
+    -1 >leds  64 ms     \ All leds on
+    00 >leds  64 ms ;   \ All leds off
 
 : SETUP-PORTS   ( -- )
-    08 022 *bic         \ P1DIR  Port-1 bit 3 is input (S?)
-    00 02E c!           \ P2SEL  Port-2 all bits I/O
-    -1 02A c! ;         \ P2DIR  All bits of P2 are outputs
+    8 22 *bic           \ P1DIR  Port-1 bit 3 is input (S?)
+    0 2E c!             \ P2SEL  Port-2 all bits I/O
+    -1 2A c! ;          \ P2DIR  All bits of P2 are outputs
 
 : COUNTER       ( -- )  \ Binary counter
     setup-ports  flash
@@ -55,4 +54,6 @@ hex
     ;
 
 freeze
+
+\ End ;;;
 

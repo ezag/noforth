@@ -1,4 +1,4 @@
-(* E112A - For noForth C2553 lp.0, C&V version:  RS232 via USB or Bluetooth in-
+(* E112A - For noForth C&V 200202 or later:  RS232 via USB or Bluetooth in-
    and output.
    Use Bluetooth instead of USB serial connection... for MSP430F149 version-D. 
    Switch KEY? KEY and EMIT between Bluetooth and USB, note that the code is for 

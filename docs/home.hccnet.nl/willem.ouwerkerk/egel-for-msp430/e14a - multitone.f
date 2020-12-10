@@ -1,4 +1,4 @@
-(* E14A - For noForth 2553 lp.0, C&V version: Simple perpetual canon
+(* E14A - For noForth C&V 200202: Simple perpetual canon
    music output using timer-A0 & timer-A1. ouputs are P1.6 and P2.1
    Frequency range of both outputs is 61 Hz to 39000 Hz
 
@@ -37,8 +37,8 @@ hex
 : RED-OFF       ( -- )      1 21 *bic ; \ P1OUT
 : STOP0         ( -- )      0 160 ! ;   \ TA0CTL  Timer A0 off
 : STOP1         ( -- )      0 180 ! ;   \ TA1CTL  Timer A1 off
-: -TONE0        ( -- )      stop0  40 026 *bic ; \ P1SEL  Tone off
-: -TONE1        ( -- )      stop1  02 02E *bic ; \ P2SEL  Tone off
+: -TONE0        ( -- )      stop0  40 26 *bic ; \ P1SEL  Tone off
+: -TONE1        ( -- )      stop1  2 2E *bic ; \ P2SEL  Tone off
 
 : PERIOD0       ( p -- )        \ Set tone p with 50% dutycycle
     dup 1 rshift 174 ! 172 ! ;  \ TA0CCR1, TA0CCR0
@@ -47,16 +47,16 @@ hex
 
 : TONE0         ( period -- )   \ Tone at P1.6
     ?dup if                     \ Only when not zero
-        red-on stop0 40 022 *bis \ P1DIR
-        40 026 *bis  period0    \ P1SEL
+        red-on stop0 40 22 *bis \ P1DIR
+        40 26 *bis  period0     \ P1SEL
         E0 164 !                \ TA0CCTL1
         254 160 !  red-off      \ TA0CTL  Timer A0 on
     then ;
 
 : TONE1         ( period -- )   \ Tone at P2.1
     ?dup if                     \ Only when not zero
-        red-on stop1 2 02A *bis \ P2DIR
-        02 02E *bis  period1    \ P2SEL
+        red-on stop1 2 2A *bis  \ P2DIR
+        2 2E *bis  period1      \ P2SEL
         E0 184 !                \ TA1CcTL1
         254 180 !  red-off      \ TA1CTL  Timer A1 on
     then ;
@@ -67,7 +67,7 @@ decimal  39800 constant 100HZ
 
 
 \ The frequencies of all tones are calculated from UT (UT = DO).
-\ Rithm
+\ Rhythm
 value TIQ   ( -- u )    \ Timescale in milliseconds, initialise!
 value TIQS  ( -- u )    \ Duration in tiqs of the next tone or rest
 : Q         ( n -- )    to tiqs ;
@@ -83,9 +83,18 @@ value COUNTER
 
 \ Pitch
 value UT)       \ Adjustable base period, initialise!
-: >UT       ( u -- )        to ut) ;
-: */ROUND   ( x a b -- q )  >r um* r@ um/mod  swap 2* r> < 1+ + ;
 
+\ A variant of */ with rounding to the nearest digit
+: */ROUND   ( x a b -- q )  
+    >r um*  r@ um/mod   \ Save 'b', unsigned */ 
+    swap 2*             \ Remainder times two
+    r> <                \ Doubled remainder smaller then 'b'
+    1+ + ;              \ Convert flag to 0 or 1 & correct result
+
+\ Set a note, defined by two constants. UT) contains the period time
+\ The two constants are used two define the actual period time.
+\ Actual period time: (period-base * constant1) / constant2
+\ Example: ,SOL period time = UT) * 4  / 3, etc.  
 : T:        ( u1 u2 ccc -- )
         create c, c,
         does>  ut) swap count swap c@  swap  */round play ;
@@ -122,9 +131,10 @@ value UT)       \ Adjustable base period, initialise!
 
 
 : INIT      ( -- )      \ Initialise UT) & tiqs in a valid range
+    1 22 c!             \ P1DIR  1.0 is a LED output
     ut) 01893 <>  ut) 03788 <>  and         \ UT) not valid?
     ut) 07576 <>  ut) 15152 <>  and and
-    ut) 30303 <>  and if  15152 >ut  then   \ Yes, initialise
+    ut) 30303 <>  and if 15152 to ut) then  \ Yes, initialise
     tiq 500 10 within if 125 to tiq then ;  \ TIQ valid?
 
 : &         ( -- )   -1 to counter  4 q  r r ; \ Start score
@@ -139,7 +149,7 @@ value UT)       \ Adjustable base period, initialise!
 \ Play dual note    = fa re
 \ Play one note     = mi r
 \ Play rest         = r r
-: BJ        ( -- )
+: BJOHN        ( -- )
     &  4 q  ut r  re r  mi r  ut r
             ut r  re r  mi r  ut r
             mi ut  fa re  sol mi  r ut

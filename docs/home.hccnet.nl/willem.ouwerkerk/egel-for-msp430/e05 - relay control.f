@@ -1,5 +1,4 @@
-(* E05 - For noForth C2553 lp.0, C&V version. Port input at P1.3 and 
-  output at P2.4 with MSP430G2553 
+(* E05 - For noForth C&V 200202: Port input at P1.3 and output at P2.4 with MSP430G2553
 
   For the Egel kit a relay wired to the PWR output is sufficient. 
   For the Launchpad P2.4 must be wired to a transistor, placed on the shield.
@@ -24,20 +23,20 @@
  *)
 
 hex
-: RELAY         10 029 ;            \ P2OUT  Relay output P2.4
-: SWITCH        08 020 ;            \ P1IN   Switch input P1.3
+: RELAY         10 29 ;             \ P2OUT  Relay output P2.4
+: SWITCH        08 20 ;             \ P1IN   Switch input P1.3
 
 : RELAY-ON      relay *bis ;
 : RELAY-OFF     relay *bic ;
-: SETUP-RELAY   10 02A *bis relay-off ; \ P2DIR  Start with relay off
+: SETUP-RELAY   10 2A *bis relay-off ; \ P2DIR  Start with relay off
     
 \ Relay control demonstration, debounced input by securing
 \ that the switch is on for at least 100 ms
 : READ-INPUT        ( -- flag )     \ Sample switch
     0                               \ Begin value
-    14 0 do                         \ Take 20 samples
+    14 for                          \ Take 20 samples
         5 ms  switch bit* 0=  -     \ Wait, then count sample to value
-    loop
+    next
     14 = ;                          \ All 20 samples true?
 
 : RELAY-OFF-DELAY   ( -- )          \ Relay quick on, and slow off 

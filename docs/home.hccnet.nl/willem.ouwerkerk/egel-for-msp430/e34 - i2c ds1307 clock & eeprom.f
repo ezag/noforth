@@ -1,9 +1,14 @@
-(* E34 - For noForth C&V2553 lp.0, bitbang I2C on MSP430G2553 using port-1.
+(* E34 - For noForth C&V 200202: bitbang I2C on MSP430G2553 using port-1.
    I2C data memory and RTC with an 24C32 & DS1307 using external pull-ups
 
   Connect the Tiny RTC I2C-module from AliExpress or any other module
   with a DS1307 RTC and 24C32 EEPROM and connect the power lines, 
-  P1.7 to SDA and P1.6 to SCL, that's it
+  P1.7 to SDA and P1.6 to SCL and jumper P1.6 to the green led has to 
+  be removed, that's it.
+
+ Addresses, Lables and Bit patterns  
+ 0069    - UCB0CTL1     - 081
+ 0003    - IFG2         - 008 = TX ready, 004 = RX ready
 
   For the DC1307 RTC all numbers are in BCD
     00 = seconds
@@ -14,33 +19,37 @@
     05 = month
     07 = Clock control
     08 - 3F = 56 bytes RAM
+
+This code implements a RTC with a DS1307 chip and data storage with 
+an 24C32 EEPROM
+
+User words: SET-CLOCK   ( sec min hr -- )   Set new time for RTC
+            ALARM       ( -- )              Give every 10 seconds an alarm
+            TIMER       ( sec min -- )      Simulate a cooking timer
+            CLOCK       ( -- )              Show RTC
+            GATHER      ( -- )              Gather time data in EEPROM
+            SHOW        ( -- )              Show time data from EEPROM
+
  *)
 
 hex
 \ Output routine for PCF8574(a) chips 042 = device address 1 of a PCF8574
-\ : !BYTE     ( b a -- )   i2write  i2out  i2stop ;
-\ : >LEDS     ( b -- )     invert  042 !byte ;
+\ : !BYTE     ( b a -- )   {i2write  i2stop} ;
+\ : >LEDS     ( b -- )     invert  42 !byte ;
 \ : FLASH     ( -- )       FF >leds 100 ms  00 >leds 100 ms ;
 
 \ PCF8583 bcd conversion
 : >BCD      ( bin -- bcd )  0A /mod  4 lshift + ;
-: BCD>      ( bcd -- bin )  >r  r@ 4 rshift 0A *  r> 0f and  + ;
+: BCD>      ( bcd -- bin )  >r  r@ 4 rshift 0A *  r> 0F and  + ;
 
-\ Set data 'x' at address 'a' from DS1307.
-: !CLOCK    ( x a -- )
-    D0 i2write          \ send chip address write
-    i2out               \ send address byte and
-    i2out               \ then databyte
-    i2stop ;            \ ready
+\ Set data 'x' at address 'addr' from DS1307.
+: !CLOCK    ( x addr -- )   \ set x in address addr
+    D0 {i2write  i2out} ;   \ send chip address & clock address
 
-\ Read data 'x' from address 'a' from DS1307.
-: @CLOCK    ( a -- x )
-    D0 i2write          \ send chip address write
-    i2out               \ send address
-    i2read)             \ send chip address for reading
-    i2in                \ read contents address 
-    i2nack  i2stop ;    \ ready
-
+\ Read data 'x' from address 'addr' from DS1307.
+: @CLOCK    ( addr -- x )   \ Read de contents from adr, x
+    D0 {i2write  {i2read)  i2in} ;  \ Repeated start & read data 
+    
 \ Set & read time to/from DS1307. s(ec) m(in) and h(our) are in decimal!
 : SET-CLOCK ( s m h -- ) 02 !clock  >bcd 01 !clock  >bcd 00 !clock ;    
 : GET-SEC   ( -- sec )   00 @clock bcd> ;
@@ -62,7 +71,7 @@ value TICK)                     \ Remember second
     then ;
 
 \ Three RTC example programs
-: TIMER     ( -- )              \ Show timer
+: ALARM     ( -- )              \ Show timer
     setup-i2c  cr ." Start " 
     begin
         next-alarm              \ Advance alarm
@@ -71,7 +80,7 @@ value TICK)                     \ Remember second
     key? until ;
 
 
-: ALARM     ( sec min -- )      \ Show timer
+: TIMER     ( sec min -- )      \ Show timer
     setup-i2c 
     set-alarm   0 0 0 set-clock \ Next alarm time
     begin  tick  alarm? until   \ wait for alarm, show seconds pulse
@@ -96,17 +105,16 @@ value TICK)                     \ Remember second
 
 
 \ Example with clock & 24C32 EEPROM
-: EEADDR    ( a -- )            \ Address EEprom at addr. 'a'
-    A0 i2write  dup >< i2out  i2out ; \ EE dev. addr. then ee-addr.
+: {EEADDR   ( a -- )            \ Address EEprom
+    b-b  A0 {i2write i2out ;    \ High EE-addr. & low EE-addr.
 
 \ Read data b from 24C32 EEPROM byte-address addr. 
 : EC@       ( addr -- b )
-    eeaddr  i2read)  i2in   \ Read data from address
-    i2nack  i2stop ;        \ stop reading from EEPROM
+    {eeaddr  {i2read)  i2in} ;  \ Address EE & rep. start & read data
 
 \ Write data b to 24C32 EEPROM byte-address addr.
 : EC!       ( b addr -- )
-    eeaddr  i2out  i2stop  poll ; \ Wait until write is done
+    {eeaddr  i2out}  {poll} ;   \ Address EE & write data
 
 value ADDRESS  0 to address     \ Store b in EEPROM
 : STORE     ( b -- )

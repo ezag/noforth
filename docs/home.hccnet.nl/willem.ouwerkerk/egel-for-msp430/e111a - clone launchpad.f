@@ -1,4 +1,4 @@
-(* E111 – For noForth C&V2553 lp.0, CLONE noForth to another MSP430G2553
+(* E111 – For noForth C&V 200202 or later: CLONE noForth to another MSP430G2553
   & calibrate DCO to an 32KHz XT, when the DCO constants where destroyed!
 
   Do not forget to mount a 32kHz crystal. It is used as a reference

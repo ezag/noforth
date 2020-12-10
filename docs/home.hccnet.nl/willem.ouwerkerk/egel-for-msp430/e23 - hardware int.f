@@ -1,11 +1,11 @@
-(* E23 - For noForth C&V2553 lp.0, bit input-, output and a hardware interrupt
+(* E23 - For noForth C&V 200202: bit input-, output and a hardware interrupt
   with machine code, using port-1 and port-2.
   One LED at hw-interrupt toggle, one LED with a toggle by sw-polling.
-  SW1 does the interrupt, S2 uses sw-polling in the word LED.
+  S1 does the interrupt, S2 uses sw-polling in the word LED.
   There is only simple debouncing in this example!
 
-  Connect one toggle switch to P1.4 & ground. Wire 6 to 8 leds or a 
-  led-print to P2.0 to P2.5/P2.7 & ground
+  Connect one toggle switch to P1.4 & ground. Wire 8 leds or a 
+  led board to P2.0 to P2.7 & ground
 
  The settings for P1.4 can be found from page 337 and beyond in SLAU144J.PDF  
 
@@ -25,7 +25,7 @@
 hex
 : GREEN     ( -- )      40 21 *bix ; \ P1OUT
 : RED       ( -- )      01 21 *bix ; \ P1OUT
-: >LEDS	    ( b -- )    029 c! ; \ P2OUT
+: >LEDS     ( b -- )    29 c! ; \ P2OUT
 : FLASH     ( -- )      -1 >leds A0 ms  0 >leds A0 ms ;
 
 code INT-ON     10 # 23 & .b bic  #8 sr bis  next  end-code \ P1IFG
@@ -42,10 +42,11 @@ end-code
     E7 22 c!        \ 3+4 P1DIR  input others output
     18 27 *bis      \ 3+4 P1REN  resistor on
     18 21 *bis      \ 3+4 P1OUT  pullup active
-    10 24 *bis      \ 3   P1IES  falling edge
-    10 25 *bis      \ 3   P1IE   interrupt on
-    10 23 *bic      \ 3   P1IFG  reset interrupt flag
-    3F 2A *bis      \     P1IFG  six outputs
+    10 24 *bis      \ 4   P1IES  falling edge
+    10 25 *bis      \ 4   P1IE   interrupt on
+    10 23 *bic      \ 4   P1IFG  reset interrupt flag
+    00 2E c!        \     P2SEL  Port-2 all bits I/O
+    FF 2A *bis      \     P2DIR  eight outputs
     int-on ;
 
 \ The main loop sets up port-1 & port-2 flashes the leds at P2

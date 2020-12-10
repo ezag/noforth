@@ -1,4 +1,4 @@
-(* E40U - For noForth C&V2553 lp.0, hardware SPI on MSP430G2553 using port-1 & port-2.
+(* E40U - For noForth C&V 200202: hardware SPI on MSP430G2553 using port-1 & port-2.
    SPI i/o with two Launchpad boards and/or Egel kits
 
   Connect the SPI lines of USCI-B0 P1.5, P1.6 & P1.7 to same pins on the
@@ -49,33 +49,33 @@ Used register adresses:
 
 hex
 : MASTER-SETUP  ( -- )
-    01 069 *bis     \ UCB0CTL1  Reset USCI
-    00 021 c!       \ P1OUT     P1out is all low
-    21 022 c!       \ P1DIR     P1dir is P1.0 and P1.6 output
-    E0 026 *bis     \ P1SEL     P1.5 P1.6 P1.7 is SPI
-    E0 041 *bis     \ P1SEL2
-    69 068 *bis     \ UCB0CTL0  Clk=high, MSB first, Master, Synchroon
-    80 069 *bis     \ UCB0CTL1  USCI clock = SMClk
-    08 06A c!       \ UCB0BR0   Clock is 16Mhz/8 = 2 MHz
-    00 06B c!       \ UCB0BR1
-    00 06C c!       \ UCB0MCTL  Not used must be zero!
-    01 069 *bic     \ UCB0CTL1  Free USCI
-    E1 021 *bis     \ P1OUT     Set P1.0, P1.5, P1.6 and P1.7
-  ( 10 021 *bis ) ; \ P1OUT     Clear P1.4
+    01 69 *bis      \ UCB0CTL1  Reset USCI
+    00 21 c!        \ P1OUT     P1out is all low
+    21 22 c!        \ P1DIR     P1dir is P1.0 and P1.6 output
+    E0 26 *bis      \ P1SEL     P1.5 P1.6 P1.7 is SPI
+    E0 41 *bis      \ P1SEL2
+    69 68 *bis      \ UCB0CTL0  Clk=high, MSB first, Master, Synchroon
+    80 69 *bis      \ UCB0CTL1  USCI clock = SMClk
+    08 6A c!        \ UCB0BR0   Clock is 16Mhz/8 = 2 MHz
+    00 6B c!        \ UCB0BR1
+    00 6C c!        \ UCB0MCTL  Not used must be zero!
+    01 69 *bic      \ UCB0CTL1  Free USCI
+    E1 21 *bis      \ P1OUT     Set P1.0, P1.5, P1.6 and P1.7
+  ( 10 21 *bis ) ;  \ P1OUT     Clear P1.4
 
 : SLAVE-SETUP   ( -- )
-    01 069 *bis     \ UCB0CTL1  Reset USCI
-    E0 026 *bis     \ P1SEL     P1.5 P1.6 P1.7 is SPI
-    E0 041 *bis     \ P1SEL2
-    61 068 C!       \ UCBCTL0   Clock mode, MSB first, synchronous 
-    01 069 *bic     \ UCB0CTL1  Free USCI
-    20 022 *bic     \ P1DIR     P1.5 = ingang
-    begin  20 020 bit* until ; \ P1IN  Master  in SPI mode (clock high)?
+    01 69 *bis      \ UCB0CTL1  Reset USCI
+    E0 26 *bis      \ P1SEL     P1.5 P1.6 P1.7 is SPI
+    E0 41 *bis      \ P1SEL2
+    61 68 C!        \ UCBCTL0   Clock mode, MSB first, synchronous 
+    01 69 *bic      \ UCB0CTL1  Free USCI
+    20 22 *bic      \ P1DIR     P1.5 = ingang
+    begin  20 20 bit* until ; \ P1IN  Master  in SPI mode (clock high)?
 
 \ Master SPI routine
 : SPI      ( u1 -- u2 )
-    begin  08 003 bit* until  06F c!    \ IFG2  TX?
-    begin  04 003 bit* until  06E c@ ;  \ IFG2  RX?
+    begin  8 3 bit* until  6F c!    \ IFG2  TX?
+    begin  4 3 bit* until  6E c@ ;  \ IFG2  RX?
 
 : >SPI      ( u -- )    spi drop ;
 : SPI>      ( -- u )    0 spi ;
@@ -97,22 +97,22 @@ hex
 \ and sends the same data back, this first example can be made
 \ to do something usefull!!
 : SPI-SLAVE1     ( -- )
-    -1 02A c!  0 02E c!  flash  \ P2DIR, P2SEL
-    slave-setup  0 06F c!  0    \ UCB0TXBUF 
+    -1 2A c!  0 2E c!  flash    \ P2DIR, P2SEL
+    slave-setup  0 6F c!  0     \ UCB0TXBUF 
     begin
-        spi  dup 029 c!         \ P2OUT
+        spi  dup 29 c!          \ P2OUT
     stop? until drop ;
 
 : DEMO-SPI  ( u1 -- u2 )
-    begin  04 003 bit* until  06E c@        \ IFG2  RX?
-    begin  08 003 bit* until  dup 06F c! ;  \ IFG2  TX?
+    begin  4 3 bit* until  6E c@        \ IFG2  RX?
+    begin  8 3 bit* until  dup 6F c! ;  \ IFG2  TX?
 
 \ This is the SPI slave demo from TI, it does nothing usefull however
 : SPI-SLAVE2     ( -- )
-    -1 02A c!  0 02E c!  flash  \ P2DIR, P2SEL
-    slave-setup  0 06F c!  0    \ UCB0TXBUF 
+    -1 2A c!  0 2E c!  flash    \ P2DIR, P2SEL
+    slave-setup  0 6F c!  0     \ UCB0TXBUF 
     begin
-        demo-spi  dup 029 c!    \ P2OUT
+        demo-spi  dup 29 c!     \ P2OUT
     stop? until drop ;
 
 shield SPI\  freeze

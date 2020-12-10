@@ -1,4 +1,4 @@
-(* E07 - For noForth C2553 lp.0, C&V version: Bipolar stepper motor control 
+(* E07 - For noForth C&V 200202: Bipolar stepper motor control 
   Port input at P1 & output at P2 with MSP430G2553 
 
   Port-2 must be wired to a bidirectional driver module like:
@@ -10,9 +10,10 @@
       P2.2 to B-1A - Coil 2
       P2.3 to B-1B
     Using an L293 the wiring is:
-      Wire P2.0 to P2.3 to the basis of four driver inputs 
-      placed on the breadboard the pinlayout can be found in the hardwaredoc
+      Wire P2.0 to P2.3 to the basis of four driver inputs placed on the
+      breadboard the pinlayout can be found in the hardware documentation
       of the launchpad. Connect a stepper motor to the four outputs.
+
   Port-1 bit 3 holds a switch on the Launchpad board.
  
   Address 020 = P1IN,  port-1 input register
@@ -27,7 +28,7 @@
  *)
 
 hex
-: DIR?      08 020 bit* ;           \ P1IN  Forward/backward selection P1.3
+: DIR?      8 20 bit* ;             \ P1IN  Forward/backward selection P1.3
 
 value WAIT                          \ Delay step time
 value STEP                          \ Next output word
@@ -37,9 +38,9 @@ create 1PHASE  DD c, BB c, EE c, 77 c,                         \ Single phase
 create 2PHASE  99 c, AA c, 66 c, 55 c,                         \ Double phase
 create HALF    DD c, 99 c, BB c, AA c, EE c, 66 c, 77 c, 55 c, \ Halfstep
 
-: ONE-PHASE   step 1phase + c@  029 c!  3 to step# ;  \ P2OUT
-: TWO-PHASE   step 2phase + c@  029 c!  3 to step# ;  \ P2OUT
-: HALF-STEP   step half  + c@  029 c!   7 to step# ;  \ P2OUT
+: ONE-PHASE   step 1phase + c@  29 c!  3 to step# ;  \ P2OUT
+: TWO-PHASE   step 2phase + c@  29 c!  3 to step# ;  \ P2OUT
+: HALF-STEP   step half   + c@  29 c!  7 to step# ;  \ P2OUT
 : ONE-STEP      ( -- )      one-phase  ( two-phase ) ( half-step ) ;
 
 : FORWARD       ( -- )              \ Motor one step forward
@@ -49,8 +50,8 @@ create HALF    DD c, 99 c, BB c, AA c, EE c, 66 c, 77 c, 55 c, \ Halfstep
     step 1-  step# and  to step  one-step  wait ms ;
 
 : SETUP-STEP    ( -- )
-    0F 02A *bis  18 022 *bic        \ P2DIR, P1DIR  P2 low 4-bits are output
-    18 021 *bis  18 027 *bis        \ P1OUT, P1REN  Bit 3+4 of P1 are input with pullup
+    0F 2A *bis  18 22 *bic          \ P2DIR, P1DIR  P2 low 4-bits are output
+    18 21 *bis  18 27 *bis          \ P1OUT, P1REN  Bit 3+4 of P1 are input with pullup
     20 to wait                      \ Set delay time
     3 to step#                      \ Set default table mask
     0 to step ;                     \ Start with first step

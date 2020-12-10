@@ -1,8 +1,8 @@
-(* E51 - For noForth C&V2553 lp.0, Watchdog as interval timer using LPM0. 
+(* E51 - For noForth C&V 200202: Watchdog as interval timer using LPM0. 
    Without use of LPM0 the CPU uses about 2,56mA with LPM0 it is 0,36mA
    The lowest two bits of the WDTCL register set the clock divider
    here it is set to 01 = SMCLK/8192
-   The watchdog interrupt lowers a value MS) to zero
+   The watchdog interrupt lowers a value MS# to zero
    User words are: MS  INTERVAL ( u -- )
 
   The settings for the watchdog can be found from page 344 
@@ -23,20 +23,20 @@ hex
 : LEDS-OFF    ( -- )    41 21 *bic ; \ P1OUT
 code LPM0     ( -- )    18 # sr bis  next  end-code \ To LPM0 & intrpt on
 
-\ value MS)  \ Decreases 976 times each second
+\ value MS#  \ Decreases 976 times each second
 \ Clock = 8000000/8192 longest interval 67,10 sec. usable as MS
 : READY       ( -- )    5A91 120 ! ;   \ WDTCTL 
-: (MS)        ( u -- )  5A19 120 !  1 0 *bis  to ms) ; \ WDTCTL, IE1
+: (MS)        ( u -- )  5A19 120 !  1 0 *bis  to ms# ; \ WDTCTL, IE1
 
-\ Decrease ms) until it's zero
+\ Decrease ms# until it's zero
 routine MSTIMER  ( -- )
-    #0 adr ms) & cmp
+    #0 adr ms# & cmp
     =? if,  
-        #1 000 & .b bic \ IE1  Watchdog int. off
+        #1 0 & .b bic   \ IE1  Watchdog int. off
         F8 # rp ) bic   \ LPM off, intrpt off
         reti
     then,
-    #1 adr ms) & sub
+    #1 adr ms# & sub
     reti   
 end-code
 

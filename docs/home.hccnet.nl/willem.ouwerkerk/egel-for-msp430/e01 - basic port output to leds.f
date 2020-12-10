@@ -1,4 +1,4 @@
-(* E01 - For noForth C&V2553 lp.0, Port output with MSP430G2553 at port-2. 
+(* E01 - For noForth C&V 200202 or later: Port output with MSP430G2553 at port-2. 
 
   The two most important documents for the MSP430G2553 chips are,
   MSP430x2xx Family User's Guide: SLAU144J.PDF and MSP430G2x53
@@ -24,16 +24,16 @@
 
 hex
 
-\ Store pattern b at leds
-: >LEDS         ( b -- )    029 c! ( P2OUT ) ;
+\ Store pattern b on 8 leds
+: >LEDS         ( b -- )    29 c! ; \ P2OUT
 
 : FLASH         ( -- )  \ Visualise startup
-    FF >leds  064 ms    \ All leds on
-    00 >leds  064 ms ;  \ All leds off
+    FF >leds  64 ms    \ All leds on
+    00 >leds  64 ms ;  \ All leds off
 
 : SETUP-PORTS   ( -- )
-    00 02E c!           \ P2SEL  Port-2 all bits I/O
-    FF 02A c! ;         \ P2DIR  All bits of P2 are outputs
+    00 2E c!            \ P2SEL  Port-2 all bits I/O
+    FF 2A c! ;          \ P2DIR  All bits of P2 are outputs
 
 : COUNTER       ( -- )  \ Binary counter
     setup-ports  flash
@@ -41,7 +41,7 @@ hex
     begin
         1+              \ Increase counter
         dup >leds
-        020 ms          \ Wait
+        20 ms           \ Wait
     key? until
     drop ;
 
@@ -50,10 +50,13 @@ hex
     begin
         8 0 do          \ Loop eight times
             1 i lshift  >leds   \ Make bitpattern
-            064 ms      \ Wait
+            64 ms       \ Wait
         loop
     key? until          \ Until a key is pressed
     ;
 
 freeze
+
+\ End ;;;
+
 

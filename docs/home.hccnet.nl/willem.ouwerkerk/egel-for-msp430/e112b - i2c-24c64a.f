@@ -1,4 +1,4 @@
-(* E112B - For noForth C2553 lp.0, C&V version:  I2C for use with MSP430F149 
+(* E112B - For noForth C&V 200202 or later:  I2C for use with MSP430F149 
    and 24C64, 8 kByte EEPROM
    
    The MSP430F149 has no build in resistors they have to be added externally

@@ -1,4 +1,4 @@
-(* E110 - For 16 MHz noForth -C2553 lp.0, C&V version, ~2300 bytes code
+(* E110 - for noForth C&V 200202 or later: ~2300 bytes code
   Biped with 4 model servo's at output P1.4 to P1.7 with MSP430G2553
 
   P1.4 to P1.7 are wired to four servos on the launchpad experimenters kit.
@@ -97,8 +97,8 @@ routine SERVO-INT
   2001 ,  430B ,  4138 ,  1300 , 
 end-code 
 
-code INT-ON   430B ,  D232 ,  4F00 ,  end-code 
-code INT-OFF  C232 ,  4F00 ,  end-code 
+code INT-ON   430B ,  D232 ,  next  end-code 
+code INT-OFF  C232 ,  next  end-code 
 
 
 \ Pili Plop... making servo move smooth
@@ -162,8 +162,8 @@ code INT-OFF  C232 ,  4F00 ,  end-code
     prepare  steps @ 0 ?do  one-step  loop ;
 
 \ Code for A.N's crawl routine
-: !THERE		( +n s -- )		( range ) 2dup shere !  there ! ;
-: @THERE		( s -- +n )		there @ ;
+: !THERE        ( +n s -- )     ( range ) 2dup shere !  there ! ;
+: @THERE        ( s -- +n )     there @ ;
 
 : B.            ( +n -- )       0 <# # # #> type space ;
 : (JOINT)       ( +n s -- )     fast? if  2dup shere !  then  there ! ;

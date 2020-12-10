@@ -1,0 +1,91 @@
+<html>
+<style>
+main{width:35em; margin:auto; font-family:optima;}
+pre{background-color:#dff; padding:1em; border:1px solid #caa; font-family:"courier new";}
+ul {margin-left:-2.5em;}
+h1 {font-size:2em;}
+</style>
+
+<!-- Mirrored from home.hccnet.nl/anij/nof/r/configs gd32vf.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 09 Dec 2020 16:45:37 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=iso-8859-1" /><!-- /Added by HTTrack -->
+<body>
+
+<main>
+<section>october 2020
+<h1>Hardware reconfiguration
+<br>of RISC-V GD32VF
+<br>in noForth r(cv)</h1>
+
+Data needed for the hardware initialization
+(Clock frequency, UART, Baudrate and the S?&nbsp;button)
+is stored in 5 cells at address CFG.
+<br>
+<br>What to do if you want to change something:
+ <ol><li>See the options below and choose the desired one.
+</li><li>Copy the code in the colored box.
+</li><li>Send the code to noForth (store and initialize).
+</li><li>Test the new situation.
+</li><li>No problems? Then make it permanent with FREEZE
+</section>
+
+<h2>Clock, UART and Baudrate - cells 0-3</h2>
+RCU_CFG0 = Clock Configuration Register
+<ul><li>
+Clock 104 MHz -  Baudrate 115k2 - UART 0
+<pre>
+hx AD,C402     0 cells   cfg + !    \ RCU_CFG0
+dm 104,000,000 1 cells   cfg + !    \ Clock frequency
+0              2 cells   cfg + !    \ Select UART
+dm 115,200     3 cells   cfg + !    \ Baudrate
+               cfg config           \ Initialize
+</pre>
+</li><li>
+Clock 72 MHz - Baudrate 115k2  - UART 0
+<pre>
+hx 1D,8402     0 cells   cfg + !    \ RCU_CFG0
+dm 72,000,000  1 cells   cfg + !    \ Clock frequency
+0              2 cells   cfg + !    \ Select UART
+dm 115,200     3 cells   cfg + !    \ Baudrate
+               cfg config           \ Initialize
+</pre>
+</li><li>
+
+Clock 8 MHz - Baudrate 38k4 - UART 0
+<pre>
+0              0 cells   cfg + !    \ RCU_CFG0
+dm 8,000,000   1 cells   cfg + !    \ Clock frequency
+0              2 cells   cfg + !    \ Select UART
+dm 38,400      3 cells   cfg + !    \ Baudrate
+               cfg config           \ Initialize
+</pre>
+
+
+<h2>S? button - cells 4-5</h2>
+ </li><li>
+For Sipeed Longan Nano board - S? on PA.8
+<pre>
+hx 4001,0800   4 cells   cfg + !    \ Port address
+dm 8           5 cells   cfg + !    \ I/O-bit
+               cfg config           \ Initialize
+</pre>
+</li><li>
+For SEEED GD32VF dev board - S? on PA.0
+<pre>
+hx 4001,0800   4 cells   cfg + !    \ Port address
+0              5 cells   cfg + !    \ I/O-bit
+               cfg config           \ Initialize
+</pre>
+</li><li>
+For SEEED GD32VF dev board - S? on PC.13
+<pre>
+hx 4001,1000   4 cells   cfg + !    \ Port address
+dm 13          5 cells   cfg + !    \ I/O-bit
+               cfg config           \ Initialize
+</pre>
+*
+</li></ul>
+</main>
+</body>
+
+<!-- Mirrored from home.hccnet.nl/anij/nof/r/configs gd32vf.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 09 Dec 2020 16:45:37 GMT -->
+</html>

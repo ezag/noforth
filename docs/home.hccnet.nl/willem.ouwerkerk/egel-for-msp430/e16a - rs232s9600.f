@@ -1,4 +1,4 @@
-(* e16a - For noForth C&V2553 lp.0 routines for half duplex
+(* e16a - For noForth C&V 200202: routines for half duplex
    software RS232 using bitbanging on P2.0 and P2.1
  \ -------------------------------------------------------------------
  \ LANGUAGE    : noForth vsn April 2016

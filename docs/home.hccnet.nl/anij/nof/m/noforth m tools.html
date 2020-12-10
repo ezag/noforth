@@ -1,0 +1,191 @@
+\ tools for noForth m(cv) -- november 2017, october 2020
+
+v: fresh inside also
+hex
+v: extra definitions
+: STOP? ( -- true/false )
+    key? dup 0= ?EXIT
+    drop key  bl over =
+    if drop key
+    then hx 1B over = ?abort
+    bl <>
+;
+v: inside definitions
+: RECUR ( -- )  \ use only within for-next
+    2r> over 0=                     \ index & unnest address
+    if nip key dup 1B = ?abort      \ abort on esc
+        dup bl = if drop 1          \ new index
+        else ch 0 - dup 0A u< and   \ 0..9
+            2* 2*                   \ new index
+        then swap
+    then 2>r ;
+(*
+  1 for ... recur next \ repeat controlled by key
+  esc = abort
+  space bar = once again
+  key 0..9 = n*4 times
+  rest = ready
+*)
+v: forth definitions
+: .S ( -- )
+    ?stack (.) space
+    depth false
+    ?do  depth i - 1- pick
+        base @ 0A = if . else u. then
+    loop ;
+
+ \ NFA returns 0 when no header is found!
+v: inside definitions
+: >NFA   ( a -- nfa | 0 )
+    dup origin
+    chere within                        \ in noForth ROM?
+    if  dup 1 and 0=                    \ even?
+        if  1- dup c@ FF = +            \ skip alignment char
+            false
+            begin over c@ 21 7F within  \ char?
+            while true /string 20 over <  \ walk backwards through name
+            until
+            then
+            ?dup
+            if  over c@
+-v:              3F and =                \ count ok? \ c
+v:              7F and =                \ count ok? \ v
+                if  dup 1 and ?EXIT     \ nfa odd -> ok
+    then then then then
+    drop false ;
+
+: .NAME ( nfa -- ) count 1F and type ;
+
+v: only definitions  extra also  forth also  inside also
+-v: : IWORDS 40 ahead [ 2swap  2drop reveal
+: WORDS   ( -- )
+-v:  false [ 2swap ] then  >r
+    false >r                                \ counting
+    fhere
+    [ adr pfx-link hot - ] literal
+    hot dup
+    2over move drop                     \ threads > fhere
+    bounds
+    cr
+    begin false dup                     \ threada lfa
+        2over
+        do  dup i @ u<
+            if  2drop i dup @
+            then                        \ threada lfa
+        2 +loop
+        dup stop? 0= and
+    while                               \ threada lfa
+-v:        dup 1+ c@ 40 and 2r@ drop =   \ 0 for WORDS, 40 for IWORDS
+v:        dup @voc vp c@ =              \ the right vocabulary?
+        if  r> 1+ >r                    \ counting
+            dup lfa>n space .name space
+            48 hor < if cr then
+        then
+-v:      lnk@
+v:      @
+        swap !                     \ unlink
+    repeat
+    2drop 2drop
+-v:    2r> (.) false .r drop
+v:    r> (.) false .r
+;
+
+\ ----- DUMP - 20nov17 an
+v: extra definitions
+: pchar ( x -- )    dup hx 7F < and bl max ;
+: DMP ( a -- )                  \ this is a DUMP without count
+   hx FF s>d du.str nip 1+      \ column width
+   swap    ( colw adr )
+   1 for cr base @ hex over 4 u.r ." : " base !
+      swap ( adr colw )
+      over 8 bounds do i c@ over .r loop ."  |"
+      swap ( colw adr )
+      8 false    do count pchar emit loop ." | "
+   recur next 2drop ;
+
+\ --- SEE & MSEE
+v: inside definitions
+: DECOM  ( a -- )
+    cr dup 6 u.r space                      \ .adr
+    dup count pchar emit c@ pchar emit      \ .2chars
+    dup @ 6 u.r space                       \ .contents
+    dup >nfa ?dup
+    if  ." --- "
+v:      dup 1- c@ 7F and .voc
+        dup .name
+        c@ 80 < if ."  imm" then space
+        @ cell- >nfa ?dup
+        if  (.) space .name space
+        then
+        EXIT                                \ ----
+    then
+
+
+\  m  and rv  = skip until %
+\  mc and rcv = skip until (
+ [   s" (%" drop ' if dup @ u< - c@
+ beyond
+( ]
+    dup @                                   \ contents
+    dup 1 and                               \ odd
+    if  dup -7800 <
+        if          ch -  [ ' UNTIL >nfa ] literal
+        else dup -7000 <
+            if      ch +  [ ' IF >nfa ] literal
+            else dup  7000 <
+                if  2/ ." #" u. drop EXIT   \ a number
+                then
+                dup  7800 <
+                if  ch -  [ ' AGAIN >nfa ] literal
+                else ch + [ ' AHEAD >nfa ] literal
+                then
+            then
+        then
+        .name space emit ch > emit space
+        FFF and 7FF - + u. EXIT
+    then
+    drop
+( % ] ( continue for all versions )
+
+    @
+    dup >nfa ?dup                       \ contents nfa ?
+    if  .name drop EXIT                 \ .name of compiled word
+    then                                \ contents
+\   for compiler words via body
+    dup cell- >nfa ?dup
+    if  (.) space .name space drop  EXIT
+    then
+\
+    dup hot here within                 \ RAM location?
+    if  origin
+        begin
+            begin
+                cell+ chere over u<
+                if  2drop EXIT
+                then
+                2dup @ =
+            until
+            dup cell- >nfa ?dup
+            if  .name ."   RAM location "
+            then
+        again
+    then
+    drop ;
+
+v: extra definitions
+: MSEE ( a -- )
+    hx FFFE and
+    1 for dup decom cell+ recur
+    next drop ;
+
+v: forth definitions
+: SEE ( <name> -- )   ' msee ;
+
+v: extra definitions
+: MANY   ( -- )  >in @ stop? and >in ! ;
+
+v: fresh
+shield TOOLS\
+freeze
+
+\ <><>

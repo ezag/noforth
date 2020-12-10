@@ -1,4 +1,4 @@
-(* E112D - For noForth C2553 lp.0, C&V version: Pseudo random number generator
+(* E112D - For noForth C&V 200202 or later: Pseudo random number generator
    CHOOSE - Make pseudo random number u2 the range of u2 is 0 to u1-1 
 *)
 

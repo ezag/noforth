@@ -1,23 +1,20 @@
-(* E27A - For noForth 2553 lp.0, C&V version: Period time measurement
+(* E27A - For noForth C&V 200202: Period time measurement
    using timer-A0. Led tracing if wanted at P1.0 This code needs 16 MHz DCO!
    Period time measurement for use as RPM counter, laptimer, etc.
    Uses machine code, timer-A0 interrupt, hardware interrupt & arithmetic.
 
 Note! Change the DCO frequency for noForth to 16 MHz using: Patch 2553.f
 
-Do not forget to add this redefinition before loading the assembler:  : ##  # ;
-The default Forth # operator is redefined in the MSP430 assembler!!
-
 Used registers adresses
 
-020 = P1IN      - Input register
-021 = P1OUT     - Output register
-022 = P1DIR     - Direction register
-023 = P1IFG     - Interrupt flag
-024 = P1IES     - Interrupt edge select
-025 = P1IE      - Interrupt enable
-027 = P1REN     - Resistance on/off
-FFE4            - P1 Interrupt vector
+20 = P1IN      - Input register
+21 = P1OUT     - Output register
+22 = P1DIR     - Direction register
+23 = P1IFG     - Interrupt flag
+24 = P1IES     - Interrupt edge select
+25 = P1IE      - Interrupt enable
+27 = P1REN     - Resistance on/off
+FFE4           - P1 Interrupt vector
 
 Addresses for Timer-A0
 160 = TA0CTL   - Timer A0 control
@@ -31,7 +28,7 @@ FFF2           - Timer A0 Interrupt vector
 P1.3 is the input, the measurements are printed by the user word PERIOD
 The absolute maximum timer resolution of 0,0625us is chosen here.
 The precision may be bettered in two ways:
-    1) Using an external chrystal op 16 MHz
+    1) Using an external crystal at 16 MHz
     2) Adjusting the DCO by trimming it, see: ....
     http://hackaday.com/2015/03/15/calibrating-the-msp430-digitally-controlled-oscillator/
     http://forum.43oh.com/topic/211-flashing-the-missing-dco-calibration-constants/
@@ -53,15 +50,15 @@ value CYCLE?    \ One complete cycle
 \ Counter resolution is 1/16 microsec.
 \ The high part is increased every $1000 microsec.
 routine COUNTER        ( -- )
-\ ) #1 021 & .b xor>                \ P1OUT  Flash green led
+\ ) #1 21 & .b bix                  \ P1OUT  Flash green led
     #1  adr (high & add
     reti
 end-code
 
 routine START/STOP
-\ ) #1 021 & .b xor>                \ P1OUT  Flash red led
+\ ) #1 21 & .b bix                  \ P1OUT  Flash red led
     #0 adr ready? & cmp  <>? if,    \ Measurement sample not used?
-        #8 023 & .b bic             \ P1IFG  Do nothing
+        #8 23 & .b bic              \ P1IFG  Do nothing
         reti
     then,
     #0 adr cycle? & cmp  =? if,     \ Start new cycle?
@@ -74,26 +71,26 @@ routine START/STOP
         #0 adr cycle? & mov         \ Complete period measured!
         #-1 adr ready? & mov        \ Measurement ready!
     then,
-    #8 023 & .b bic                 \ P1IFG  Reset hw interrupt flag
+    #8 23 & .b bic                  \ P1IFG  Reset hw interrupt flag
     reti
 end-code
 
 : MEASURE-OFF       ( -- )
     int-off                     \ Deactivate
-    0000 160 !                  \ TA0CTL   Stop timer-A0
-    0000 162 ! ;                \ TA0CCTL0 Interrupts off
+    0 160 !                     \ TA0CTL   Stop timer-A0
+    0 162 ! ;                   \ TA0CCTL0 Interrupts off
 
 : MEASURE-ON        ( -- )
 \ Set timer interrupt ready
-    0224 160 !                  \ TA0CTL Start timer, see doc. above
-    0010 162 !                  \ TA0CCTL0 Compare 0 interrupt on
+    224 160 !                   \ TA0CTL Start timer, see doc. above
+    10 162 !                    \ TA0CCTL0 Compare 0 interrupt on
 \ Set hardware interrupt ready
-    08 020 *bic                 \ P1IN  Bit-3= input
-    08 027 *bis                 \ P1REN Bit-3= resistor on
-    08 021 *bis                 \ P1OUT Bit-3= pullup
-    08 024 *bis                 \ P1IES Bit-3= falling edge
-    08 025 *bis                 \ P1IE  Bit-3= interrupt on
-    08 023 *bic                 \ P1IFG Bit-3= reset interrupt flag
+    8 20 *bic                   \ P1IN  Bit-3= input
+    8 27 *bis                   \ P1REN Bit-3= resistor on
+    8 21 *bis                   \ P1OUT Bit-3= pullup
+    8 24 *bis                   \ P1IES Bit-3= falling edge
+    8 25 *bis                   \ P1IE  Bit-3= interrupt on
+    8 23 *bic                   \ P1IFG Bit-3= reset interrupt flag
     0 to cycle?                 \ Period not started!
     0 to ready?                 \ Allow measurement
     int-on ;                    \ Activate
@@ -111,10 +108,9 @@ end-code
     r> over - u< 1+ 0 d+ ;
 
 \ Measurement range 0 to 107,374.182 seconds.
-\ Note that # is replaced by ## to avoid assembler conficts.
 : .PERIODLENGTH      ( -- )
     low high 05 du*s 08 dur/     \ Make rounded microsec.
-    <# ## ## ## ##  ch . hold  ## ## ##  ch , hold  #s #> type ."  Sec. " ;
+    <# # # # #  ch . hold  # # #  ch , hold  #s #> type ."  Sec. " ;
 
 : PERIOD            ( -- )
     measure-on  decimal

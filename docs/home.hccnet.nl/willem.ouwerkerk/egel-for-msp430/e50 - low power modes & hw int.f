@@ -1,4 +1,4 @@
-(* E50 - For noForth C&V2553 lp.0, Low Power Modes examples. Bit input, output,
+(* E50 - For noForth C&V 200202: Low Power Modes examples. Bit input, output,
    hardware interrupt with machine code, using port-1 and port-2.
    Switch S2 triggers hardware-interrupt, which activates a running light.
 
@@ -31,10 +31,10 @@
  *)
 
 hex
-: >LEDS		( b -- )	029 c! ;    \ P2OUT
-: FLASH     ( -- )  	-1 >leds A0 ms  0 >leds A0 ms ;
+: >LEDS     ( b -- )    29 c! ;    \ P2OUT
+: FLASH     ( -- )      -1 >leds A0 ms  0 >leds A0 ms ;
 
-code INT-ON  	08 # 23 & .b bic  #8 sr bis  next  end-code  \ P1IFG
+code INT-ON     08 # 23 & .b bic  #8 sr bis  next  end-code  \ P1IFG
 code INT-OFF    #8 sr bic  next  end-code
 code LPM0       18 # sr bis  next  end-code \ Go from AM to LPM0
 code LPM2       98 # sr bis  next  end-code \ Go from AM to LPM2
@@ -42,7 +42,7 @@ code LPM3       D8 # sr bis  next  end-code \ Go from AM to LPM3
 code LPM4       F8 # sr bis  next  end-code \ Go from AM to LPM4
 
 routine HARDWARE-INTERRUPT
-    08 # 23 & .b bic    \ P1IFG  Interrupt flag off
+    #8 23 & .b bic      \ P1IFG  Interrupt flag off
     F8 # rp ) bic       \ Interrupt off & CPU active again!
     reti
 end-code
@@ -58,7 +58,7 @@ end-code
     41 21 *bic ;        \ P1OUT  P1.0 & P1.6 low, leds off
 
 \ Running light
-: RUNNER  	( -- )		1  8 0 do  dup >leds  2*  50 ms  loop  drop ;
+: RUNNER    ( -- )      1  8 for  dup >leds  2*  50 ms  next  drop ;
 
 \ The main loop sets up port-1 & port-2 flashes the leds at P2
 \ Then activates a running light. After one run de CPU goes to sleep

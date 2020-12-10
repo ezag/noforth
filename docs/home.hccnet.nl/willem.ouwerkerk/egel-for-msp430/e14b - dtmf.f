@@ -1,4 +1,4 @@
-(* E14B - For noForth 2553 lp.0, C&V version: DTMF frequency output using
+(* E14B - For noForth C&V 200202: DTMF frequency output using
   timer-A0 & timer-A1. ouputs are P1.6 and P2.1
   Frequency range of both outputs is 61 Hz to 39000 Hz 
 
@@ -7,11 +7,11 @@
   The user words are:  >DTMF  WILLEMO  FORTHGG
 
 \   DTMF keypad frequencies
-\   freq0   |   1209 Hz	1336 Hz	1477 Hz	1633 Hz  (freq1)
-\   0697 Hz |     1	      2	      3	      A
-\   0770 Hz |     4	      5	      6	      B
-\   0852 Hz |     7	      8	      9	      C
-\   0941 Hz |     *	      0	      #	      D
+\   freq0   |   1209 Hz 1336 Hz 1477 Hz 1633 Hz  (freq1)
+\   0697 Hz |     1       2       3       A
+\   0770 Hz |     4       5       6       B
+\   0852 Hz |     7       8       9       C
+\   0941 Hz |     *       0       #       D
 
     FEDCBA9876543210 bit-numbers
  BN 0000000001000000 = 0040 - Select P1.6
@@ -44,25 +44,25 @@ hex
 : STOP1         ( -- )      0 180 ! ;   \ TA1CTL
 : PERIOD0       ( p -- )    dup 1 rshift 174 !  172 ! ; \ TA0CCR1, TA0CCR0 Set tone with
 : PERIOD1       ( p -- )    dup 1 rshift 194 !  192 ! ; \ TA1CCR1, TA1CCR0 50% dutycycle
-: -TONE0        ( -- )      stop0  40 026 *bic ;  \ P1SEL  Tone off
-: -TONE1        ( -- )      stop1  02 02E *bic ;  \ P2SEL  Tone off
+: -TONE0        ( -- )      stop0  40 26 *bic ; \ P1SEL  Tone off
+: -TONE1        ( -- )      stop1  2 2E *bic ;  \ P2SEL  Tone off
 
 : TONE0         ( period -- )   \ Tone at P1.6
-    stop0  40 022 *bis          \ P1DIR  
-    40 026 *bis  period0        \ P1SEL
+    stop0  40 22 *bis           \ P1DIR  
+    40 26 *bis  period0         \ P1SEL
     E0 164 !  254 160 ! ;       \ TA0CCTL1, TA0CTL 
 
 : TONE1         ( period -- )   \ Tone at P2.1
-    stop1  02 02A *bis          \ P2DIR  
-    02 02E *bis  period1        \ P2SEL
+    stop1  2 2A *bis            \ P2DIR  
+    2 2E *bis  period1          \ P2SEL
     E0 184 !  254 180 ! ;       \ TA1CCTL1, TA1CTL 
 
 \   DTMF keypad frequencies
-\   freq0   |   1209 Hz	1336 Hz	1477 Hz	1633 Hz  (freq1)
-\   0697 Hz |     1	      2	      3	      A
-\   0770 Hz |     4	      5	      6	      B
-\   0852 Hz |     7	      8	      9	      C
-\   0941 Hz |     *	      0	      #	      D
+\   freq0   |   1209 Hz 1336 Hz 1477 Hz 1633 Hz  (freq1)
+\   0697 Hz |     1       2       3       A
+\   0770 Hz |     4       5       6       B
+\   0852 Hz |     7       8       9       C
+\   0941 Hz |     *       0       #       D
 decimal
 create FREQ0  05739 , 05195 , 04695 , 04251 ,   \ Period time of DTMF freq.
 create FREQ1  03309 , 02994 , 02708 , 02449 ,

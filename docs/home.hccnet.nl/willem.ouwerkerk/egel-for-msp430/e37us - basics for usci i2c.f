@@ -1,4 +1,4 @@
-(* E37US - For noForth C&V2553 lp.0, USCI I2C on MSP430G2553 using pull-ups.
+(* E37US - For noForth C&V 200202: USCI I2C on MSP430G2553 using pull-ups.
    The bitrate values are for an 8 MHz DCO, for 16 MHz they should be doubled.
    This is a better version, the routines work more solid. Code Vsn 1.02s
 
@@ -50,28 +50,28 @@ code INT-OFF  C232 ,  4F00 ,  end-code
 \ Initalise USCI as I2C slave, a = always own I2C bus-address
 : SLAVE-I2C     ( a -- )
     int-off
-    C0 026 *bis     \ P1SEL     I2C to pins
-    C0 041 *bis     \ P1SEL2
-    01 069 *bis     \ UCB0CTL1  reset USCI
-    07 068 c!       \ UCB0CTL0  I2C slave
-    81 069 c!       \ UCB0CTL1  Use SMclk
-    dm 80 06A c!    \ UCB0BR0   Bitrate 100 KHz with 8 MHz DCO
-    00 06B c!       \ UCB0BR1
+    C0 26 *bis      \ P1SEL     I2C to pins
+    C0 41 *bis      \ P1SEL2
+    1 69 *bis       \ UCB0CTL1  reset USCI
+    7 68 c!         \ UCB0CTL0  I2C slave
+    81 69 c!        \ UCB0CTL1  Use SMclk
+    dm 80 6A c!     \ UCB0BR0   Bitrate 100 KHz with 8 MHz DCO
+    0 6B c!         \ UCB0BR1
     2/ 118 c!       \ UCB0I2CSA Set own address
-    01 069 *bic     \ UCB0CTL1  Resume USCI
-    08 003 *bis ;   \ IFG2      Start with TX buffer empty
+    1 69 *bic       \ UCB0CTL1  Resume USCI
+    8 3 *bis ;      \ IFG2      Start with TX buffer empty
 
 : I2C         ( fl -- )   ?abort ;        \ I2C error message
 
 \ 04 = wait for data received to RX; 08 = wait for TX to be sent
 \ : I2READY   ( bit -- )
 \    80  begin
-\        over 003 bit* if  2drop exit  then  
+\        over 3 bit* if  2drop exit  then  
 \    1- dup 0= until  true ?abort ;
 code I2READY   ( bit -- )
     #-1 day .b mov      \ 255 to counter (day)
     begin,
-        tos 003 & .b bit  cs? if,  sp )+ tos mov  next  then,
+        tos 3 & .b bit  cs? if,  sp )+ tos mov  next  then,
         #1 day sub
     0=? until,
 chere >r  \ Reuse of code
@@ -83,43 +83,43 @@ end-code
 \ 02 = wait for startcond. to finish; 04 = wait for stopcond. to finish
 \ : I2DONE    ( bit -- )  \ wait until startcond. or stopcond. is done
 \    80  begin
-\        over 069 bit* 0= if  2drop exit  then  
+\        over 69 bit* 0= if  2drop exit  then  
 \    1- dup 0= until  true ?abort ;
 code I2DONE     ( bit -- )
     #-1 day .b mov
     begin,
-        tos 069 & .b bit  cc? if,  sp )+ tos mov  next  then,
+        tos 69 & .b bit  cc? if,  sp )+ tos mov  next  then,
         #1 day sub
     0=? until,
     r> jmp
 end-code
 
-\ : I2START   ( -- )      02 069 *bis ;       \ UCB0CTL1  Give start condition
-\ : I2STOP    ( -- )      04 069 *bis ;       \ UCB0CTL1  Give stop condition
-\ : I2STOP?   ( -- fl )   04 06D bit* ;       \ UCB0STAT  Test stop finished
-\ : I2NACK    ( -- )      08 069 *bis ;       \ UCB0CTL1  Give ack condition
-\ : I2ACK?    ( -- fl )   08 06D bit* 0= ;    \ UCB0STAT  Test ack finished
-: I2OUT     ( b -- )    06F c!  08 i2ready ; \ UCB0TXBUF Write data
-: I2IN      ( -- b )    04 i2ready  06E c@ ; \ UCB0RXBUF Read data
+\ : I2START   ( -- )      2 69 *bis ;       \ UCB0CTL1  Give start condition
+\ : I2STOP    ( -- )      4 69 *bis ;       \ UCB0CTL1  Give stop condition
+\ : I2STOP?   ( -- fl )   4 6D bit* ;       \ UCB0STAT  Test stop finished
+\ : I2NACK    ( -- )      8 69 *bis ;       \ UCB0CTL1  Give ack condition
+\ : I2ACK?    ( -- fl )   8 6D bit* 0= ;    \ UCB0STAT  Test ack finished
+: I2OUT     ( b -- )    6F c!  8 i2ready ;  \ UCB0TXBUF Write data
+: I2IN      ( -- b )    4 i2ready  6E c@ ;  \ UCB0RXBUF Read data
 
 \ : I2FINISH? ( -- )      begin  i2stop?  key? or until ;
 code I2FINISH ( -- )    \ UCB0STAT  Wait till stop cond. finished
-    begin,  #4 06D & .b bit  cs? until  next
+    begin,  #4 6D & .b bit  cs? until  next
 end-code
 
 \ code I2ME   ( -- )    \ Wait for I2C address match
-\    begin,  #2 06D & .b bit  cs? until,  next
+\    begin,  #2 6D & .b bit  cs? until,  next
 \ end-code
 \ 
 \ : {I2ME?    ( -- fl ) \ Am I addressed as I2C device?
-\   02 06D *bic         \ Reset address match
+\   2 6D *bic           \ Reset address match
 \   i2me                \ Address match? Wait! 
-\   10 069 bit* ;       \ UCB0CTL1  True = read, False = write
+\   10 69 bit* ;        \ UCB0CTL1  True = read, False = write
 code {I2ME?  ( -- fl )  \ Am I addressed as I2C device?
-    #2 06D & .b bic     \ Reset address match
-    begin,  #2 06D & .b bit  cs? until, \ Address match?
+    #2 6D & .b bic      \ Reset address match
+    begin,  #2 6D & .b bit  cs? until, \ Address match?
     tos sp -) mov       \ Push R/W request
-    10 # 069 & .b bit   \ Read R/W
+    10 # 69 & .b bit    \ Read R/W
     tos tos subc        \ Build flag
     #-1 tos bix  next   \ Invert flag, ready
 end-code

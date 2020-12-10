@@ -1,4 +1,4 @@
-(* E10 - For noForth C&V2553 lp.0, bit input, output, timer A1 generates 36KHz PWM.
+(* E10 - For noForth C&V 200202: Bit input, output, timer A1 generates 36KHz PWM.
   RC5 transmitter, software generates RC5-bitpatterns on MSP430 Launchpad.
   Timer A1 generates 36KHz carrier wave with 25% duty cycle at output P2.1
   According RC-5 specs, about every 114 milliseconds there may be a RC-burst.
@@ -45,7 +45,7 @@ P1.6 Green led
  *)
 
 hex
-: GREEN  40 021 ;           \ P1OUT  Green led at P1.6
+: GREEN  40 21 ;            \ P1OUT  Green led at P1.6
 
 : FLASH         ( -- )
     green *bis  dm 10 ms    \ Led on and off
@@ -56,12 +56,12 @@ hex
 dm 222 constant #CYCLUS
 
 : OSC-OFF       0 180 ! ;    \ TA1CTL   Stop timer-A1
-: RC5-OFF       osc-off  02 02E *bic  02 029 *bic ; \ P2SEL, P2DIR
+: RC5-OFF       osc-off  2 2E *bic  2 29 *bic ; \ P2SEL, P2DIR
 
 \ 25% PWM op P2.1
 : RC5-ON       ( -- )
-    02 02A *bis             \ P2DIR  Make P2.1 output
-    08 022 *bic             \ P1DIR  Make P1.3 input
+    2 2A *bis               \ P2DIR  Make P2.1 output
+    8 22 *bic               \ P1DIR  Make P1.3 input
     osc-off                 \ Stop timer
     #cyclus 1-  192 !       \ TA1CCTL1  Set period time
     E0 184 !                \ TA1CCTL1  Set output mode
@@ -78,7 +78,7 @@ code INT-OFF    ( -- )      #8 sr bic  next  end-code
   E0  6 lshift  constant RC-TYPE    \ RC5 TV transmitter type
 
 routine HALFBIT-ON ( -- )           \ Wait 878 us ~ 7026 ticks
-    #2 02E & bis                    \ 2 P2SEL   PWM on P2.1
+    #2 2E & bis                     \ 2 P2SEL   PWM on P2.1
     214 # 180 & mov                 \ 3 TA1CTL  PWM on
     dm 2338 # xx mov                \ 2 ticks
     begin,
@@ -88,8 +88,8 @@ routine HALFBIT-ON ( -- )           \ Wait 878 us ~ 7026 ticks
 END-CODE
 
 routine HALFBIT-OFF ( -- )          \ Wait 878 us ~ 7027 ticks
-    #2 02E & bic                    \ P2SEL   Normal output on P2.1
-    #2 029 & bic                    \ P2OUT   Output low
+    #2 2E & bic                     \ P2SEL   Normal output on P2.1
+    #2 29 & bic                     \ P2OUT   Output low
     #0 180 & mov                    \ TA1CTL  PWM off
     dm 2338 # xx mov                \ 2 ticks
     begin,
@@ -114,14 +114,14 @@ end-code
 
 : RC-EMIT           ( b -- )        \ Send 14 bits from stack, ~25 millisec.
     int-off  rc5-on                 \ Set interrupts off, init. 36Khz at 25%
-    003F and  rc-type or            \ Build a 14 bits word
-    dm 14 0 do  rc-zend  loop  drop \ Send these 14 bits
+    3F and  rc-type or              \ Build a 14 bits word
+    dm 14 for  rc-zend  next  drop  \ Send these 14 bits
     rc5-off  int-on ;               \ 36KHz off, interrupts on
 
 \ This routine sends an RC-5 start code, each time S2 is pressed
 \ the green led flashes short too, it exits on any RS232 keypress
 : RC-TRANSMITTER    ( -- )          \ Send RC5 On/Off code
-    02 029 *bic                     \ P2OUT  Start with ir-led off
+    2 29 *bic                       \ P2OUT  Start with ir-led off
     begin
         flash                       \ Show activation
         begin  s? 0=  key? or until \ Wait for key press

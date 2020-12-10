@@ -1,5 +1,5 @@
-(* E13 - For noForth C2553 lp.0, C&V version: Interfacing ultrasonic
-  distance sensors. Port input & output at P1 & P2 with MSP430G2553.
+(* E13 - For noForth C&V 200202: Interfacing ultrasonic distance sensors. 
+         Port input & output at P1 & P2 with MSP430G2553.
 
   Register addresses
 020 = P1IN      - Input register
@@ -52,23 +52,23 @@ User words: US-ON  DISTANCE  MEASURE
 
 decimal \ Convert microseconds to millimeter or centimeter
 \ : >MM       ( u -- mm )     50 291 */ ;
-: >CM       ( u -- cm )     05 291 */ ;
+: >CM       ( u -- cm )     5 291 */ ;
 
 hex
-: >LEDS     ( x -- )        029 c! ;    \ P2OUT
+: >LEDS     ( x -- )        29 c! ;    \ P2OUT
 : FLASH     ( -- )          3F >leds 200 ms  00 >leds 200 ms ;
 
 : US-ON     ( -- )
-    08 022 *bic     \ P1DIR  P1.3 Input with pullup
-    08 027 *bis     \ P1REN
-    08 021 *bis     \ P1OUT
-    10 022 *bis     \ P1DIR  P1.4 Output
-    10 021 *bic     \ P1OUT
-    3F 02A *bis ;   \ P2DIR  Six leds
+    08 22 *bic      \ P1DIR  P1.3 Input with pullup
+    08 27 *bis      \ P1REN
+    08 21 *bis      \ P1OUT
+    10 22 *bis      \ P1DIR  P1.4 Output
+    10 21 *bic      \ P1OUT
+    3F 2A *bis ;    \ P2DIR  Six leds
 
-: TRIGGER   ( -- )      10 021 *bis  noop noop noop  10 021 *bic ; \ P1IN
+: TRIGGER   ( -- )      10 21 *bis  noop noop noop  10 21 *bic ; \ P1IN
 : START     ( -- )      2E4 160 !  0 170 ! ; \ TA0CTL, TA0R  Start counter
-: STOP      ( -- )      030 160 *bic ; \ TA0CTL  Stop counter
+: STOP      ( -- )      30 160 *bic ; \ TA0CTL  Stop counter
 
 : DISTANCE) ( -- -1|microsec )
     trigger                         \ Activate sensor

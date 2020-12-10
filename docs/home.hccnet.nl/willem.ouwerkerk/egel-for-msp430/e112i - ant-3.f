@@ -1,4 +1,4 @@
-(* E112I - For noForth C2553 lp.0, C&V version:  
+(* E112I - For noForth C&V 200202 or later:  
    ANT simulation routine, translated to hexapod.
 *)
 

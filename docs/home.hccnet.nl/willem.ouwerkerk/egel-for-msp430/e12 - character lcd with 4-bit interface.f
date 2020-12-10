@@ -1,4 +1,4 @@
-(* E12 - For noForth C&V2553 lp.0, bitbang LCD on MSP430G2553 using port-2.
+(* E12 - For noForth C&V 200202: Bitbang LCD on MSP430G2553 using port-2.
   Timer-A1 is used for contrast control of the LCD
 
   Connect 3 Volt version of an 1602 LCD display to P2.0 to P2.5
@@ -37,15 +37,15 @@ hex
 
 \ Contrast = 0 to 10
 : >CONTRAST     10 umin 174 ! ;         \ TA1CCR1  ( 0 to 10 -- )
-: OSC-OFF       0 160 !  040 026 *bic ; \ TA1CTL, P1SEL
+: OSC-OFF       0 160 !  40 26 *bic ;   \ TA1CTL, P1SEL
 
 \ PBM at P1.6
 : OSC-ON         ( -- )
-    040 022 *bis            \ Make P1.6 output
-    040 026 *bis            \ P1SEL    Set OSC to P1.6
-    040 041 *bic            \ P1SEL2
+    40 22 *bis              \ Make P1.6 output
+    40 26 *bis              \ P1SEL    Set OSC to P1.6
+    40 41 *bic              \ P1SEL2
     dm 499 172 !            \ TA1CCR0  Set period time #CYCLUS -1
-    0E0 164 !               \ TA1CCTL1 Set uitput mode
+    E0 164 !                \ TA1CCTL1 Set uitput mode
     214  160 !              \ TA1CTL   PWM setup
     dm 8 >contrast ;        \ Set default contrast for LCD
 
@@ -56,8 +56,8 @@ value CURSOR                \ Current cursor position
 
 \ Set low 4-bits at I/O-poort, bit-5 = Enable, bit-4 = Character/Data
 : >LCD          ( nibble flag -- )
-    >r  0f and  r> 10 and or  029 c!    \ P2OUT  Flag notes data or char
-    20 029 *bis  20 029 *bic ;          \ P2OUT  Enable pulse
+    >r  0f and  r> 10 and or  29 c!     \ P2OUT  Flag notes data or char
+    20 29 *bis  20 29 *bic ;            \ P2OUT  Enable pulse
 
 \ Flag true = character-byte, flag false = data-byte
 : LCD-BYTE      ( byte flag -- )        \ Send byte to LCD
@@ -71,8 +71,8 @@ value CURSOR                \ Current cursor position
     1 lcd-instr  0 to cursor  2 ms ;    \ in upper left corner.
 
 : LCD-SETUP     ( -- )
-    3F 02A c!   0A0 ms                  \ P2DIR  lower 6-bits are outputs, wait
-    3 0 do  03 false >lcd  5 ms  loop   \ And set 8 bits interface mode
+    3F 2A c!   A0 ms                    \ P2DIR  lower 6-bits are outputs, wait
+    3 for  03 false >lcd  5 ms  next    \ And set 8 bits interface mode
     02 false >lcd                       \ Finally set 4 bits interface mode.
     28 lcd-instr                        \ 4 bit interf. 2 lines, 5*7 bits char.
     08 lcd-instr  lcd-page              \ Display cursor, empty screen
@@ -81,9 +81,9 @@ value CURSOR                \ Current cursor position
     osc-on ;                            \ LCD contrast voltage on
 
 : LCD-EMIT      ( char -- )     incr cursor  true lcd-byte ;
-: LCD-TYPE      ( a u -- )      0 ?do  count lcd-emit  loop  drop ;
+: LCD-TYPE      ( a u -- )      for  count lcd-emit  next  drop ;
 : LCD-SPACE     ( -- )          bl lcd-emit ;
-: LCD-SPACES    ( u -- )        0 ?do  lcd-space  loop ;
+: LCD-SPACES    ( u -- )        for  lcd-space  next ;
 
 : LCD-CR        ( -- )                  \ Send CR to LCD.
     c/l  cursor  - 0< if                \ Cursor at line 2 ?

@@ -1,4 +1,4 @@
-(* E03 - For noForth C&V2553 lp.0, Port output with MSP430G2553 at port-2.
+(* E03 - For noForth C&V 200202 or later: Port output with MSP430G2553 at port-2.
   Analog to digital conversion with onboard ADC on MSP430 Launchpad.
 
   * Port-2 must be wired to 8 leds, placed on the launchpad experimenters kit.
@@ -52,22 +52,22 @@
  *)
 
 hex
-: >LEDS  ( b -- )  029 c! ;   ( P20UT )
+: >LEDS  ( b -- )  29 c! ;   ( P20UT )
 
 \ ADC on and sample & hold time at 8 ADC10 clocks
 : SETUP-ADC ( -- )
     12 1B0 **bic                \ ADC10CTL0  Deactivate ADC & clear ENC
     10 1B0 **bis                \ ADC10CTL0  Activate ADC
-    A0 04A c!                   \ ADC10AE0   P1.5 & P1.7 are ADC in
+    A0 4A c!                    \ ADC10AE0   P1.5 & P1.7 are ADC in
     1010 1B0 ! ;                \ ADC10CTL0  T-sample 8 ADC10 clocks,
                                 \            ADC on & Vref = VCC
 
 \ We need to clear the ENC bit before setting a new input channel
 : ADC       ( +n -- u )
-    02 1B0 **bic                \ ADC10CTL0  Clear ENC
+    2 1B0 **bic                 \ ADC10CTL0  Clear ENC
     F000 and 40 or 1B2 !        \ ADC10CTL1  Select input, MCLK/3
-    03 1B0 **bis                \ ADC10CTL0  Set ENC & ADC10SC
-    begin 4 1B0 bit** until     \ ADC10CTL0  ADC10 ready?
+    3 1B0 **bis                 \ ADC10CTL0  Set ENC & ADC10SC
+    begin  1 1B2 bit** until    \ ADC10CTL1  ADC10 ready?
     1B4 @                       \ ADC10MEM   Read result
     4 1B0 **bic ;               \ ADC10CTL0  Mark conversion done
 
@@ -87,6 +87,7 @@ hex
     00 >leds  100 ms          ( All leds 250 ms off )
     ;
 
+
 : SHOW-ADC1   ( -- )          ( Show conversion on leds )
     -1 02A c!  0 02E c!       ( P2DIR, P2SEL Make P2 all outputs )
     setup-adc  flash
@@ -94,6 +95,7 @@ hex
         potmeter 10 / >leds   ( Read ADC and show binary result )
     key? until
     00 >leds ;                ( Leds off )
+
 
 : SHOW-ADC2      ( -- )       ( Show conversion on leds )
     -1 02A C!  0 02E C!       ( P2DIR, P2SEL Make P2 all outputs )
@@ -103,11 +105,13 @@ hex
     key? until
     00 >leds ;                ( Leds off )
 
+
 : SHOW-ADC3      ( -- )       ( P2DIR, P2SEL Show conversion on leds )
     setup-adc
     begin
         potmeter .            ( Read ADC and show result on screen )
     key? until ;
+
 
 : JOYSTICK      ( -- )        ( Toggle between two potmeters using a switch )
     setup-adc
@@ -122,4 +126,4 @@ hex
     key? until ;
 
 freeze
-                        ( End )
+                        ( End ;;; )

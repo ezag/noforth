@@ -1,4 +1,4 @@
-(* E24 - For noForth C&V2553 lp.0, Watchdog initialisation and use.
+(* E24 - For noForth C&V 200202: Watchdog initialisation and use.
 
    The primary function of a watchdog timer, is to perform a controlled 
    system restart after a software problem occurs.
@@ -24,8 +24,8 @@ hex
 \ IFG1, Bit 0 = Watchdog interrupt flag
 : .(RE)START    ( -- )
     cr ." (Re)start noForth " 
-    01 002 bit* if  ." by watchdog timer "  then \ IFG1 
-    01 002 *bic ;       \ IFG1  Reset watchdog interrupt flag
+    1 2 bit* if  ." by watchdog timer "  then \ IFG1 
+    1 2 *bic ;          \ IFG1  Reset watchdog interrupt flag
 
 : WD-ON         ( -- )    5A08 120 ! ; \ WDTCTL - (Re)activate watchdog timer
 : WD-OFF        ( -- )    5A80 120 ! ; \ WDTCTL - Watchdog deactivated

@@ -1,4 +1,4 @@
-(* E102A - For noForth C&V2553 lp.0, bit input and output, timer interrupt and
+(* E102A - For noForth C&V 200202 or later: bit input and output, timer interrupt and
    hardware interrupt with machine code, on MSP430G2553 using port-1 and port-2.
 
   RC5 remote control decoder and power control for MSP430 Launchpad.

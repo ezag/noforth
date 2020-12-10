@@ -1,4 +1,4 @@
-(* E22 - For noForth C&V2553 lp.0, Using timer-A0 to build software PWM. 
+(* E22 - For noForth C&V 200202: Using timer-A0 to build software PWM. 
   Three PWM outputs using timer-A0
   Generating 300Hz PWM at P2.2, P2.3 and P2.4 in steps from 0 to 100
   This PWM interrupt leaves small glitches when power is zero!
@@ -40,19 +40,19 @@ code PWM    ( -- )
     power # sun mov         \ 2 Load address pointer
     sun )+ xx cmp           \ 1 Equal?
     =? if,                  \ 2
-        #4 029 & .b bic     \ 2 P2OUT  Clear output P2.2
+        #4 29 & .b bic      \ 2 P2OUT  Clear output P2.2
     then,
     sun )+ xx cmp           \ 1 Equal?
     =? if,                  \ 2
-        #8 029 & .b bic     \ 2 P2OUT  Clear output P2.3
+        #8 29 & .b bic      \ 2 P2OUT  Clear output P2.3
     then,
     sun )+ xx cmp           \ 1 Equal?
     =? if,                  \ 2
-        10 # 029 & .b bic   \ 3 P2OUT  Clear output P2.4
+        10 # 29 & .b bic    \ 3 P2OUT  Clear output P2.4
     then,
     dm 100 1- # xx cmp      \ 2 Period finished
     =? if,                  \ 2
-        01C # 029 & .b bis  \ 3 P2OUT  Set outputs
+        01C # 29 & .b bis   \ 3 P2OUT  Set outputs
         #-1 xx mov          \ 1 Reload counter
     then,
     #1 xx add               \ 1 Increase counter
@@ -65,16 +65,16 @@ code INT-OFF    #8 sr bic  next  end-code
 
 \ PWM at Px,y etc.
 : PWM-ON    ( -- )
-    1C 02A *bis             \ P2DIR    P2.2 to P2.4 outputs
-    0000  160 !             \ TA0CTL   Stop timer-A0
-    0100  172 !             \ TA0CCR0  Interrupt frequency
-    0214  160 !             \ TA0CTL   Start timer
-    0010  162 **bis         \ TA0CCTL0 Enable compare 0 interrupt
+    1C 2A *bis              \ P2DIR    P2.2 to P2.4 outputs
+    0  160 !                \ TA0CTL   Stop timer-A0
+    100  172 !              \ TA0CCR0  Interrupt frequency
+    214  160 !              \ TA0CTL   Start timer
+    10  162 **bis           \ TA0CCTL0 Enable compare 0 interrupt
     int-on ;                \ Activate
 
 : PWM-OFF   ( -- )
-    0000 160 !              \ TA0CTL   Stop timer
-    0010 162 **bic ;        \ TA0CCTL0 Disable interrupt
+    0 160 !                 \ TA0CTL   Stop timer
+    10 162 **bic ;          \ TA0CCTL0 Disable interrupt
 
 \ Demonstration of PWM use
 : CYCLE     ( -- )

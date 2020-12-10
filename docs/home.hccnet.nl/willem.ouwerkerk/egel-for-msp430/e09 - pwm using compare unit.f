@@ -1,4 +1,4 @@
-(* E09 - For noForth 2553 lp.0, C&V version: Port input using switches
+(* E09 - For noForth C&V 200202: Port input using switches
   at P1.4 & P1.5 . Using the onboard P1.0 led as output.
   Pulswidth power control with 4KHz PWM at P2.4 or P2.5
   with a resolution of 1000 steps
@@ -35,20 +35,20 @@ dm 1000 constant #CYCLUS
 value POWER
 
 : STOP-TIMER1       0 180 ! ;   \ TA1CTL
-: PWM-OFF           stop-timer1  010 02E *bic ; \ P2SEL
+: PWM-OFF           stop-timer1  10 2E *bic ; \ P2SEL
 
 : SET-PWM           ( 0 to #CYCLUS -- )
     #cyclus umin  196 !         \ TA1CCR2   Set pulselength
-    010 029 *bic ;              \ P2OUT
+    10 29 *bic ;                \ P2OUT
 
 \ PWM AT 2.4 or P2.5
 : SETUP-PWM         ( -- )
-    038 022 *bic 038 021 *bis   \ P1DIR,  P1IN  P1.3 to P1.5 are inputs
-    038 027 *bis                \ P1REN   with pullup
-    010 02E *bis 010 02A *bis   \ P2SEL, P2DIR  Set PWM to output pin P2.4
+    38 22 *bic 38 21 *bis       \ P1DIR,  P1IN  P1.3 to P1.5 are inputs
+    38 27 *bis                  \ P1REN   with pullup
+    10 2E *bis 10 2A *bis       \ P2SEL, P2DIR  Set PWM to output pin P2.4
     stop-timer1  #cyclus 192 !  \ TA1CCR0  Set period time
-\   0C0 186 !                   \ TA1CCTL2 Set output mode negative pulse
-    040 186 !                   \ TA1CCTL2 Set output mode positive pulse
+\   C0 186 !                    \ TA1CCTL2 Set output mode negative pulse
+    40 186 !                    \ TA1CCTL2 Set output mode positive pulse
     234  180 !                  \ TA1CTL   Activate timer
     0 to power ;
 
@@ -58,8 +58,8 @@ value POWER
 \ The switch on P1.4 is the increase speed key
 \ The switch on P1.5 is the decrease speed key
 : SET-POWER         ( -- )
-    010 020 bit* 0= if  higher  then    \ P1IN
-    020 020 bit* 0= if  lower   then    \ P1IN
+    10 20 bit* 0= if  higher  then    \ P1IN
+    20 20 bit* 0= if  lower   then    \ P1IN
     power set-pwm  2 ms  power .
     ;
 

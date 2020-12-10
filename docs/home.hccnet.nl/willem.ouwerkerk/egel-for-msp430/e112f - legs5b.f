@@ -1,4 +1,4 @@
-(* E112F - For noForth C2553 lp.0, C&V version: Leg control for hexapod beatle
+(* E112F - For noForth C&V 200202 or later: Leg control for hexapod beatle
   The (GO) command puts the legs in motion
   So 10 20 15 leg1 (go) moves all joints of leg1
   h = horizontal,  s = shoulder,  e = elbow 

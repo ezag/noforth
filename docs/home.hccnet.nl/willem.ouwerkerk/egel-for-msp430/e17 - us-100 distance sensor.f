@@ -1,4 +1,4 @@
-(* E17 - For noForth C&V2553 lp.0 routines for US-100 ultrasonic
+(* E17 - For noForth C&V 200202: routines for US-100 ultrasonic
    distance meter using 3/4 duplex software RS232 bitbanging on P2.3
    and a timer interrupt on P2.4, range from about 3 cm to 400 cm
  \ -------------------------------------------------------------------
@@ -153,7 +153,7 @@ code RS-KEY     ( -- char ) \ rs232s read char from rs232
     tos sp -) mov
     0C00 # moon mov         \ ~ 3 millisec. timeout, because the
     begin,                  \ temperature data is received after 2.8 ms!
-        sun )+ sun mov      \ NOP to timeout later
+        sun )+ sun mov      \ Dummy opcode to timeout later
         #1 moon sub
         =? if, #-1 tos .b mov next then,  \ Leave FF at timeout
         #-1 adr RS-key? & cmp

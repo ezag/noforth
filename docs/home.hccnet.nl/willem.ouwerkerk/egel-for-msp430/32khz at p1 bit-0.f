@@ -1,4 +1,4 @@
-\ For noForth C&V2553 lp.0, test if 32KHz XT is working.
+\ For noForth C&V 200202: Test whether 32 KHz crystal works.
 \ Information about the built-in capacitators for the 32kHz xtal,
 \ see SLAU144J.PDF page 274 and beyond.
 

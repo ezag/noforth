@@ -1,4 +1,4 @@
-(* E112H - For noForth C2553 lp.0, C&V version: Load noforth-asm.f first !
+(* E112H - For noForth C&V 200202 or later: Load noforth-asm.f first !
   Model servo pulse outputs at P1.4 and P1.5 with MSP430G2553 
 
   P1.4 is wired to a servo on the launchpad experimenters kit.

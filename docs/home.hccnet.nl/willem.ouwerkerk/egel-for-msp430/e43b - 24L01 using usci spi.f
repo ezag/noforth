@@ -1,4 +1,4 @@
-(* E43U - For noForth C&V2553 lp.0, hardware SPI on MSP430G2553 using port-1 & port-2.
+(* E43U - For noForth C&V 200202: hardware SPI on MSP430G2553 using port-1 & port-2.
    SPI i/o interfacing the nRF24L01 with two Launchpad boards and/or Egel kits
 
   Connect the SPI lines of USCIB P1.5=CLOCKPULSE, P1.6=DATA-IN, P1.7=DATA-OUT
@@ -68,27 +68,27 @@ hex
                     ( Hardware SPI interface to nRF24L01 )
 
 : MASTER-SETUP  ( -- )
-    01 069 *bis     \ UCB0CTL1  Reset USCI
-    01 021 c!       \ P1OUT     P1out is mostly low
-    F1 022 c!       \ P1DIR     P1.0, P1.4, P1.5, P1.6 and P1.7 output
-    E0 026 *bis     \ P1SEL     P1.5 P1.6 P1.7 is SPI
-    E0 041 *bis     \ P1SEL2
+    01 69 *bis      \ UCB0CTL1  Reset USCI
+    01 21 c!        \ P1OUT     P1out is mostly low
+    F1 22 c!        \ P1DIR     P1.0, P1.4, P1.5, P1.6 and P1.7 output
+    E0 26 *bis      \ P1SEL     P1.5 P1.6 P1.7 is SPI
+    E0 41 *bis      \ P1SEL2
     08 2A c!        \ P2DIR     P2.3 & P2.5 for SPI
     20 2F *bis      \ P2REN     P2.5 resistor on
     20 29 *bis      \ P2OUT     P2.5 pullup
-    A9 068 *bis     \ UCB0CTL0  Clk=low, MSB first, Master, Synchroon
-    80 069 *bis     \ UCB0CTL1  USCI clock = SMClk
-    10 06A c!       \ UCB0BR0   Clock is 16Mhz/16 = 1000 kHz
-    00 06B c!       \ UCB0BR1
-    00 06C c!       \ UCB0MCTL  Not used must be zero!
-    01 069 *bic     \ UCB0CTL1  Free USCI
+    A9 68 *bis      \ UCB0CTL0  Clk=low, MSB first, Master, Synchroon
+    80 69 *bis      \ UCB0CTL1  USCI clock = SMClk
+    10 6A c!        \ UCB0BR0   Clock is 16Mhz/16 = 1000 kHz
+    00 6B c!        \ UCB0BR1
+    00 6C c!        \ UCB0MCTL  Not used must be zero!
+    01 69 *bi c     \ UCB0CTL1  Free USCI
     08 29 *bic      \ P2OUT  ce  = 0
     10 21 *bis      \ P1OUT  csn = 1
     20 21 *bic ;    \ P1OUT  clk = 0
 
-: SPI-I/O   ( b1 -- b2 )                \ Read and write at SPI-bus
-    begin  08 003 bit* until  06F c!    \ IFG2, UCB0TXBUF  TX?
-    begin  04 003 bit* until  06E c@ ;  \ IFG2, UCB0RXBUF  RX?
+: SPI-I/O   ( b1 -- b2 )            \ Read and write at SPI-bus
+    begin  8 3 bit* until  6F c!    \ IFG2, UCB0TXBUF  TX?
+    begin  4 3 bit* until  6E c@ ;  \ IFG2, UCB0RXBUF  RX?
 
 : SPI-OUT   ( b -- )    spi-i/o drop ;  \ Write x to SPI-bus
 : SPI-IN    ( -- b )    0 spi-i/o ;     \ Read b from SPI-bus

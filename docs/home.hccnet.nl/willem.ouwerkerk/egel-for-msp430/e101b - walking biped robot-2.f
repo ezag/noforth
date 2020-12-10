@@ -1,5 +1,5 @@
-(* E101A - For noForth C2553 lp.0, C&V version, ~2300 bytes code. This example
-  can be compiled without loading the assembler first.
+(* E101b - noForth C&V 200202: ~2300 bytes code. 
+  This example can be compiled without loading the assembler first.
   Biped with 4 model servo's at output P1.4 to P1.7 with MSP430G2553
 
   P1.4 to P1.7 are wired to four servos on the launchpad experimenters kit.
@@ -66,11 +66,11 @@ routine SERVO-INT
   2001 ,  430B ,  4138 ,  1300 , 
 end-code 
 
-code INT-ON   430B ,  D232 ,  4F00 ,  end-code 
-code INT-OFF  C232 ,  4F00 ,  end-code 
+code INT-ON   430B ,  D232 ,  next  end-code 
+code INT-OFF  C232 ,  next  end-code 
 
 
-\ PiliPlop to make servo run very smooth!
+\ PiliPlop to make servos run very smooth!
 
 : VARIABLES     create cells allot  does> @ swap cells + ;
 : /MS           0 ?do  30 0 do loop  loop ;  \ Wait u times 0,1 ms
@@ -131,8 +131,8 @@ code INT-OFF  C232 ,  4F00 ,  end-code
     prepare  steps @ 0 ?do  one-step  loop ;
 
 \ Code needed for A.N's crawl routine
-: !THERE		( +n s -- )		( range ) 2dup shere !  there ! ;
-: @THERE		( s -- +n )		there @ ;
+: !THERE        ( +n s -- )     ( range ) 2dup shere !  there ! ;
+: @THERE        ( s -- +n )     there @ ;
 
 : B.            ( +n -- )       0 <# # # #> type space ;
 : (JOINT)       ( +n s -- )     fast? if  2dup shere !  then  there ! ;

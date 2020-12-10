@@ -1,4 +1,4 @@
-(* E112C - For noForth C2553 lp.0, C&V version: Control 2 x 10 servos by using 
+(* E112C - For noForth C&V 200202 or later: Control 2 x 10 servos by using 
    two timer interrupts. It trades RAM and free registers for processor cycles,
    that should be no problem because we have 2 kByte RAM on a MSP430F149. 
    Ram usage 2xx bytes, codespace 9xx bytes excluding the random test code

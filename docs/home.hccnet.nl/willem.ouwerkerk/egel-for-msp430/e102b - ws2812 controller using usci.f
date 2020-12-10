@@ -1,4 +1,4 @@
-(* E102B - For noForth C2553 lp.0, C&V version: SPI master adapted for WS2812
+(* E102B - For noForth C&V 200202 or later: SPI master adapted for WS2812
 
     This code needs 16 MHz DCO!
     Note! Change the DCO frequency for noForth to 16 MHz using: Patch 2553.f

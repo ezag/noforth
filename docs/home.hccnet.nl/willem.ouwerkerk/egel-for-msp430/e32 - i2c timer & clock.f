@@ -1,4 +1,4 @@
-(* E32 - For noForth C&V2553 lp.0, bitbang I2C on MSP430G2553 using port-1.
+(* E32 - For noForth C&V 200202: I2C on MSP430G2553 using port-1.
    I2C input & output with a PCF8574 & PCF8583 using external pull-ups
 
   Connect the I2C-print from the Forth users group or any other module
@@ -7,30 +7,24 @@
   Note that two 10k pullup resistors has te be mounted, that's it
  *)
 
-hex
+hex v: inside also  definitions
 \ Output routine for PCF8574(a) chips 042 = device address 1 of a PCF8574
-: !BYTE     ( b a -- )   i2write  i2out  i2stop ;
-: >LEDS     ( b -- )     invert  042 !byte ;
+: !BYTE     ( b a -- )   {i2write  i2stop} ;
+: >LEDS     ( b -- )     invert  42 !byte ;
 : FLASH     ( -- )       FF >leds 100 ms  00 >leds 100 ms ;
 
 \ PCF8583 bcd conversion
 : >BCD              ( bin -- bcd )   0A /mod  4 lshift + ;
-: BCD>              ( bcd -- bin )   >r  r@ 4 rshift 0A *  r> 0f and  + ;
+: BCD>              ( bcd -- bin )   >r  r@ 4 rshift 0A *  r> 0F and  + ;
 
 \ Set data 'x' at address 'a' from PCF8583.
 : !CLOCK         ( x a -- )
-    A0 i2write          \ Send dev. address write
-    i2out               \ send register address
-    i2out               \ then databyte
-    i2stop ;            \ ready
+    A0 {i2write  i2out} ; \ Send dev. address write
 
 \ Read data 'x' from address 'a' from PCF8583.
 : @CLOCK         ( a -- x )
-    A0 i2write          \ Send dev. address for writing
-    i2out               \ send register address
-    i2read)             \ send dev. address for reading
-    i2in                \ read contents address 
-    i2nack  i2stop ;    \ ready
+    A0 {i2write         \ Send dev. address for writing
+    {i2read)  i2in} ;   \ send dev. address for reading & read
 
 \ Note: s(ec) m(in) and h(our) are in decimal !!
 : SET-CLOCK  ( s m h -- )       \ set PCF8583 at time
@@ -59,6 +53,7 @@ value SEC                       \ Remember second
         80 >leds 19 ms 0 >leds  \ flash highest led
     then ;
 
+v: forth also
 \ Three RTC example programs
 : TIMER         ( -- )          \ Show timer
     setup-i2c  flash 
@@ -96,6 +91,7 @@ value SEC                       \ Remember second
     key? until
     r> base ! ;
 
+v: fresh
 shield PCF8583\  freeze
 
 \ End

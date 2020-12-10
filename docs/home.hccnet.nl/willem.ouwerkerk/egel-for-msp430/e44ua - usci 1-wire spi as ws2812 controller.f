@@ -1,4 +1,4 @@
-(* E44UA - For noForth C2553 lp.0, C&V version: SPI master adapted for WS2812
+(* E44UA - For noForth C&V 200202: SPI master adapted for WS2812
 
     This code needs 16 MHz DCO!
     Note! Change the DCO frequency for noForth to 16 MHz using: Patch 2553.f
@@ -88,14 +88,14 @@ value #DOT          \ Dot size
 : >TIME     ( ms -- )       to wait ;
 
 : LED-SETUP  ( -- )
-    01 069 *bis     \ UCB0CTL1  Reset USCI
-    80 026 *bis     \ P1SEL     P1.7 is SPI SIMO
-    80 041 *bis     \ P1SEL2
-    09 068 c!       \ UCB0CTL0  Clk=low, LSB first, 8-bit
-    80 069 *bis     \ UCB0CTL1  USCI clock = SMClk
-    02 06A !        \ UCB0BR0   Clock is 16Mhz/2 = 8 MHz
-    00 06C c!       \ UCB0MCTL  Not used must be zero!
-    01 069 *bic     \ UCB0CTL1  Free USCI
+    01 69 *bis     \ UCB0CTL1  Reset USCI
+    80 26 *bis     \ P1SEL     P1.7 is SPI SIMO
+    80 41 *bis     \ P1SEL2
+    09 68 c!       \ UCB0CTL0  Clk=low, LSB first, 8-bit
+    80 69 *bis     \ UCB0CTL1  USCI clock = SMClk
+    02 6A !        \ UCB0BR0   Clock is 16Mhz/2 = 8 MHz
+    00 6C c!       \ UCB0MCTL  Not used must be zero!
+    01 69 *bic     \ UCB0CTL1  Free USCI
     40 >time        \ Wait time for each step
     04 >dot         \ Dot size for running light
     10 >leds ;      \ Number of connected WS2812 leds
@@ -106,14 +106,14 @@ routine ONEBYTE ( -- adr )
     moon swpb                   \ Low databyte to high byte
     #8 day mov                  \ One byte = 8 bits
     begin,
-        begin,  #8 003 & .b bit cs? until, \ IFG2  Pulse ready?
+        begin,  #8 3 & .b bit cs? until, \ IFG2  Pulse ready?
         moon moon add           \ Next bit to carry
         cs? if,                 \ Bit high?
-            1F # 06F & .b mov   \ UCB0TXBUF  Yes, make high pulse
+            1F # 6F & .b mov   \ UCB0TXBUF  Yes, make high pulse
         else,                   \ No,
             moon moon mov       \ Stretch low off time
             moon moon mov
-            07 # 06F & .b mov   \ UCB0TXBUF  Make low pulse
+            07 # 6F & .b mov   \ UCB0TXBUF  Make low pulse
         then,
         #1 day sub              \ Count bits
     =? until,

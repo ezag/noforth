@@ -1,4 +1,4 @@
-(* E11 - For noForth C&V2553 lp.0, bitbang SPI-like on MSP430G2553 at port-2.
+(* E11 - For noForth C&V 200202: Bitbang SPI-like on MSP430G2553 at port-2.
   Control of seven segment display's using one or more 74HC4094 or 74HC595 chips.
 
   Connect a 74HC4094 to VCC and ground, pin-1 to P2.0, pin-2 to P2.1
@@ -12,15 +12,15 @@
 
   **** THIS CODE IS FOR A COMMON CATHODE DISPLAY ****
 
-  029 - P2OUT is the port 2 output register
-  02A - P2DIR is the port 2 direction register
+  29 - P2OUT is the port 2 output register
+  2A - P2DIR is the port 2 direction register
  *)
 
 hex
-: READY     01 029 ;            \ P2OUT  Bit P2.0 - strobe 74HC4094
-: DATA      02 029 ;            \ P2OUT  Bit P2.1 - data 74HC4094
-: CLOCK     04 029 ;            \ P2OUT  Bit P2.2 - cp 74HC4094
-: INIT-SPI  07 02A *bis ;       \ P2DIR
+: READY     1 29 ;          \ P2OUT  Bit P2.0 - strobe 74HC4094
+: DATA      2 29 ;          \ P2OUT  Bit P2.1 - data 74HC4094
+: CLOCK     4 29 ;          \ P2OUT  Bit P2.2 - cp 74HC4094
+: INIT-SPI  7 2A *bis ;     \ P2DIR
 
 ( u*8 bits output uses no more than only 3 I/O-bits )
 : WRITE-BIT       ( flag -- )           ( Write one bit to 74HC4094 )
@@ -30,9 +30,9 @@ hex
     ready *bis ready *bic ;
  
 : >DRIVER           ( x -- )            ( Schrijf x naar display )
-    8 0 do                              ( display driver )
+    8 for                               ( display driver )
         dup 80 and write-bit  2*
-    loop
+    next
     drop ;
 
 ( Make numbers for an common anode seven segment display )

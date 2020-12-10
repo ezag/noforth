@@ -1,4 +1,4 @@
-(* E43 - For noForth C&V2553 lp.0, hardware SPI on MSP430G2553 using port-1 & port-2.
+(* E43 - For noForth C&V 200202: hardware SPI on MSP430G2553 using port-1 & port-2.
    SPI i/o interfacing the nRF24L01 with two Launchpad boards and/or Egel kits
 
   Connect the SPI lines of USCIB P1.5=CLOCKPULSE, P1.6=DATA-IN, P1.7=DATA-OUT

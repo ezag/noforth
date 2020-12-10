@@ -1,4 +1,4 @@
-(* E101s - For noForth C2553 lp.0, C&V version: Load noforth-asm.f first !
+(* E101s - for noForth C&V 200202 or later: Load noforth-asm.f first !
   Test model servo range using a pulse output at P1.4 with MSP430G2553
   The position is set by a potmeter on P1.7, S2 is used to print the
   current servo position in microseconds.

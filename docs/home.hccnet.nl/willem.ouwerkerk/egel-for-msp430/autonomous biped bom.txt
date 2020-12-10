@@ -15,7 +15,7 @@
 - 4x 10mm column spacer m3
 - 4x 27mm column spacer m3
 - 50mmx40mmx5mm of styrofoam
-- Some wired, solder & connectors
+- Some wires, solder & connectors
 - A few M3 bolts, nuts and small metal screws
 - 6 cm double-sided sticky tape
 - LiPo accu 7,4V - 900mAh (Lion power 7.4V 900MAH 25C 2s lipo)

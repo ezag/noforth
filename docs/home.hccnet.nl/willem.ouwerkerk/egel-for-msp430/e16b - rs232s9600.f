@@ -1,4 +1,4 @@
-(* e16b - For noForth C&V2553 lp.0 routines for 3/4 duplex software
+(* e16b - For noForth C&V 200202: routines for 3/4 duplex software
    RS232 using bitbanging on P2.0 and a timer interrupt on P2.1
  \ -------------------------------------------------------------------
  \ LANGUAGE    : noForth vsn April 2016
