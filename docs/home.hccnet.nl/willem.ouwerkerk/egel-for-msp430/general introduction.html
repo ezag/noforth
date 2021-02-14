@@ -1,60 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/general introduction.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 09 Dec 2020 16:45:47 GMT -->
+<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/general introduction.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 14 Feb 2021 14:39:52 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=iso-8859-1" /><!-- /Added by HTTrack -->
 <head>
     <link rel="SHORTCUT ICON" href="egeltje4.ico">
     <title>general introduction</title>
 <style>
-body { background-color:#9ee; }
+
+body { background-color:#9ee; font-family: "optima", "Lucida Grande",  sans-serif;
+    font-size:90%; }
 section, nav { padding:0.5em 1.5em 1em 1.5em; width:32em;
     background-color:#fff; color:#000;
     margin-left:auto; margin-right:auto;
     margin-top:2em; margin-bottom:0.5em;
     border-left:0px solid #9cc; border-top:0px solid #9cc;
     border-right:3px solid #9cc; border-bottom:3px solid #9cc; }
-h1 { font-weight:100; clear:left;
-    color:#099; font-size:220%;
+h1 { font-weight:100; margin:0;
+    color:#099; font-size:400%;
     text-align:center;  }
 h2 { font-weight:100; clear:left;
-    color:#c00; font-size:170%;
+    color:#900; font-size:170%;
     text-align:center; }
 h3 { font-weight:100; color:#066; font-size:140%; text-align:center; }
+h5 { text-align:center; }
 .mid { text-align:center; }
 .rechts { text-align:right; }
 aside { padding:0.5em; margin:0 0.5em 0.5em 0;
     background-color:#099; color:#fff;
-    float:left; white-space:pre; }
-img { float:left; padding: 0;
-    margin:0 1em 0.5em 0; height:7em; }
+    float:left; white-space:pre;
+    line-height:140%; }
+img { float:left; padding: 0 1em 0.5em 0;
+    margin:0 0.5em 0.5em 0; height:7.7em; }
+.v1 {height:3.0em; }
+.v2 {height:4.2em; }
+.v3 {height:5.6em; }
+.v4 {height:7.0em; }
+.v5 {height:8.4em; }
+.v6 {height:9.8em; }
+.v7 {height:11.2em; }
+.v8 {height:12.6em; }
+.v9 {height:14.0em; }
+.v10 {height:15.4em; }
+.v11 {height:16.8em; }
+.v12 {height:18.2em; }
+.v13 {height:19.6em; }
+
 .mid img, .rechts img { float:none; }
 .logo { height:4em; margin:0; padding:0; }
-.egeltje {height:1.5em; margin:0; padding:0;  txext-align:center;}
+.egeltje {height:1.5em; margin:0; padding:0; }
 p { clear:left;}
+.groot {font-size:1em; }
 a { text-decoration:none; padding:0 0.5em;
-    cxolor:#fff; border-radius:10px;
-    margin:0 0.5em 0.5em 0; }
+    border-radius:10px;
+    margin:0 0.5em 0.5em 0; white-space: nowrap; .9em;}
 h1 a,h2 a,h5 a { padding:0; margin:0; border:0; }
-section  a { color:#f00; background-color:#fff; }
 nav {background-color:#eee; width:26em; }
 
-section nav a { color:#900; background-color:#fff;
+section nav a { color:#c00; background-color:#fff;
     line-height:150%; }
 section p a { background-color:#9ee; color:#933; }
 section aside a { color:#fff; background-color:#0bb;
-    margin:0 0.5em 0.5em 0; }
-section a { color:#c00; padding:0 0.2em; margin:0; }
-a:hover { color:#900; background-color:#ff0; }
+    margin:0 0 0.5em 0; }
+section a { color:#c00; padding:0 0.2em; margin:0;  background-color:#fff; font-size:.9em;}
+a:hover { color:#066; background-color:#ff0; }
 .nofloat { clear:left; }
-pre,code { font-size:90%; font-family: hack,
-    "Andale Mono","Lucida Console", Monaco, monospace;
+pre,code { font-size:.9em; font-family:
+    "Andale Mono","Lucida Console","xCourier New", Monaco, monospace;
     padding:0; margin:0; margin-bottom:0.5em; }
-i { background-color:#c99; }
-td { padding:0 1em 0 0; }
+code { white-space: nowrap; }
+i { background-color:#eee; }
+td { padding-right:0.5em; vertical-align:top; }
 .lijst {padding-left:4em; width:26em; }
 hr { border-left:0; border-top:0; border-right:0; margin: 0.2em; }
-ul { padding-left:1em;}
+.nb { background-color:#F90; color:#000; padding:0.5em; width:60%; }
+.nbb { background-color:#ddd; color:#000; padding:0.5em; width:90%; }
+ul {margin:0; padding-left:1em;}
+.history { font-size:67%; color:#066; }
+.box { bxorder: 1 solid #0cc; padding:1em; margin:0em 1.5em; }
+
+
+
+
+
+
 </style>
 </head>
 
@@ -76,14 +105,15 @@ all with the same basic set of opcodes:
 </li></ul>
 
 <br>
-<img class="v5" src="msp430g2553.png">Some differences between them:
+<img class="v5" src="msp430g2553.png">
+<br>Some differences between them:
 <ul><li>I/O-port structure
 </li><li>ADC
 </li><li>Timers
 </li><li>Memory lay-out  &nbsp; etc.
 </li>
 </ul>
-
+<br><br>
 </section>
 
 
@@ -105,9 +135,9 @@ The Egel kit is basically a clone of the MSP-EXP430G2 Launchpad.
 
 <div class="nofloat"></div>
 <a href="https://www.youtube.com/watch?v=dL2YPS96L18" target="_blank">
-1) Launchpad as ISP (In System Programmer) on YouTube.</a>
+1) Launchpad as In System Programmer (video)</a>
 <br><a href="http://43oh.com/2011/11/tutorial-to-use-your-launchpad-as-a-programmer/" target="_blank">
-2) Launchpad as ISP programmer article.</a>
+2) Launchpad as ISP programmer (article)</a>
 <br>
 <br>Most of the examples also run on other MSP430 processors,
 but sometimes you will have to adapt the hardware addresses.
@@ -118,7 +148,7 @@ We recommend to use a 'shield' for your experiments
 because that will save you a lot of soldering.
 The Egel Kit has already a shield, for the Launchpad starter Kit
 you could build
-<a href="hardware%20explorer.pdf" target="_blank">the Launchpad Explorer (English)</a> 
+<a href="hardware%20explorer.pdf" target="_blank">the Launchpad Explorer (English)</a>
 or in Dutch<a href="launchpad%20experimenteerkit.pdf" target="_blank">Launchpad experimenteerkit</a>,
 otherwise buy an <a href="egel%20shield%20construction-1.pdf" target="_blank">'Egel&nbsp;shield'</a> from the <a href="mailto:w.ouwerkerk@kader.hcc.nl?subject=About Egel kit/shield">author</a>.
 
@@ -198,6 +228,6 @@ MSP430x2xx Family users guide:<a href="slau144j.pdf" target="_blank">SLAU144J.PD
 
 </body>
 
-<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/general introduction.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 09 Dec 2020 16:46:11 GMT -->
+<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/general introduction.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 14 Feb 2021 14:40:19 GMT -->
 </html>
 

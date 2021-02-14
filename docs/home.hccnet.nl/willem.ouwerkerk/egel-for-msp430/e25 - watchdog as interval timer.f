@@ -20,10 +20,10 @@ hex
 : GREEN       ( -- )    40 21 *bis  01 21 *bic ; \ P1OUT
 : RED         ( -- )    01 21 *bis  40 21 *bic ; \ P1OUT
 : LEDS-OFF    ( -- )    41 21 *bic ; \ P1OUT
-code INT-ON   ( -- )    D232 ,  4F00 ,  end-code
-code INT-OFF  ( -- )    C232 ,  4F00 ,  end-code
-\ CODE INT-ON       #8 SR BIS  NEXT  END-CODE
-\ CODE INT-OFF      #8 SR BIC  NEXT  END-CODE
+code INT-ON   ( -- )    D232 ,  next  end-code
+code INT-OFF  ( -- )    C232 ,  next  end-code
+\ code INT-ON       #8 sr bis  next  end-code
+\ code INT-OFF      #8 sr bic  next  end-code
 
 value MS)   \ Decreases 976 times each second
 \ Clock = 8000000/8192 longest interval 67,10 sec. usable as MS
@@ -31,7 +31,7 @@ value MS)   \ Decreases 976 times each second
 : (MS)        ( u -- )  5A19 120 !  to ms) ;   \ WDTCTL
 
 \ Decrease (ms) until it's zero
-create MSTIMER  9382 ,  adr ms) ,  2402 ,  53B2 ,  adr ms) ,  1300 ,
+routine MSTIMER  9382 ,  adr ms) ,  2402 ,  53B2 ,  adr ms) ,  1300 ,
 \ routine MSTIMER  ( -- )
 \    #0 adr ms) & cmp
 \    <>? if,  #-1 adr ms) & add  then,
