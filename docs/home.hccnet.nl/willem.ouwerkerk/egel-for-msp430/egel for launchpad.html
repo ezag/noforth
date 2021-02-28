@@ -1,6 +1,6 @@
 <!DOCTYPE html><html>
 
-<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/egel for launchpad.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 14 Feb 2021 14:35:16 GMT -->
+<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/egel for launchpad.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 28 Feb 2021 18:27:20 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=iso-8859-1" /><!-- /Added by HTTrack -->
 <head>
 <!--
@@ -177,8 +177,8 @@ to be too long, so it was shortened to 'Egelboek'.
 <br><a href="#e05x">50-59 Use of Low Power Modes</a>
 <br><a href="#e06x">60-69 Advanced interfacing</a>
 <br><a href="#e07x">70-79 Mostly software</a>
-<!--  <br><a href="#e08x">80-89 MSP430FR5xxx specific</a>
-<br><a href="#e09x">90-99 MSP430F14xx specific</a>  -->
+<br><a href="#e08x">80-89 MSP430FR59xx specific</a>
+<!--  <br><a href="#e09x">90-99 MSP430F14xx specific</a>  -->
 <br><a href="#e10x">100-109 Simple applications</a>
 <br><a href="#e11x">110-119 More complex applications</a>
 </nav>
@@ -696,6 +696,7 @@ A software-only solution would use up all available CPU capacity.
 <br><a href="#e016">16 Software UART</a>
 <br><a href="#e017">17 US-100 distance sensor</a>
 <br><a href="#e018">18 Simple robotic sensor unit</a>
+<br><a href="#e019">19 Capacitive touch with msp430G2553</a>
 </nav>
 <div class="rechts"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
 </section>
@@ -1212,6 +1213,184 @@ SENSORS      ( -- )     Test the sensor module
 
 <p><a href="#e01x">&#x21E7</a></p></section>
 
+
+
+
+
+
+<!--   019 -->
+<section>
+<h2><a id="e019"></a>19
+<br>Capacitive Touch Switch</h2>
+<h5>Implementing a capacitive switch using the MSP430 pin oscillator</h5>
+<aside class="m5">Materials:
+Egel kit or LaunchPad
+PCB or thin sheet metal
+Plastic or duct tape
+Wires
+<hr>
+<a href="e19a%20-%20Simple%20touch%20on%20P1.4%20of%20G2553.f" target="_blank">e19a noForth program</a>
+<a href="e19b%20-%20Flexible%20touch%20v1.f" target="_blank">e19b noForth program</a>
+<a href="e19c%20-%20Simple%20touch%20using%20interrupt%20on%20P1.4%20of%20G2553.f" target="_blank">e19c noForth program</a>
+<a href="e19d%20-%20Flexible%20touch%20on%20interrupt%20v3a.f" target="_blank">e19d noForth program</a>
+</aside>
+<img class="v10" src="Touch%20%26%20slider%20at%20G2553%20launchpad%20sm.jpg" alt="photo">
+<div class="nofloat"></div>
+
+<br>
+Since at least 2011, the MSP430 range contains internal hardware-support for capacitive switches. 
+Such a switch can be as simple as two pieces of a tin can, separated with duct-tape. 
+And setting up and controlling such a switch with noForth is also surprisingly easy. 
+All in all an interesting project, with real practical applicability. 
+This chapter contains several different examples of code for different applications.
+
+
+<br><br>
+<b>Making a simple experimental capacitive switch:</b>
+<br><br>
+<img class="v3" src="Touch-1.png" alt="picture">
+Cut two small pieces from a tin can, each about 3x3 cm (not critical). 
+Solder a 20cm long lead to each of the pieces. Cover one of the pieces on both sides with duct tape, 
+put the second piece on top and fix it with a third piece of duct tape. 
+<br><br>
+<img class="v5" src="touch-2.png" alt="picture">
+The two pieces of tin are now separated by a single layer of duct tape. 
+And that’s it, you have constructed a capacitive switch! 
+It is important that the metal pieces do NOT touch each other directly.
+Mechanically more stable capacitive switches can be made from PCB-material. 
+Size and form are not very critical.
+
+<br><br>
+<iframe width="470" height="275"
+src="https://www.youtube.com/embed/BnzMyqOsCzo" frameborder="0" allow="accelerometer; autoplay=1; mute=1; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+<br><center><b>CapTouch power switch</b></center>
+
+
+<br><br>
+<b>Using the switch</b>
+<br><br>
+<img class="v5" src="Touch%20switch%20PCB.jpg" alt="picture">
+Connect the switch as shown in the schematic, load program e19a and run <code>TOUCH</code>. 
+Than, as long as you touch the switch, the onboard-LEDs are toggled.
+Please take a look at the source-code. It is pretty short and it contains a neat trick. 
+Normally a capacitive switch needs calibrating, but this software is self-calibrating. 
+In addition, it will also handle any drift of the capacity of the switch. 
+This functionality takes only a few line of noForth code and works so well that the 
+software functions with almost any reasonable switch. 
+Which is proof that beautiful things can happen when you mix the features of 
+the MSP430 with the power of noForth!
+
+<br><br>
+<b>The forth commands</b>:
+<pre>
+TOUCH-ON ( -- ) Activate touch interface
+TOUCH? ( -- f ) True when the sensor is touched 
+SHOW  ( -- )    Shows the inner workings
+TOUCH ( -- )    Touch and switch LED example
+</pre>
+
+
+<br><br>
+<b>Flexible version of a touch interface with slider:</b>
+<br><br>
+A capacitive slider forms an alternative for a sliding potentiometer, hence the name. 
+It is constructed from 2 capacitive switches that overlap each other partly. 
+This overlap makes it possible to not only switch something on/off, but also 
+to calculate a percentage.
+<div class="nofloat"></div>
+
+<br><br>
+<b>Making a slider</b>
+<br><br>
+<img class="v5" src="touch-3.png" alt="picture">
+Cut two oblong pieces of tin from a tin can, about 2x7cm. 
+Cut one of the pieces into 2 long triangles. 
+Solder 3 leads of ~20cm to the three pieces. 
+Cover both sides of the oblong piece with duct tape. 
+Add the 2 triangular pieces, making sure that non of the 3 pieces make contact, 
+and fix these also with duct tape. 
+Connect the leads according to the schematic
+<div class="nofloat"></div>
+
+
+<br><br>
+<b>Using the slider</b>
+<br><br>
+<img class="v7" src="CapTouch%20slider%20dimmer%20on%20Egel%20Kit%20sm.jpg" alt="picture">
+Load program e19b and run <code>DIMMER</code>. Then, if you touch the slider somewhere in the center of 
+its surface a LED on the board should be on. If you slide your finger to one of the de sides, 
+the powerLED should change brightness, one going brighther and one dimming.
+
+<br><br>
+<b>The forth commands</b>:
+<pre>
+INIT-SLIDE ( p0 p1 -- ) Activate p0 & p1 for the slider
+SLIDER ( -- %+1|0 ) Not touched = 0 or percentage+1
+DIMMER ( -- )       Adjust brightness of a led on P2.4
+.SLIDE ( -- )       Show slider inner workings
+</pre>
+<br>
+<b>More forth commands</b>:
+<pre>
+TOUCH-ON ( -- )       Activate touch interface
+TOUCH?   ( pin -- f ) Flag is true when 'pin' is touched
+TOUCH    ( pin -- )   Switch led on pin touched
+TOUCH2   ( p1 p0 -- ) Toggle LEDs on pins p0 & p1
+TOUCHTWO ( -- )       Switch two leds on pins touched
+</pre>
+
+
+<br><br>
+<b>Simple touch switch on an interrupt</b>
+<br><br>
+<img class="v6" src="Simple%20touch%20on%20a%20Egel%20kit.jpg" alt="picture">
+Connect the switch as shown in the schematic, load program e19c and run <code>TOUCH</code>. 
+Than, as long as you touch the switch, the onboard-LEDs are toggled.
+Please take a look at the source-code. This code is a little more advanced
+and it uses the watchdog interval interrupt to sample the timer A0. 
+
+
+<br><br>
+<b>The forth commands</b>:
+<pre>
+TOUCH-ON ( -- ) Activate touch interface
+TOUCH? ( -- f ) True when the sensor is touched 
+SHOW  ( -- )    Shows the inner workings
+TOUCH ( -- )    Touch switch LED example
+</pre>
+
+
+<br><br>
+<b>Flexible version of a touch interface on interrupt</b>
+<br><br>
+<img class="v8" src="Touch%20interface%20op%20oude%20G2553%20launchpad%20sm.jpg" alt="picture">
+Program e19d is a more advanced and flexible driver for a capacitive switch, 
+and is more suitable for serious use. This example lets you specify 
+which IO-pin is used for the switch or slider. Note that it needs only one timer for 
+one or more switches, and for the slider too. The used software polls the
+selected CapTouch inputs in a small and efficient interrupt routine.
+This example let you use the high four pins of port P1 as touch input!
+Please read the source-code for more details.
+<div class="nofloat"></div>
+
+<br><br>
+<b>The forth commands</b>:
+<pre>
+TOUCH-ON ( -- )       Activate touch interface
+TOUCH?   ( pin -- f ) Flag is true when 'pin' is touched
+TOUCH    ( pin -- )   Switch led on pin touched
+TOUCH2   ( p1 p0 -- ) Toggle LEDs on pins p0 & p1
+TOUCHTWO ( -- )       Switch two leds on pins touched
+INIT-SLIDE ( p0 p1 -- ) Activate p0 & p1 for the slider
+SLIDER   ( -- %+1|0 ) Not touched = 0 or percentage+1
+DIMMER   ( -- )       Change PWM value on pin P1.0
+.SLIDE   ( -- )       Slider inner workings demo
+MULTI    ( -- )       Show both slider & switch
+</pre>
+<div class="nofloat"></div>
+
+<p><a href="#e01x">&#x21E7;</a></p></section>
 
 
 
@@ -3062,49 +3241,172 @@ SHOW2 ( -- )   Throw a dice and show with some effects
 
                         <!--   80... -->
 
-<!--
 <section>
 <a id="e08x"></a>
 <p class="groot"><a href="#top">&#x21E7;</a></p>
 <h3>80-89 MSP430FR5xxx specific</h3>
-<nav><br><a href="#e080">80 - hardware multiply with msp430fr5xxx</a>
+<nav><br><a href="#e080">80 - Capacitive touch with msp430fr59xx</a>
 </nav>
 <div class="rechts"><img class="egeltje" src="egeltje-2.jpg" alt="egel"></div>
 </section>
--->
 
 <!--   80 -->
-<!--
+
 <section>
 <h2><a id="e080"></a>80
-<br>MSP430FR5xxx hardware multiply</h2>
-<h5>Hardware multiply versions of the basic noForth multiply routines</h5>
-<aside>Materials:
-<a href="http://www.ti.com/tool/msp-exp430fr5739#buy" target="_blank">MSP-EXP430FR5739</a> or
-<a href="http://www.ti.com/tool/msp-exp430fr5969#buy" target="_blank">MSP-EXP430FR5969</a>.
-<hr><a href="https://home.hccnet.nl/anij/nof/m/noforth%20m%20asm.f" target="_blank">noForth assembler</a>
-<a href="e80 - hardware multiply with msp430fr5xxx.f" target="_blank">e80 noForth program</a>
+<br>Capacitive Touch Switch</h2>
+<h5>Implementing a capacitive switch using the MSP430 pin oscillator</h5>
+<aside class="m5">Materials:
+MSP430FR5994 LaunchPad
+PCB or thin sheet metal
+Plastic or duct tape
+Wires
+<hr><a href="e80a%20-%20Simple%20touch.f" target="_blank">e80a noForth program</a>
+<a href="e80b%20-%20Touch%20slider.f" target="_blank">e80b noForth program</a>
+<a href="e80c%20-%20Flexible%20touch-1a.f" target="_blank">e80c noForth program</a>
+<a href="e80d%20-%20Touch%20using%20interrupt.f" target="_blank">e80d noForth program</a>
 </aside>
-    Hardware multiply versions of the noForth basic multiply routines.
-Forth commands:
-<pre>
-*    ( x y -- x*y )
-M*   ( x1 x2 -- dx3 )
-UM*  ( u1 u2 -- du3 )
-DU*S ( du1 u2 -- du3 )</pre>
+<img class="v9" src="Slider%20with%20MSP430FR5994a.jpg" alt="photo">
 <div class="nofloat"></div>
 
-<!-- <img class="v4" src="p80 - hardware multiply with msp430fr5xxx.jpg" alt="photo"> -->
-<!--
-<table><tr><td>
-<img class="v5" src="p80.gif" alt="photo">
-</td><td>
-<div class="nb">Load the assembler before the e80&nbsp;noForth programs,
-the software RS232 routines are in assembler code.</div>
-</td></tr></table>
+<br>
+Since at least 2011, the MSP430 range contains internal hardware-support for capacitive switches. 
+Such a switch can be as simple as two pieces of a tin can, separated with duct-tape. 
+And setting up and controlling such a switch with noForth is also surprisingly easy. 
+All in all an interesting project, with real practical applicability. 
+This chapter contains several different examples of code for different applications.
+
+
+<br><br>
+<b>Making a simple experimental capacitive switch:</b>
+<br><br>
+<img class="v3" src="Touch-1.png" alt="picture">
+Cut two small pieces from a tin can, each about 3x3 cm (not critical). 
+Solder a 20cm long lead to each of the pieces. Cover one of the pieces on both sides with duct tape, 
+put the second piece on top and fix it with a third piece of duct tape. 
+<br><br>
+<img class="v5" src="touch-2.png" alt="picture">
+The two pieces of tin are now separated by a single layer of duct tape. 
+And that’s it, you have constructed a capacitive switch! 
+It is important that the metal pieces do NOT touch each other directly.
+Mechanically more stable capacitive switches can be made from PCB-material. 
+Size and form are not very critical.
+
+
+<br><br>
+<b>Using the switch</b>
+<br><br>
+<img class="v5" src="Touch%20switch%20PCB.jpg" alt="picture">
+Connect the switch as shown in the schematic, load program e80a and run <code>TOUCH</code>. 
+Than, as long as you touch the switch, the onboard-LEDs are toggled.
+Please take a look at the source-code. It is pretty short and it contains a neat trick. 
+Normally a capacitive switch needs calibrating, but this software is self-calibrating. 
+In addition, it will also handle any drift of the capacity of the switch. 
+This functionality takes only a few line of noForth code and works so well that the 
+software functions with almost any reasonable switch. 
+Which is proof that beautiful things can happen when you mix the features of 
+the MSP430 with the power of noForth!
+
+<br><br>
+<b>The forth commands</b>:
+<pre>
+TOUCH? ( -- f ) True when the sensor is touched 
+SHOW  ( -- )    Shows the inner workings
+TOUCH ( -- )    Touch and switch LED example
+</pre>
+
+
+<br><br>
+<b>A capacitive slider:</b>
+<br><br>
+A capacitive slider forms an alternative for a sliding potentiometer, hence the name. 
+It is constructed from 2 capacitive switches that overlap each other partly. 
+This overlap makes it possible to not only switch something on/off, but also 
+to calculate a percentage.
+<div class="nofloat"></div>
+
+<br><br>
+<b>Making a slider</b>
+<br><br>
+<img class="v5" src="touch-3.png" alt="picture">
+Cut two oblong pieces of tin from a tin can, about 2x7cm. 
+Cut one of the pieces into 2 long triangles. 
+Solder 3 leads of ~20cm to the three pieces. 
+Cover both sides of the oblong piece with duct tape. 
+Add the 2 triangular pieces, making sure that non of the 3 pieces make contact, 
+and fix these also with duct tape. 
+Connect the leads according to the schematic
+<div class="nofloat"></div>
+
+
+<br><br>
+<b>Using the slider</b>
+<br><br>
+<img class="v5" src="Slider%20with%20MSP430FR5994.jpg" alt="picture">
+Load program e80b and run <code>DIMMER</code>. Then, if you touch the slider somewhere in the center of 
+its surface a LED on the board should be on. If you slide your finger to one of the de sides, 
+the LED should change brightness.
+
+<br><br>
+<b>The forth commands</b>:
+<pre>
+SLIDER% ( -- %|-1 ) Not touched=-1 or percentage
+DIMMER  ( -- )      Adjust brightness of a led
+SHOW-SLIDER ( -- )  Show slider inner workings
+</pre>
+
+
+<br><br>
+<b>Flexible version of a touch interface</b>
+<br><br>
+Program e80c is a more advanced and flexible driver for a capacitive switch, 
+and is more suitable for serious use. This example lets you specify 
+which IO-pin is used for the switch or slider. Note that it needs only one timer for 
+one or more switches, and for the slider too. The used software approach is slightly different too.
+This example lets you use all pins of port P3 as touch input!
+Please read the source-code for more details.
+<div class="nofloat"></div>
+
+<br><br>
+<iframe width="476" height="275"
+src="https://www.youtube.com/embed/KZN928Fd7Dc" frameborder="0" allow="accelerometer; autoplay=1; mute=1; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+<br><center><b>Slider used as dimmer</b></center>
+
+<br><br>
+<b>The forth commands</b>:
+<pre>
+TOUCH?   ( pin -- f ) Flag is true when pin is touched
+TOUCH    ( pin -- )   Switch led on pin touched
+TOUCH2   ( p1 p0 -- ) Toggle LEDs on pins p0 & p1
+TOUCHTWO ( -- )       Switch two leds on pins touched
+SLIDER   ( -- %+1|0 ) Not touched=0 or percentage+1
+DIMMER   ( -- )       Change PWM value on pin P1.0
+.SLIDE   ( -- )       Slider inner workings demo
+</pre>
+<div class="nofloat"></div>
+
+
+<br><br>
+<b>Touch switch using an interrupt</b>
+<br><br>
+<img class="v8" src="Touch%20interface%20with%20MSP430FR5969.jpg" alt="picture">
+Connect the switch as shown in the schematic, load program e80d and run <code>TOUCH</code>. 
+Than, as long as you touch the switch, the onboard-LEDs are toggled.
+Please take a look at the source-code. This code is a little more advanced,
+it uses the watchdog interval interrupt to sample timer-A3. 
+
+
+<br><br>
+<b>The forth commands</b>:
+<pre>
+TOUCH? ( -- f ) True when sensor is touched 
+SHOW  ( -- )    Shows the inner workings
+TOUCH ( -- )    Touch switch LED example
+</pre>
 
 <p><a href="#e08x">&#x21E7;</a></p></section>
--->
+
 
 
 
@@ -3658,6 +3960,6 @@ ANT       ( -- )    Simulation of an ANT walking
 
 <h1>*</h1>
 </body>
-<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/egel for launchpad.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 14 Feb 2021 14:39:42 GMT -->
+<!-- Mirrored from home.hccnet.nl/willem.ouwerkerk/egel-for-msp430/egel for launchpad.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 28 Feb 2021 18:32:05 GMT -->
 </html>
 
